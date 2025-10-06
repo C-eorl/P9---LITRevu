@@ -2,10 +2,10 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic import ListView, TemplateView
 
 
-class FeedView(TemplateView, LoginRequiredMixin):
+class FeedView(LoginRequiredMixin, TemplateView):
     template_name = 'reviews/feed.html'
-    pass
-
+    login_url = 'authentication:login'
+    redirect_field_name = None
 
 class PostView(ListView):
     pass
