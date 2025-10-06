@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}LITRevu{% endblock %}</title>
+
+</head>
+<body >
+    {% if user.is_authenticated %}
+    <nav>
+        <div>
+            <a href="{% url 'reviews:feed' %}">LITRevu</a>
+
+            <div>
+                <a href="{% url 'reviews:feed' %}">Flux</a>
+                <a href="{% url 'reviews:posts' %}">Posts</a>
+                <a href="{% url 'reviews:follows' %}">Abonnements</a>
+                <div>
+                    <a href="#" role="button" data-bs-toggle="dropdown">
+                        Créer
+                    </a>
+                    <ul>
+                        <li><a href="{% url 'reviews:ticket-create' %}">Demander une critique</a></li>
+                        <li><a href="{% url 'reviews:review-create' %}">Créer une critique</a></li>
+                    </ul>
+                </div>
+                <a href="{% url 'reviews:logout' %}">Se déconnecter</a>
+            </div>
+        </div>
+    </nav>
+    {% endif %}
+
+    <main>
+        {% block content %}{% endblock %}
+    </main>
+
+</body>
+</html>

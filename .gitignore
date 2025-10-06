@@ -1,0 +1,12 @@
+# dossier ressources aide
+files_help/
+
+# env. virtuel
+.venv/
+
+# Fichiers PyCharm / IntelliJ
+.idea/
+
+# Python
+__pycache__/
+*.py[cod]
