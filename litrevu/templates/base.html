@@ -1,38 +1,34 @@
+{% load static %}
+
 <!DOCTYPE html>
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}LITRevu{% endblock %}</title>
-
+    <link rel="stylesheet" href="{% static 'css/base.css' %}">
+    {% block extra_css %}{% endblock %}
 </head>
 <body >
-    {% if user.is_authenticated %}
-    <nav>
-        <div>
-            <a href="{% url 'reviews:feed' %}">LITRevu</a>
 
-            <div>
+    <nav>
+        <div class="menu">
+            <a href="{% url 'reviews:feed' %}" class="logo"><h2>LITRevu</h2></a>
+            {% if user.is_authenticated %}
+            <div class="nav-links">
                 <a href="{% url 'reviews:feed' %}">Flux</a>
                 <a href="">Posts</a> <!-- href=" url 'reviews:posts' " -->
                 <a href="">Abonnements</a> <!--href=" url 'reviews:follows' "  -->
-                <div>
-                    <a href="#" role="button" data-bs-toggle="dropdown">
-                        Créer
-                    </a>
-                    <ul>
-                        <li><a href=" url 'reviews:ticket-create' ">Demander une critique</a></li>
-                        <li><a href=" url 'reviews:review-create' ">Créer une critique</a></li>
-                    </ul>
-                </div>
+
                 <form action="{% url 'authentication:logout' %}" method="post">
                     {% csrf_token %}
                     <button type="submit">Déconnexion</button>
                 </form>
             </div>
+            {% endif %}
         </div>
     </nav>
-    {% endif %}
+
 
     <main>
         {% block content %}{% endblock %}
