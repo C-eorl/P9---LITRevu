@@ -1,40 +1,41 @@
 {% extends 'base.html' %}
+{% load static %}
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'authentication/css/login.css' %}">
+{% endblock %}
 
 {% block title %}Connexion - LITRevu{% endblock %}
 
 {% block content %}
-<div>
-    <div>
+<div class="container">
+    <div class="register-form">
+        <p>Pas encore de compte ? </p>
+        <a href="{% url 'authentication:signup' %}" class="btn">S'inscrire</a>
+    </div>
+    <div class="login-form">
         <div>
-            <div>
-                <h2>LITRevu</h2>
                 <p>Connectez-vous</p>
-            </div>
-            <div>
-                <form method="post">
-                    {% csrf_token %}
-                    <div>
-                        <label for="{{ form.username.id_for_label }}">Nom d'utilisateur</label>
-                        <input type="text" name="{{ form.username.name }}" id="{{ form.username.id_for_label }}" required>
-                    </div>
-                    <div>
-                        <label for="{{ form.password.id_for_label }}">Mot de passe</label>
-                        <input type="password" name="{{ form.password.name }}" id="{{ form.password.id_for_label }}" required>
-                    </div>
-
-                    {% if form.errors %}
-                        <div>
-                            {{ form.errors }}
-                        </div>
-                    {% endif %}
-
-                    <button type="submit" >Se connecter</button>
-                </form>
-
-                <div >
-                    <p>Pas encore de compte ? <a href="{% url 'authentication:signup' %}" class="text-decoration-none">S'inscrire</a></p>
+        </div>
+        <div>
+            <form method="post">
+                {% csrf_token %}
+                <div>
+                    <label for="{{ form.username.id_for_label }}">Nom d'utilisateur</label>
+                    <input type="text" name="{{ form.username.name }}" id="{{ form.username.id_for_label }}" required>
                 </div>
-            </div>
+                <div>
+                    <label for="{{ form.password.id_for_label }}">Mot de passe</label>
+                    <input type="password" name="{{ form.password.name }}" id="{{ form.password.id_for_label }}" required>
+                </div>
+
+                {% if form.errors %}
+                    <div>
+                        {{ form.errors }}
+                    </div>
+                {% endif %}
+
+                <button type="submit" >Se connecter</button>
+            </form>
         </div>
     </div>
 </div>
