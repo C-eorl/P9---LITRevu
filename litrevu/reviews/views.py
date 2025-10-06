@@ -1,3 +1,17 @@
-from django.shortcuts import render
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.views.generic import ListView, TemplateView
 
-# Create your views here.
+
+class FeedView(TemplateView, LoginRequiredMixin):
+    template_name = 'reviews/feed.html'
+    pass
+
+
+class PostView(ListView):
+    pass
+
+
+class FollowView(ListView):
+    pass
+
+

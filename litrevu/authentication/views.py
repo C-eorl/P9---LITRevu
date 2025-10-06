@@ -1,10 +1,15 @@
 from django.contrib import messages
 from django.contrib.auth import login
+from django.shortcuts import redirect
 from django.views.generic import CreateView
 
 from .forms import SignupForm
 from .models import User
 
+def redirection(request):
+    if request.user.is_authenticated:
+        return redirect('reviews:feed')
+    return redirect("authentication:login")
 
 class SignupView(CreateView):
     model = User
