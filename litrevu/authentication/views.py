@@ -1,6 +1,7 @@
 from django.contrib import messages
 from django.contrib.auth import login
 from django.shortcuts import redirect
+from django.urls import reverse_lazy
 from django.views.generic import CreateView
 
 from .forms import SignupForm
@@ -20,4 +21,4 @@ class SignupView(CreateView):
         response = super().form_valid(form)
         login(self.request, self.object)
         messages.success(self.request, 'Compte créé avec succès!')
-        return response
+        return redirect('reviews:feed')
