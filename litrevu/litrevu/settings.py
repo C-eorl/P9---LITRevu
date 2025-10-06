@@ -127,6 +127,6 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 AUTH_USER_MODEL = 'authentication.User'
 
 # Redirection pour la connexion après inscription
-LOGIN_URL = '/login/'
-LOGIN_REDIRECT_URL = '/'
-LOGOUT_REDIRECT_URL = '/'
+LOGIN_URL = '/authentication/login/'
+LOGIN_REDIRECT_URL = '/reviews/'
+LOGOUT_REDIRECT_URL = '/authentication/login/'
