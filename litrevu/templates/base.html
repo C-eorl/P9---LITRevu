@@ -25,7 +25,10 @@
                         <li><a href=" url 'reviews:review-create' ">Créer une critique</a></li>
                     </ul>
                 </div>
-                <a href="{% url 'authentication:logout' %}">Se déconnecter</a>
+                <form action="{% url 'authentication:logout' %}" method="post">
+                    {% csrf_token %}
+                    <button type="submit">Déconnexion</button>
+                </form>
             </div>
         </div>
     </nav>
