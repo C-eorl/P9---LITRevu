@@ -14,18 +14,18 @@
 
             <div>
                 <a href="{% url 'reviews:feed' %}">Flux</a>
-                <a href="{% url 'reviews:posts' %}">Posts</a>
-                <a href="{% url 'reviews:follows' %}">Abonnements</a>
+                <a href="">Posts</a> <!-- href=" url 'reviews:posts' " -->
+                <a href="">Abonnements</a> <!--href=" url 'reviews:follows' "  -->
                 <div>
                     <a href="#" role="button" data-bs-toggle="dropdown">
                         Créer
                     </a>
                     <ul>
-                        <li><a href="{% url 'reviews:ticket-create' %}">Demander une critique</a></li>
-                        <li><a href="{% url 'reviews:review-create' %}">Créer une critique</a></li>
+                        <li><a href=" url 'reviews:ticket-create' ">Demander une critique</a></li>
+                        <li><a href=" url 'reviews:review-create' ">Créer une critique</a></li>
                     </ul>
                 </div>
-                <a href="{% url 'reviews:logout' %}">Se déconnecter</a>
+                <a href="{% url 'authentication:logout' %}">Se déconnecter</a>
             </div>
         </div>
     </nav>
