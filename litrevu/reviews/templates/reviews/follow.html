@@ -10,7 +10,7 @@
 {% block content %}
 <div class="follow-page">
 
-    <!-- Section : Suivre un utilisateur par nom -->
+    <!-- Section : Suivre un utilisateur -->
     <section class="follow-form">
         <h2>Suivre un utilisateur</h2>
         <form method="post" action="{% url 'reviews:follow_user' %}">
@@ -20,37 +20,86 @@
         </form>
     </section>
 
-    <!-- Section : Abonnements (utilisateurs que je suis) -->
-    <section class="following-list">
+    <!-- Section : Abonnements -->
+    <section class="follow-section">
         <h2>Abonnements</h2>
-        <div>
+        <div class="follow-grid" id="followGrid">
             {% for followed_user in followed_users %}
             <div class="follow-item">
-                <span>{{ followed_user.username }}</span>
-                <form method="post" action="{% url 'reviews:unfollow_user' followed_user.id %}">
-                    {% csrf_token %}
-                    <button type="submit">Désabonner</button>
-                </form>
+                <div class="follow-card">
+                    <div class="follow-card-front">
+                        <img src="{{ followed_user.profile.image.url }}" alt="{{ followed_user.username }}">
+                        <span>{{ followed_user.username }}</span>
+                        <button type="button" class="flip-btn">Désabonner</button>
+                    </div>
+                    <div class="follow-card-back">
+                        <p>Confirmer le désabonnement ?</p>
+                        <form method="post" action="{% url 'reviews:unfollow_user' followed_user.id %}">
+                            {% csrf_token %}
+                            <button type="submit" class="confirm-btn">Confirmer</button>
+                            <button type="button" class="cancel-btn">Annuler</button>
+                        </form>
+                    </div>
+                </div>
             </div>
             {% empty %}
             <p>Vous ne suivez encore personne.</p>
             {% endfor %}
         </div>
+
+        {% if followed_users|length > 16 %}
+        <div class="see-more-container">
+            <button class="see-more-btn">Voir plus</button>
+        </div>
+        {% endif %}
     </section>
 
-    <!-- Section : Abonnés (utilisateurs qui me suivent) -->
-    <section class="followers-list">
+    <!-- Section : Abonnés -->
+    <section class="follow-section">
         <h2>Abonnés</h2>
-        <div>
+        <div class="follow-grid" id="followerGrid">
             {% for follower in followers %}
-            <div class="follower-item">
-                {{ follower.username }}
+            <div class="follow-item">
+                <div class="follow-card">
+                    <div class="follow-card-front">
+                        {% if follower.profile.image %}
+                            <img src="{{ follower.profile.image.url }}" alt="{{ follower.username }}">
+                        {% else %}
+                            <img src="{% static 'images/default-avatar.png' %}" alt="Avatar par défaut">
+                        {% endif %}
+                        <span>{{ follower.username }}</span>
+                    </div>
+                </div>
             </div>
             {% empty %}
             <p>Aucun abonné pour le moment.</p>
             {% endfor %}
         </div>
-    </section>
 
+        {% if followers|length > 16 %}
+        <div class="see-more-container">
+            <button class="see-more-btn">Voir plus</button>
+        </div>
+        {% endif %}
+    </section>
 </div>
+
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+    document.querySelectorAll(".follow-card").forEach(card => {
+        const flipBtn = card.querySelector(".flip-btn");
+        const cancelBtn = card.querySelector(".cancel-btn");
+        if (flipBtn) flipBtn.addEventListener("click", () => card.classList.add("flipped"));
+        if (cancelBtn) cancelBtn.addEventListener("click", () => card.classList.remove("flipped"));
+    });
+
+    document.querySelectorAll(".see-more-btn").forEach(btn => {
+        const grid = btn.closest(".follow-section").querySelector(".follow-grid");
+        btn.addEventListener("click", () => {
+            grid.classList.toggle("expanded");
+            btn.textContent = grid.classList.contains("expanded") ? "Voir moins" : "Voir plus";
+        });
+    });
+});
+</script>
 {% endblock %}
