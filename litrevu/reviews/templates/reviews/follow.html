@@ -1,0 +1,56 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Abonnements - LITRevu{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'reviews/css/follow.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="follow-page">
+
+    <!-- Section : Suivre un utilisateur par nom -->
+    <section class="follow-form">
+        <h2>Suivre un utilisateur</h2>
+        <form method="post" action="{% url 'reviews:follow_user' %}">
+            {% csrf_token %}
+            <input type="text" name="username" placeholder="Nom d'utilisateur" required>
+            <button type="submit">Envoyer</button>
+        </form>
+    </section>
+
+    <!-- Section : Abonnements (utilisateurs que je suis) -->
+    <section class="following-list">
+        <h2>Abonnements</h2>
+        <div>
+            {% for followed_user in followed_users %}
+            <div class="follow-item">
+                <span>{{ followed_user.username }}</span>
+                <form method="post" action="{% url 'reviews:unfollow_user' followed_user.id %}">
+                    {% csrf_token %}
+                    <button type="submit">Désabonner</button>
+                </form>
+            </div>
+            {% empty %}
+            <p>Vous ne suivez encore personne.</p>
+            {% endfor %}
+        </div>
+    </section>
+
+    <!-- Section : Abonnés (utilisateurs qui me suivent) -->
+    <section class="followers-list">
+        <h2>Abonnés</h2>
+        <div>
+            {% for follower in followers %}
+            <div class="follower-item">
+                {{ follower.username }}
+            </div>
+            {% empty %}
+            <p>Aucun abonné pour le moment.</p>
+            {% endfor %}
+        </div>
+    </section>
+
+</div>
+{% endblock %}
