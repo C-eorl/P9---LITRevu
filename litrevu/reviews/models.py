@@ -30,3 +30,6 @@ class UserFollow(models.Model):
 
     class Meta:
         unique_together = ('user', 'following_user')
+
+    def __str__(self):
+        return self.user.username
