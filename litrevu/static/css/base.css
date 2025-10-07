@@ -57,3 +57,15 @@ nav {
 .nav-links button:hover {
     background-color: #e04141;
 }
+
+.banner-message {
+    margin-top: 16px;
+    width: 100%;
+    background-color: #28a745; 
+    color: white;
+    text-align: center;
+    padding: 1em 0;
+    z-index: 1000;
+    font-weight: 500;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+}
