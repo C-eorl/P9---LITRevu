@@ -1,4 +1,5 @@
 from django.contrib import messages
+from django.contrib.auth.decorators import login_not_required
 from django.contrib.auth import login
 from django.contrib.auth.views import LoginView
 from django.shortcuts import redirect
@@ -13,7 +14,7 @@ def redirection(request):
         return redirect('reviews:feed')
     return redirect("authentication:login")
 
-
+@login_not_required
 class CustomLoginView(LoginView):
     template_name = "authentication/login.html"
     redirect_authenticated_user = True
@@ -23,6 +24,7 @@ class CustomLoginView(LoginView):
         messages.success(self.request, f"Bienvenue {self.request.user.username}")
         return response
 
+@login_not_required
 class SignupView(CreateView):
     model = User
     form_class = SignupForm
