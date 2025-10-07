@@ -5,12 +5,12 @@ from .models import Ticket, Review, UserFollow
 
 @admin.register(Ticket)
 class TicketAdmin(admin.ModelAdmin):
-    pass
+    list_display = ('title', 'user', 'time_created')
 
 @admin.register(Review)
 class ReviewAdmin(admin.ModelAdmin):
-    pass
+    list_display = ('ticket', 'user', 'headline', 'time_created')
 
 @admin.register(UserFollow)
 class UserFollowAdmin(admin.ModelAdmin):
-    pass
+    list_display = ('user', 'following_user')
