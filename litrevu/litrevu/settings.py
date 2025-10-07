@@ -47,6 +47,7 @@ MIDDLEWARE = [
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
+    'django.contrib.auth.middleware.LoginRequiredMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
@@ -127,6 +128,6 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 AUTH_USER_MODEL = 'authentication.User'
 
 # Redirection pour la connexion après inscription
-LOGIN_URL = '/authentication/login/'
+LOGIN_URL = '/auth/login/'
 LOGIN_REDIRECT_URL = '/reviews/'
-LOGOUT_REDIRECT_URL = '/authentication/login/'
+LOGOUT_REDIRECT_URL = '/auth/login/'
