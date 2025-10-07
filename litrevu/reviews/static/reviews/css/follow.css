@@ -1,0 +1,164 @@
+/* --- Page et titres --- */
+.follow-section {
+    text-align: center;
+    margin: 2rem auto;
+    width: 90%;
+}
+
+.follow-section h2 {
+    margin-bottom: 1.5rem;
+    font-size: 1.8rem;
+    text-align: center;
+}
+
+/* --- Grille --- */
+.follow-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+    gap: 2rem;
+    justify-items: center;
+    overflow: hidden;
+    max-height: 480px; /* ~2 lignes visibles */
+    transition: max-height 0.5s ease;
+}
+
+.follow-grid.expanded {
+    max-height: none;
+}
+
+/* --- Carte utilisateur (flip commun) --- */
+.follow-item {
+    perspective: 1200px;
+    width: 120px;
+    height: 180px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.follow-card {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    transform-style: preserve-3d;
+    transition: transform 0.7s ease, box-shadow 0.3s ease;
+    transform-origin: center center;
+    border-radius: 12px;
+}
+
+.follow-card:hover {
+    box-shadow: 0 6px 14px rgba(0,0,0,0.15);
+}
+
+.follow-card.flipped {
+    transform: rotateY(180deg);
+}
+
+/* --- Faces --- */
+.follow-card-front,
+.follow-card-back {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    border-radius: 12px;
+    backface-visibility: hidden;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem;
+    background-color: #f7f7f7;
+    box-sizing: border-box;
+}
+
+/* --- Recto --- */
+.follow-card-front img {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-bottom: 0.5rem;
+    border: 2px solid #ccc;
+}
+
+.follow-card-front span {
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+    font-size: 0.9rem;
+}
+
+.flip-btn {
+    background-color: #e74c3c;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    padding: 0.4rem 0.6rem;
+    cursor: pointer;
+    font-size: 0.8rem;
+    transition: background-color 0.2s ease, transform 0.2s ease;
+}
+
+.flip-btn:hover {
+    background-color: #c0392b;
+    transform: scale(1.05);
+}
+
+/* --- Verso --- */
+.follow-card-back {
+    transform: rotateY(180deg);
+    background-color: #e74c3c;
+    color: white;
+    text-align: center;
+    padding: 1rem;
+}
+
+.follow-card-back p {
+    font-size: 0.9rem;
+    margin-bottom: 0.8rem;
+}
+
+.confirm-btn,
+.cancel-btn {
+    background-color: white;
+    color: #e74c3c;
+    border: none;
+    border-radius: 6px;
+    padding: 0.4rem 0.8rem;
+    cursor: pointer;
+    margin: 0 0.3rem;
+    font-weight: bold;
+    transition: all 0.3s;
+}
+
+.confirm-btn:hover {
+    background-color: #e74c3c;
+    color: white;
+}
+
+.cancel-btn:hover {
+    background-color: #f1f1f1;
+}
+
+/* --- Bouton Voir plus --- */
+.see-more-container {
+    margin-top: 1.5rem;
+}
+
+.see-more-btn {
+    background-color: #3498db;
+    color: white;
+    border: none;
+    padding: 0.6rem 1.2rem;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.see-more-btn:hover {
+    background-color: #2980b9;
+    transform: scale(1.05);
+}
