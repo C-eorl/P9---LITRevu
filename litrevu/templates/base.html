@@ -29,7 +29,11 @@
         </div>
     </nav>
 
-
+    {% if messages %}
+      {% for message in messages %}
+        <div class="banner-message">{{ message }}</div>
+      {% endfor %}
+    {% endif %}
     <main>
         {% block content %}{% endblock %}
     </main>
