@@ -18,7 +18,7 @@
             <div class="nav-links">
                 <a href="{% url 'reviews:feed' %}">Flux</a>
                 <a href="">Posts</a> <!-- href=" url 'reviews:posts' " -->
-                <a href="">Abonnements</a> <!--href=" url 'reviews:follows' "  -->
+                <a href="{% url 'reviews:follow' %}">Abonnements</a>
 
                 <form action="{% url 'authentication:logout' %}" method="post">
                     {% csrf_token %}
