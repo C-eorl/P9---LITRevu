@@ -4,10 +4,12 @@ from django.contrib.auth import login
 from django.contrib.auth.views import LoginView
 from django.shortcuts import redirect
 from django.urls import reverse_lazy
+from django.utils.decorators import method_decorator
 from django.views.generic import CreateView
 
 from .forms import SignupForm
 from .models import User
+
 
 def redirection(request):
     if request.user.is_authenticated:
@@ -17,14 +19,13 @@ def redirection(request):
 @login_not_required
 class CustomLoginView(LoginView):
     template_name = "authentication/login.html"
-    redirect_authenticated_user = True
 
     def form_valid(self, form):
         response = super().form_valid(form)
         messages.success(self.request, f"Bienvenue {self.request.user.username}")
         return response
 
-@login_not_required
+@method_decorator(login_not_required, name='dispatch')
 class SignupView(CreateView):
     model = User
     form_class = SignupForm
