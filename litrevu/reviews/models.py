@@ -32,4 +32,4 @@ class UserFollow(models.Model):
         unique_together = ('user', 'following_user')
 
     def __str__(self):
-        return self.user.username
+        return f"{self.user.username} → {self.following_user.username}"
