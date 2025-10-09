@@ -1,33 +1,41 @@
-/* --- Page et titres --- */
-.follow-section {
+/* ================= Sections et titres =================== */
+section {
     text-align: center;
     margin: 2rem auto;
     width: 90%;
 }
 
-.follow-section h2 {
+section h2 {
     margin-bottom: 1.5rem;
     font-size: 1.8rem;
     text-align: center;
 }
 
-/* --- Grille --- */
-.follow-grid {
+
+/* ================= Grille =================== */
+.grid-section {
+    padding: 16px 0px;
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
-    gap: 2rem;
+    gap: 1.8rem;
     justify-items: center;
     overflow: hidden;
-    max-height: 480px; /* ~2 lignes visibles */
+    max-height: 200px;
     transition: max-height 0.5s ease;
 }
 
-.follow-grid.expanded {
+.grid-section.message {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 180px;
+}
+
+.grid-section.expanded {
     max-height: none;
 }
 
-/* --- Carte utilisateur (flip commun) --- */
-.follow-item {
+.item-grid {
     perspective: 1200px;
     width: 120px;
     height: 180px;
@@ -35,8 +43,13 @@
     justify-content: center;
     align-items: center;
 }
+.grid-section p {
+    justify-self: center;
+}
 
-.follow-card {
+
+/* ============== Carte utilisateur (général) ================ */
+.card {
     position: relative;
     width: 100%;
     height: 100%;
@@ -46,17 +59,16 @@
     border-radius: 12px;
 }
 
-.follow-card:hover {
+.card:hover {
     box-shadow: 0 6px 14px rgba(0,0,0,0.15);
 }
 
-.follow-card.flipped {
+.card.flipped {
     transform: rotateY(180deg);
 }
 
-/* --- Faces --- */
-.follow-card-front,
-.follow-card-back {
+.card-front,
+.card-back {
     position: absolute;
     width: 100%;
     height: 100%;
@@ -74,8 +86,9 @@
     box-sizing: border-box;
 }
 
-/* --- Recto --- */
-.follow-card-front img {
+
+/* ============== Recto ================ */
+.card-front img {
     width: 80px;
     height: 80px;
     border-radius: 50%;
@@ -84,14 +97,12 @@
     border: 2px solid #ccc;
 }
 
-.follow-card-front span {
+.card-front span {
     font-weight: 600;
     margin-bottom: 0.5rem;
     font-size: 0.9rem;
 }
-
-.flip-btn {
-    background-color: #e74c3c;
+.front-btn {
     color: white;
     border: none;
     border-radius: 6px;
@@ -101,13 +112,31 @@
     transition: background-color 0.2s ease, transform 0.2s ease;
 }
 
-.flip-btn:hover {
-    background-color: #c0392b;
+.front-btn:hover {
     transform: scale(1.05);
 }
 
-/* --- Verso --- */
-.follow-card-back {
+/* --- bouton Abonner --*/
+.sub {
+    background-color: #44ca61;
+}
+
+.sub:hover {
+    background-color: #219c3c;
+}
+
+/* --- bouton Désabonner --*/
+.unsub{
+    background-color: #e74c3c;
+}
+
+.unsub:hover {
+    background-color: #c0392b;
+}
+
+
+/* ============== Verso ================ */
+.card-back {
     transform: rotateY(180deg);
     background-color: #e74c3c;
     color: white;
@@ -115,7 +144,7 @@
     padding: 1rem;
 }
 
-.follow-card-back p {
+.card-back p {
     font-size: 0.9rem;
     margin-bottom: 0.8rem;
 }
