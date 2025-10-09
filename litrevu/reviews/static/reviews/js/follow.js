@@ -4,7 +4,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const csrftoken = getCookie("csrftoken");
     let timer;
 
-    // --- 🔐 Fonction pour récupérer le CSRF token depuis le cookie ---
+    //  Fonction pour récupérer le CSRF token depuis le cookie
     function getCookie(name) {
         let cookieValue = null;
         if (document.cookie && document.cookie !== "") {
@@ -20,7 +20,7 @@ document.addEventListener("DOMContentLoaded", () => {
         return cookieValue;
     }
 
-    // --- 🔍 Recherche d'utilisateur ---
+    //  Recherche d'utilisateur
     async function searchUser() {
         const query = input.value.trim();
 
@@ -98,13 +98,13 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     }
 
-    // --- ⌨️ Déclenche la recherche avec délai de 300ms ---
+    //  Appel la recherche avec délai de 300ms
     input.addEventListener("input", () => {
         clearTimeout(timer);
         timer = setTimeout(searchUser, 300);
     });
 
-    // --- 💳 Boutons "Désabonner" existants dans les abonnements ---
+    // applique l'animation pour le  Boutons "Désabonner"
     document.querySelectorAll(".card .unsub").forEach((button) => {
         button.addEventListener("click", () => {
             const card = button.closest(".card");
@@ -119,7 +119,7 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     });
 
-    // --- 👁️ Boutons "Voir plus" ---
+    // Boutons "Voir plus"
     document.querySelectorAll(".see-more-btn").forEach((btn) => {
         const grid = btn.closest("section").querySelector(".grid-section");
         btn.addEventListener("click", () => {

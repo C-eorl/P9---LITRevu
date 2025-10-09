@@ -28,6 +28,9 @@ class FollowView(TemplateView):
 
 
 def unfollow_user(request, user_id):
+    """
+    Unfollow a user
+    """
     user_to_unfollow = User.objects.get(pk=user_id)
     UserFollow.objects.filter(user=request.user, following_user=user_to_unfollow).delete()
     return redirect('reviews:follow')
@@ -35,6 +38,9 @@ def unfollow_user(request, user_id):
 
 @require_POST
 def follow_user(request):
+    """
+    follow a user
+    """
     username = request.POST.get("username")
     if not username:
         return JsonResponse({"success": False, "error": "Nom d'utilisateur manquant."})
@@ -52,6 +58,9 @@ def follow_user(request):
 
 @require_GET
 def search_user(request):
+    """
+    Search user
+    """
     query = request.GET.get("q", "")
 
     # IDs des utilisateurs que je suis déjà
