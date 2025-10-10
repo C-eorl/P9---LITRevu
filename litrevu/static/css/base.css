@@ -68,4 +68,27 @@ nav {
     z-index: 1000;
     font-weight: 500;
     box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+    opacity: 0;
+    transform: translateY(-10px);
+    animation: fadeInOut 6s ease forwards;
+}
+
+/* animation .banner-message*/
+@keyframes fadeInOut {
+    0% {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    10% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+    80% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+    100% {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
 }
