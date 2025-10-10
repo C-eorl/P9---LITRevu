@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% if object %}Modifier la critique{% else %}Créer une critique{% endif %} - LITRevu
+
+{% block extra_css %}
+    <link rel="stylesheet" href="{% static 'reviews/css/review.css' %}">
+{% endblock %}
+
+{% block content %}
+    <h2>
+        {% if object %}Modifier votre critique{% else %}Créer une critique{% endif %}
+    </h2>
+
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+
+        <!-- Ticket Form -->
+        <h3>Ticket</h3>
+        {{ ticket_form.as_p }}
+
+        <!-- Review Form -->
+        <h3>Critique</h3>
+        {{ form.as_p }}
+
+        <button type="submit">
+            {% if object %}Modifier{% else %}Publier{% endif %}
+        </button>
+        <a href="{% if object %}{% url 'reviews:posts' %}{% else %}{% url 'reviews:feed' %}{% endif %}">Annuler</a>
+    </form>
+{% endblock %}

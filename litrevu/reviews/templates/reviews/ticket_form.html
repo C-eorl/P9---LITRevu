@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% if object %}Modifier le ticket{% else %}Créer un ticket{% endif %} - LITRevu
+
+{% block extra_css %}
+    <link rel="stylesheet" href="{% static 'reviews/css/ticket.css' %}">
+{% endblock %}
+
+{% block content %}
+    <h2>
+        {% if object %}Modifier votre ticket{% else %}Créer un ticket{% endif %}
+    </h2>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">
+            {% if object %}Modifier{% else %}Publier{% endif %}
+        </button>
+        <a href="{% if object %}{% url 'reviews:posts' %}{% else %}{% url 'reviews:feed' %}{% endif %}">Annuler</a>
+    </form>
+{% endblock %}
