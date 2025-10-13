@@ -1,3 +1,6 @@
+from itertools import chain
+from operator import attrgetter
+
 from django.contrib import messages
 from django.forms.models import modelform_factory
 from django.http import JsonResponse
@@ -14,8 +17,29 @@ class FeedView(TemplateView):
     template_name = 'reviews/feed.html'
 
 
-class PostView(ListView):
-    pass
+
+class PostView(TemplateView):
+    template_name = 'reviews/posts.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        tickets = Ticket.objects.filter(user=self.request.user)
+        reviews = Review.objects.filter(user=self.request.user)
+
+        for ticket in tickets:
+            ticket.type = "ticket"
+        for review in reviews:
+            review.type = "review"
+
+        posts = sorted(
+            chain(tickets, reviews),
+            key=attrgetter('time_created'),
+            reverse=True
+        )
+
+        context['posts'] = posts
+        return context
 
 # ================================================================ #
 #                         Ticket                                   #
@@ -35,7 +59,13 @@ class TicketCreateView(CreateView):
 
 class TicketModifyView(UpdateView):
     template_name = 'reviews/ticket_form.html'
+    success_url = reverse_lazy('reviews:feed')
+    model = Ticket
+    fields = ['title', 'description', 'image']
 
+    def form_valid(self, form):
+        messages.success(self.request, 'Ticket modifié avec succès!')
+        return super().form_valid(form)
 
 class TicketDeleteView(DeleteView):
     template_name = 'reviews/ticket_delete.html'
@@ -78,8 +108,14 @@ class ReviewView(CreateView):
 
 
 class ReviewModifyView(UpdateView):
-    template_name = 'reviews/review_modify.html'
-    pass
+    template_name = 'reviews/review_form.html'
+    success_url = reverse_lazy('reviews:feed')
+    model = Review
+    fields = ['headline', 'rating', 'body']
+
+    def form_valid(self, form):
+        messages.success(self.request, 'Critique modifié avec succès!')
+        return super().form_valid(form)
 
 class ReviewDeleteView(DeleteView):
     template_name = 'reviews/review_delete.html'
