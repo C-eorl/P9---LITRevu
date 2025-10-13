@@ -68,9 +68,13 @@ class TicketModifyView(UpdateView):
         return super().form_valid(form)
 
 class TicketDeleteView(DeleteView):
-    template_name = 'reviews/ticket_delete.html'
-    pass
+    model = Ticket
+    template_name = 'reviews/ticket_confirm_delete.html'
+    success_url = reverse_lazy('reviews:posts')
 
+    def delete(self, request, *args, **kwargs):
+        messages.success(request, 'Ticket supprimé avec succès!')
+        return super().delete(request, *args, **kwargs)
 
 # ================================================================ #
 #                         Critique                                 #
@@ -84,10 +88,7 @@ class ReviewView(CreateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        if self.request.POST:
-            context["ticket_form"] = self.TicketForm(self.request.POST, self.request.FILES, prefix="ticket")
-        else:
-            context["ticket_form"] = self.TicketForm(prefix="ticket")
+        context["ticket_form"] = self.TicketForm(prefix="ticket")
         return context
 
     def form_valid(self, form):
@@ -113,13 +114,23 @@ class ReviewModifyView(UpdateView):
     model = Review
     fields = ['headline', 'rating', 'body']
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['ticket'] = self.object.ticket
+        return context
+
     def form_valid(self, form):
         messages.success(self.request, 'Critique modifié avec succès!')
         return super().form_valid(form)
 
 class ReviewDeleteView(DeleteView):
+    model = Review
     template_name = 'reviews/review_delete.html'
-    pass
+    success_url = reverse_lazy('reviews:posts')
+
+    def delete(self, request, *args, **kwargs):
+        messages.success(request, 'Critique supprimée avec succès!')
+        return super().delete(request, *args, **kwargs)
 # ================================================================ #
 #                         Abonnements                              #
 # ================================================================ #
