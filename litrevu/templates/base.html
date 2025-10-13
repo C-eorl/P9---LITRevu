@@ -17,7 +17,7 @@
             {% if user.is_authenticated %}
             <div class="nav-links">
                 <a href="{% url 'reviews:feed' %}">Flux</a>
-                <a href="">Posts</a> <!-- href=" url 'reviews:posts' " -->
+                <a href="{% url 'reviews:posts' %}">Posts</a>
                 <a href="{% url 'reviews:follow' %}">Abonnements</a>
 
                 <form action="{% url 'authentication:logout' %}" method="post">
