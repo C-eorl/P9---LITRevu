@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+{% load static %}
+
+
+{% block title %}Supprimer la critique - LITRevu{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'reviews/css/delete.css' %}">
+{% endblock %}
+
+{% block content %}
+
+<div class="delete">
+        <h4>Supprimer la critique</h4>
+        <p>Êtes-vous sûr de vouloir supprimer cette critique ?</p>
+        
+        <div>
+            <h5>{{ object.headline }}</h5>
+            {% if object.body %}
+                <p>{{ object.body|truncatewords:20 }}</p>
+            {% endif %}
+            <small>Créé le {{ object.time_created }}</small>
+        </div>
+    
+    
+        <form method="post">
+            {% csrf_token %}
+            <div>
+                <button type="submit">Supprimer définitivement</button>
+                <a href="{% url 'reviews:posts' %}">Annuler</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+{% endblock %}
