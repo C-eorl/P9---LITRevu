@@ -1,0 +1,84 @@
+.delete {
+    max-width: 600px;
+    margin: 3rem auto;
+    background-color: #fff;
+    padding: 2rem;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.delete h4 {
+    color: #dc3545; /* rouge pour danger */
+    margin-bottom: 0.5rem;
+    text-align: center;
+}
+
+.delete h5 {
+    margin: 0.5rem 0;
+    color: #222;
+}
+
+.delete p {
+    margin-bottom: 1rem;
+    color: #555;
+}
+
+.delete small {
+    display: block;
+    margin-top: 0.5rem;
+    color: #777;
+}
+
+.delete form {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    margin-top: 1.5rem;
+}
+
+.delete form button {
+    background-color: #dc3545;
+    color: white;
+    border: none;
+    padding: 0.6rem 1.2rem;
+    border-radius: 6px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.delete form button:hover {
+    background-color: #a71d2a;
+}
+
+.delete form a {
+    background-color: #6c757d;
+    color: white;
+    text-decoration: none;
+    padding: 0.6rem 1.2rem;
+    border-radius: 6px;
+    font-weight: 500;
+    transition: background-color 0.2s;
+}
+
+.delete form a:hover {
+    background-color: #495057;
+}
+
+@media (max-width: 768px) {
+    .delete {
+        margin: 1.5rem;
+        padding: 1.5rem;
+    }
+
+    .delete form {
+        flex-direction: column;
+        gap: 0.8rem;
+    }
+
+    .delete form button,
+    .delete form a {
+        width: 100%;
+        text-align: center;
+    }
+}
