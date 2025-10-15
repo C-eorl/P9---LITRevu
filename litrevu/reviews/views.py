@@ -3,13 +3,14 @@ from operator import attrgetter
 
 from django.contrib import messages
 from django.contrib.auth.mixins import UserPassesTestMixin
-from django.forms.models import modelform_factory
+from django.db.models import Value, CharField
 from django.http import JsonResponse
-from django.shortcuts import redirect
+from django.shortcuts import redirect, get_object_or_404
 from django.urls import reverse_lazy
 from django.views.decorators.http import require_GET, require_POST
 from django.views.generic import TemplateView, CreateView, UpdateView, DeleteView
 
+from .forms import ReviewForm
 from .models import UserFollow, Ticket, Review
 from authentication.models import User
 
@@ -32,7 +33,25 @@ class UserTestCustom(UserPassesTestMixin):
 class FeedView(TemplateView):
     template_name = 'reviews/feed.html'
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        followers_users = UserFollow.objects.filter(user=self.request.user).values_list('following_user', flat=True)
 
+        tickets = Ticket.objects.filter(user__in=followers_users)
+        tickets = tickets.annotate(content_type=Value("ticket",CharField()))
+        reviews = Review.objects.filter(user__in=followers_users)
+        reviews = reviews.annotate(content_type=Value("review",CharField()))
+
+        post_followers_users = sorted(
+            chain(tickets, reviews),
+            key=attrgetter('time_created'),
+            reverse=True
+        )
+
+        reviewed_ticket_ids = Review.objects.values_list('ticket_id', flat=True)
+        context['reviewed_ticket_ids'] = reviewed_ticket_ids
+        context['list_posts'] = post_followers_users
+        return context
 
 class PostView(TemplateView):
     template_name = 'reviews/posts.html'
@@ -103,28 +122,38 @@ class ReviewView(CreateView):
     template_name = 'reviews/review_form.html'
     success_url = reverse_lazy('reviews:feed')
     model = Review
-    fields = ['headline', 'rating', 'body']
-    TicketForm = modelform_factory(Ticket, fields=['title', 'description', 'image'])
+    form_class = ReviewForm
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context["ticket_form"] = self.TicketForm(prefix="ticket")
+        ticket_id = self.kwargs.get('ticket_id')
+        if ticket_id:
+            context['ticket'] = get_object_or_404(Ticket, id=ticket_id)
         return context
 
     def form_valid(self, form):
         form.instance.user = self.request.user
-
-        ticket_form = self.TicketForm(self.request.POST, self.request.FILES, prefix="ticket")
-
-        if ticket_form.is_valid():
-            ticket = ticket_form.save(commit=False)
-            ticket.user = self.request.user
-            ticket.save()
-            form.instance.ticket = ticket
+        ticket_id = self.kwargs.get('ticket_id')
+        if ticket_id:
+            form.instance.ticket = get_object_or_404(Ticket, id=ticket_id)
         else:
-            return self.form_invalid(form)
+            title = form.cleaned_data.get('ticket_title')
+            description = form.cleaned_data.get('ticket_description')
+            image = form.cleaned_data.get('ticket_image')
 
-        messages.success(self.request, "Ticket et Critique créés avec succès !")
+            # Vérifie qu'un titre est fourni
+            if not title:
+                form.add_error('ticket_title', "Le titre est obligatoire pour créer une critique libre.")
+                return self.form_invalid(form)
+
+            new_ticket = Ticket.objects.create(
+                title=title,
+                description=description,
+                image=image,
+                user=self.request.user
+            )
+            form.instance.ticket = new_ticket
+        messages.success(self.request, 'Critique créée avec succès!')
         return super().form_valid(form)
 
 
