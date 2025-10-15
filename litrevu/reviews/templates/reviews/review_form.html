@@ -8,35 +8,104 @@
 {% endblock %}
 
 {% block content %}
-    <h2>
-        {% if ticket %}Modifier votre critique{% else %}Créer une critique{% endif %}
-    </h2>
-    {% if ticket %}
-        <div>
-            <h3>{{ ticket.title }}</h6>
-            <small>{{ ticket.user.username }} a demandé une critique</small>
-            <p>{{ ticket.description }}</p>
-            <img src="{{ ticket.image }}" alt="Couverture">
-            <div>{{ ticket.time_created }}</div>
+
+    <div class="content">
+        <div class="card-header">
+            <h3>
+                {% if object %}Modifier votre critique{% else %}Créer une critique{% endif %}
+            </h3>
+            {% if ticket %}
+                <small>Vous êtes en train de publier en réponse à un ticket</small>
+            {% else %}
+                <small>Critique libre</small>
+            {% endif %}
         </div>
+        <div class="card-body">
+            <!-- Affichage du ticket concerné si c'est une réponse -->
+            {% if ticket %}
+                <div>
+                    <h6>{{ ticket.title }}</h6>
+                    <small>{{ ticket.user.username }} a demandé une critique</small>
+                    {% if ticket.description %}
+                        <p>{{ ticket.description }}</p>
+                    {% endif %}
+                    {% if ticket.image %}
+                        <img src="{{ ticket.image.url }}" alt="Couverture">
+                    {% endif %}
+                    <div>{{ ticket.time_created|date:"d/m/Y à H:i" }}</div>
+                </div>
+            {% endif %}
 
-    {% endif %}
-    <form method="post" enctype="multipart/form-data">
-        {% csrf_token %}
+            <form method="post" enctype="multipart/form-data">
+                {% csrf_token %}
 
-        {% if not ticket %}
-            <!-- Ticket Form -->
-            <h3>Ticket</h3>
-            {{ ticket_form.as_p }}
-        {% endif%}    
+                <!-- Champs pour créer un ticket en même temps (critique libre) -->
+                {% if not ticket and not object %}
+                    <div>
+                        <h5>Livre / Article</h5>
 
-        <!-- Review Form -->
-        <h3>Critique</h3>
-        {{ form.as_p }}
+                        <div>
+                            <label for="{{ form.ticket_title.id_for_label }}">Titre <span>*</span></label>
+                            {{ form.ticket_title }}
+                            {% if form.ticket_title.errors %}
+                                <div>{{ form.ticket_title.errors }}</div>
+                            {% endif %}
+                        </div>
 
-        <button type="submit">
-            {% if ticket %}Modifier{% else %}Publier{% endif %}
-        </button>
-        <a href="{% if ticket %}{% url 'reviews:posts' %}{% else %}{% url 'reviews:feed' %}{% endif %}">Annuler</a>
-    </form>
+                        <div>
+                            <label for="{{ form.ticket_description.id_for_label }}">Description</label>
+                            {{ form.ticket_description }}
+                            {% if form.ticket_description.errors %}
+                                <div>{{ form.ticket_description.errors }}</div>
+                            {% endif %}
+                        </div>
+
+                        <div>
+                            <label for="{{ form.ticket_image.id_for_label }}">Image</label>
+                            {{ form.ticket_image }}
+                            {% if form.ticket_image.errors %}
+                                <div>{{ form.ticket_image.errors }}</div>
+                            {% endif %}
+                        </div>
+                    </div>
+                {% endif %}
+
+                <!-- Champs de la critique -->
+                <div>
+                    <h5>Critique</h5>
+
+                    <div>
+                        <label for="{{ form.headline.id_for_label }}">Titre <span>*</span></label>
+                        {{ form.headline }}
+                        {% if form.headline.errors %}
+                            <div>{{ form.headline.errors }}</div>
+                        {% endif %}
+                    </div>
+
+                    <div>
+                        <label for="{{ form.rating.id_for_label }}">Note <span>*</span></label>
+                        {{ form.rating }}
+                        {% if form.rating.errors %}
+                            <div>{{ form.rating.errors }}</div>
+                        {% endif %}
+                    </div>
+
+                    <div>
+                        <label for="{{ form.body.id_for_label }}">Commentaire</label>
+                        {{ form.body }}
+                        {% if form.body.errors %}
+                            <div>{{ form.body.errors }}</div>
+                        {% endif %}
+                    </div>
+                </div>
+
+                <div>
+                    <button type="submit">
+                        {% if object %}Modifier{% else %}Publier{% endif %}
+                    </button>
+                    <a href="{% if object %}{% url 'reviews:posts' %}{% else %}{% url 'reviews:feed' %}{% endif %}">Annuler</a>
+                </div>
+            </form>
+        </div>
+    </div>
 {% endblock %}
