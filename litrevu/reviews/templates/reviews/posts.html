@@ -8,7 +8,6 @@
 {% endblock %}
 
 {% block content %}
-    {% if posts %}
         {% for post in posts %}
 
             {% if post.type == 'ticket' %}
@@ -42,8 +41,8 @@
                 </div>
             {% endif%}
 
+        {% empty %}
+            <p> Pas de post</p>
         {% endfor %}
-    {% else %}
-        <p> Pas de post</p>
-    {% endif %}
+
 {% endblock %}
