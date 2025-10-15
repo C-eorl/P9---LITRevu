@@ -18,6 +18,7 @@ urlpatterns = [
     path("tickets/<int:pk>/delete/", TicketDeleteView.as_view(), name="ticket_delete"),
     # url pour views critique
     path("review/create/", ReviewView.as_view(), name="review_create"),
+    path("review/create/<int:ticket_id>/", ReviewView.as_view(), name="review_create_for_ticket"),
     path("review/<int:pk>/modify/", ReviewModifyView.as_view(), name="review_modify"),
     path("review/<int:pk>/delete/", ReviewDeleteView.as_view(), name="review_delete"),
 ]
