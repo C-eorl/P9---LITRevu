@@ -70,10 +70,10 @@
             <div class="item-grid">
                 <div class="card">
                     <div class="card-front">
-                        {% if followed_user.profile.image %}
-                        <img src="{{ followed_user.profile.image.url }}" alt="{{ followed_user.username }}">
+                        {% if followed.profile.image %}
+                        <img src="{{ followed.profile.image.url }}" alt="{{ followed.username }}">
                         {% else %}
-                        <img src="{% static 'pictures/default_pictures/default.png' %}" alt="{{ followed_user.username }}">
+                        <img src="{% static 'pictures/default_pictures/default.png' %}" alt="{{ followed.username }}">
                         {% endif %}
                         <span>{{ follower.username }}</span>
                     </div>
