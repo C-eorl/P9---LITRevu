@@ -1,0 +1,174 @@
+/* === Structure générale === */
+body {
+  background-color: #f8f9fa;
+  font-family: "Segoe UI", Arial, sans-serif;
+  color: #333;
+  margin: 0;
+  padding: 0;
+}
+
+/* === Conteneur principal === */
+main, .content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 2rem 1rem 3rem;
+}
+
+h2, h3 {
+  margin: 0;
+  color: #222;
+}
+
+span {
+  font-size: 0.9rem;
+  color: #666;
+}
+
+/* === Bloc commun à tous les posts === */
+.bloc-ticket,
+.bloc-review {
+  width: 100%;
+  max-width: 700px;
+  background-color: white;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 1.5rem;
+  margin-bottom: 1.5rem;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.bloc-ticket:hover,
+.bloc-review:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.12);
+}
+
+/* === En-têtes de sections === */
+.bloc-ticket h3,
+.bloc-review h3 {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #007bff;
+  margin-bottom: 0.3rem;
+}
+
+.bloc-ticket > span,
+.bloc-review > span {
+  display: block;
+  font-size: 0.85rem;
+  color: #777;
+  margin-bottom: 0.8rem;
+}
+
+/* === Contenu d’un ticket === */
+.content-ticket {
+  background-color: #f9f9f9;
+  border-left: 4px solid #007bff;
+  border-radius: 4px;
+  padding: 1rem;
+  margin-bottom: 1rem;
+}
+
+.content-ticket h2 {
+  font-size: 1.1rem;
+  margin-bottom: 0.5rem;
+}
+
+.content-ticket img {
+  display: block;
+  max-width: 100%;
+  height: auto;
+  margin-top: 0.5rem;
+  border-radius: 6px;
+}
+
+/* === Contenu d’une critique === */
+.content-review {
+  background-color: #fefefe;
+  border-left: 4px solid #28a745;
+  border-radius: 4px;
+  padding: 1rem;
+  margin-bottom: 1rem;
+}
+
+.content-review strong {
+  display: block;
+  font-size: 1.1rem;
+  margin-bottom: 0.3rem;
+  color: #333;
+}
+
+.content-review span {
+  color: #ffb400;
+  font-size: 1rem;
+}
+
+.content-review p {
+  margin-top: 0.5rem;
+  color: #444;
+}
+
+/* === Liens (modifier/supprimer) === */
+.bloc-ticket a,
+.bloc-review a {
+  display: inline-block;
+  margin-right: 1rem;
+  margin-top: 0.5rem;
+  padding: 0.5rem 1rem;
+  border-radius: 5px;
+  text-decoration: none;
+  color: white;
+  font-weight: 500;
+  transition: background-color 0.2s;
+}
+
+/* Modifier */
+.bloc-ticket a[href*="modify"],
+.bloc-review a[href*="modify"] {
+  background-color: #007bff;
+}
+
+.bloc-ticket a[href*="modify"]:hover,
+.bloc-review a[href*="modify"]:hover {
+  background-color: #0056b3;
+}
+
+/* Supprimer */
+.bloc-ticket a[href*="delete"],
+.bloc-review a[href*="delete"] {
+  background-color: #dc3545;
+}
+
+.bloc-ticket a[href*="delete"]:hover,
+.bloc-review a[href*="delete"]:hover {
+  background-color: #a71d2a;
+}
+
+/* === Message quand aucun post === */
+p {
+  text-align: center;
+  font-size: 1rem;
+  color: #555;
+}
+
+/* === Responsive === */
+@media (max-width: 768px) {
+  .bloc-ticket,
+  .bloc-review {
+    padding: 1rem;
+  }
+
+  .content-ticket,
+  .content-review {
+    padding: 0.8rem;
+  }
+
+  .bloc-ticket a,
+  .bloc-review a {
+    display: block;
+    margin: 0.4rem 0;
+    text-align: center;
+  }
+}
