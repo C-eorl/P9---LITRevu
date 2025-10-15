@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+
+{% block title %}Supprimer le ticket - LITRevu{% endblock %}
+
+{% block content %}
+
+<div>
+    <h4>Supprimer le ticket</h4>
+</div>
+<div>
+    <p>Êtes-vous sûr de vouloir supprimer ce ticket ?</p>
+    <div>
+        <h5>{{ object.title }}</h5>
+        {% if object.description %}
+            <p>{{ object.description|truncatewords:20 }}</p>
+        {% endif %}
+        <small>Créé le {{ object.time_created }}</small>
+    </div>
+
+    <div>
+        <strong>Attention :</strong> Cette action est irréversible. Toutes les critiques associées à ce ticket seront également supprimées.
+    </div>
+
+    <form method="post">
+        {% csrf_token %}
+        <div>
+            <button type="submit">Supprimer définitivement</button>
+            <a href="{% url 'reviews:posts' %}">Annuler</a>
+        </div>
+    </form>
+</div>
+
+{% endblock %}
