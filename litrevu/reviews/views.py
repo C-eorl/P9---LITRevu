@@ -2,15 +2,31 @@ from itertools import chain
 from operator import attrgetter
 
 from django.contrib import messages
+from django.contrib.auth.mixins import UserPassesTestMixin
 from django.forms.models import modelform_factory
 from django.http import JsonResponse
 from django.shortcuts import redirect
 from django.urls import reverse_lazy
 from django.views.decorators.http import require_GET, require_POST
-from django.views.generic import ListView, TemplateView, CreateView, UpdateView, DeleteView
+from django.views.generic import TemplateView, CreateView, UpdateView, DeleteView
 
 from .models import UserFollow, Ticket, Review
 from authentication.models import User
+
+
+class UserTestCustom(UserPassesTestMixin):
+    """
+    UserTestCustom applique test_func() pour vérifier l'utilisateur connecté est l'auteur du ticket &
+    handle_no_permission() pour la redirection.
+    """
+    def test_func(self):
+        element = self.get_object()
+        return element.user == self.request.user
+
+    def handle_no_permission(self):
+        messages.error(self.request, "Vous n'avez pas la permission de modifier ce ticket.")
+        return redirect("reviews:feed")
+
 
 
 class FeedView(TemplateView):
@@ -57,7 +73,11 @@ class TicketCreateView(CreateView):
         return response
 
 
-class TicketModifyView(UpdateView):
+class TicketModifyView(UserTestCustom, UpdateView):
+    """
+    UserTestCustom applique test_func() pour vérifier l'utilisateur connecté est l'auteur du ticket &
+    handle_no_permission() pour la redirection.
+    """
     template_name = 'reviews/ticket_form.html'
     success_url = reverse_lazy('reviews:feed')
     model = Ticket
@@ -67,9 +87,9 @@ class TicketModifyView(UpdateView):
         messages.success(self.request, 'Ticket modifié avec succès!')
         return super().form_valid(form)
 
-class TicketDeleteView(DeleteView):
+class TicketDeleteView(UserTestCustom, DeleteView):
     model = Ticket
-    template_name = 'reviews/ticket_confirm_delete.html'
+    template_name = 'reviews/ticket_delete.html'
     success_url = reverse_lazy('reviews:posts')
 
     def delete(self, request, *args, **kwargs):
@@ -108,7 +128,7 @@ class ReviewView(CreateView):
         return super().form_valid(form)
 
 
-class ReviewModifyView(UpdateView):
+class ReviewModifyView(UserTestCustom, UpdateView):
     template_name = 'reviews/review_form.html'
     success_url = reverse_lazy('reviews:feed')
     model = Review
@@ -123,7 +143,7 @@ class ReviewModifyView(UpdateView):
         messages.success(self.request, 'Critique modifié avec succès!')
         return super().form_valid(form)
 
-class ReviewDeleteView(DeleteView):
+class ReviewDeleteView(UserTestCustom, DeleteView):
     model = Review
     template_name = 'reviews/review_delete.html'
     success_url = reverse_lazy('reviews:posts')
@@ -131,6 +151,8 @@ class ReviewDeleteView(DeleteView):
     def delete(self, request, *args, **kwargs):
         messages.success(request, 'Critique supprimée avec succès!')
         return super().delete(request, *args, **kwargs)
+
+
 # ================================================================ #
 #                         Abonnements                              #
 # ================================================================ #
@@ -184,4 +206,4 @@ def search_user(request):
         }
         for user in users
     ]
-    return JsonResponse(data)
+    return JsonResponse(data, safe=False)
