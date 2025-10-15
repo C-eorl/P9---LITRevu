@@ -9,23 +9,34 @@
 
 {% block content %}
     <h2>
-        {% if object %}Modifier votre critique{% else %}Créer une critique{% endif %}
+        {% if ticket %}Modifier votre critique{% else %}Créer une critique{% endif %}
     </h2>
+    {% if ticket %}
+        <div>
+            <h3>{{ ticket.title }}</h6>
+            <small>{{ ticket.user.username }} a demandé une critique</small>
+            <p>{{ ticket.description }}</p>
+            <img src="{{ ticket.image }}" alt="Couverture">
+            <div>{{ ticket.time_created }}</div>
+        </div>
 
+    {% endif %}
     <form method="post" enctype="multipart/form-data">
         {% csrf_token %}
 
-        <!-- Ticket Form -->
-        <h3>Ticket</h3>
-        {{ ticket.title }}
+        {% if not ticket %}
+            <!-- Ticket Form -->
+            <h3>Ticket</h3>
+            {{ ticket_form.as_p }}
+        {% endif%}    
 
         <!-- Review Form -->
         <h3>Critique</h3>
         {{ form.as_p }}
 
         <button type="submit">
-            {% if object %}Modifier{% else %}Publier{% endif %}
+            {% if ticket %}Modifier{% else %}Publier{% endif %}
         </button>
-        <a href="{% if object %}{% url 'reviews:posts' %}{% else %}{% url 'reviews:feed' %}{% endif %}">Annuler</a>
+        <a href="{% if ticket %}{% url 'reviews:posts' %}{% else %}{% url 'reviews:feed' %}{% endif %}">Annuler</a>
     </form>
 {% endblock %}
