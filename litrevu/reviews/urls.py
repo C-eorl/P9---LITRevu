@@ -11,6 +11,8 @@ urlpatterns = [
     path("follow/", FollowView.as_view(), name='follow'),
     path('follow_user/', follow_user, name='follow_user'),
     path('unfollow/<int:user_id>/', unfollow_user, name='unfollow_user'),
+    path('blocked/<int:user_id>/', blocked_user, name='blocked_user'),
+    path('unblocked/<int:user_id>/', unblocked_user, name='unblocked_user'),
     path("search_user/", search_user, name="search_user"),
     # url pour views ticket
     path("tickets/create/", TicketCreateView.as_view(), name="ticket_create"),
