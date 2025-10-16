@@ -8,41 +8,39 @@
 {% endblock %}
 
 {% block content %}
-        {% for post in posts %}
 
-            {% if post.type == 'ticket' %}
-                <div class="bloc-ticket">
-                    <h3>Vous avez publié un ticket</h3>
-                    <span> {{ post.time_created }} </span>
-                    <div class="content-ticket">
-                        <h2>{{ post.title }}</h2>
-                        <img src="{{ post.image }}" >
+            {% for post in posts %}
+                {% if post.type == 'ticket' %}
+                    <div class="bloc-ticket">
+                        <h3>Vous avez publié un ticket</h3>
+                        <span> {{ post.time_created }} </span>
+                        <div class="content-ticket">
+                            <h2>{{ post.title }}</h2>
+                            <img src="{{ post.image }}" >
+                        </div>
+                        <a href="{% url 'reviews:ticket_modify' post.id %}">Modifier</a>
+                        <a href="{% url 'reviews:ticket_delete' post.id %}">Supprimer</a>
                     </div>
-                    <a href="{% url 'reviews:ticket_modify' post.id %}">Modifier</a>
-                    <a href="{% url 'reviews:ticket_delete' post.id %}">Supprimer</a>
-                </div>
-            {% endif%}
-
-            {% if post.type == 'review'%}
-                <div class="bloc-review">
-                    <h3>Vous avez publié une critique</h3>
-                    <span> {{ post.time_created }} </span>
-                    <div class="content-review">
-                        <strong> {{ post.headline }} </strong>
-                        <span> {{ post.rating}} </span>
-                        <p> {{ post.body }} </p>
+                {% endif%}
+                {% if post.type == 'review'%}
+                    <div class="bloc-review">
+                        <h3>Vous avez publié une critique</h3>
+                        <span> {{ post.time_created }} </span>
+                        <div class="content-review">
+                            <strong> {{ post.headline }} </strong>
+                            <span> {{ post.rating}} </span>
+                            <p> {{ post.body }} </p>
+                        </div>
+                        <div class="content-ticket">
+                            <h2>{{ post.ticket.title }}</h2>
+                            <img src="{{ post.ticket.image }}" >
+                        </div>
+                        <a href="{% url 'reviews:review_modify' post.id %}">Modifier</a>
+                        <a href="{% url 'reviews:review_delete' post.id %}">Supprimer</a>
                     </div>
-                    <div class="content-ticket">
-                        <h2>{{ post.ticket.title }}</h2>
-                        <img src="{{ post.ticket.image }}" >
-                    </div>
-                    <a href="{% url 'reviews:review_modify' post.id %}">Modifier</a>
-                    <a href="{% url 'reviews:review_delete' post.id %}">Supprimer</a>
-                </div>
-            {% endif%}
-
-        {% empty %}
-            <p> Pas de post</p>
-        {% endfor %}
+                {% endif%}
+            {% empty %}
+                <p> Pas de post</p>
+            {% endfor %}
 
 {% endblock %}

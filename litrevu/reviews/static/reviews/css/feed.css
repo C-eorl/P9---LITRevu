@@ -1,23 +1,16 @@
 /* ====== Général ====== */
-body {
-    font-family: "Segoe UI", Roboto, sans-serif;
-    background-color: #f7f9fb;
-    color: #333;
-    margin: 0;
-    padding: 0;
-}
 
-a {
+.posts a {
     color: #2a7ae2;
     text-decoration: none;
 }
 
-a:hover {
+.posts a:hover {
     text-decoration: underline;
 }
 
 /* ====== Boutons du haut ====== */
-.button-head {
+.posts .button-head {
     display: flex;
     justify-content: center;
     gap: 1rem;
@@ -26,7 +19,7 @@ a:hover {
     border-bottom: 1px solid #ddd;
 }
 
-.button-head a {
+.posts .button-head a {
     background-color: #2a7ae2;
     color: white;
     padding: 0.6rem 1.2rem;
@@ -35,7 +28,7 @@ a:hover {
     transition: background-color 0.2s ease-in-out;
 }
 
-.button-head a:hover {
+.posts .button-head a:hover {
     background-color: #1859b0;
 }
 
@@ -49,7 +42,7 @@ a:hover {
 }
 
 /* ====== Post ====== */
-.post-container {
+.posts .post-container {
     background-color: #fff;
     border-radius: 12px;
     box-shadow: 0 2px 6px rgba(0,0,0,0.08);
@@ -57,7 +50,7 @@ a:hover {
     transition: transform 0.15s ease, box-shadow 0.15s ease;
 }
 
-.post-container:hover {
+.posts .post-container:hover {
     transform: translateY(-2px);
     box-shadow: 0 4px 10px rgba(0,0,0,0.12);
 }
@@ -89,7 +82,7 @@ a:hover {
 }
 
 /* ====== Liens pour créer une critique ====== */
-.post-content a {
+.posts .post-content a {
     display: inline-block;
     margin-top: 0.8rem;
     background-color: #4caf50;
@@ -99,12 +92,12 @@ a:hover {
     transition: background-color 0.2s;
 }
 
-.post-content a:hover {
+.posts .post-content a:hover {
     background-color: #3e8e41;
 }
 
 /* ====== Section “ticket lié” ====== */
-.content-related {
+.posts .content-related {
     margin-top: 1rem;
     background-color: #f0f4f8;
     padding: 1rem;
@@ -112,7 +105,7 @@ a:hover {
     font-size: 0.95rem;
 }
 
-.content-related img {
+.posts .content-related img {
     max-width: 100%;
     height: auto;
     border-radius: 8px;
@@ -120,14 +113,14 @@ a:hover {
 }
 
 /* ====== Étoiles ====== */
-.post-content span {
+.posts .post-content span {
     color: #f5c518; /* Jaune IMDb */
     font-size: 1.1rem;
     margin-left: 0.4rem;
 }
 
 /* ====== Message “Aucun post” ====== */
-.no-posts {
+.posts .no-posts {
     text-align: center;
     padding: 2rem;
     color: #666;
@@ -137,7 +130,7 @@ a:hover {
     box-shadow: 0 2px 5px rgba(0,0,0,0.05);
 }
 
-.no-posts a {
+.posts .no-posts a {
     color: #2a7ae2;
     font-weight: 500;
 }
