@@ -70,12 +70,16 @@
             <div class="item-grid">
                 <div class="card">
                     <div class="card-front">
-                        {% if followed.profile.image %}
-                        <img src="{{ followed.profile.image.url }}" alt="{{ followed.username }}">
+                        {% if follower.profile.image %}
+                        <img src="{{ follower.profile.image.url }}" alt="{{ follower.username }}">
                         {% else %}
-                        <img src="{% static 'pictures/default_pictures/default.png' %}" alt="{{ followed.username }}">
+                        <img src="{% static 'pictures/default_pictures/default.png' %}" alt="{{ follower.username }}">
                         {% endif %}
                         <span>{{ follower.username }}</span>
+                        <form method="post" action="{% url 'reviews:blocked_user' follower.id %}">
+                            {% csrf_token %}
+                            <button type="submit" class="confirm-btn">Bloquer</button>
+                        </form>
                     </div>
                 </div>
             </div>
@@ -85,6 +89,39 @@
         </div>
 
         {% if followers|length > 10 %}
+        <div class="see-more-container">
+            <button class="see-more-btn">Voir plus</button>
+        </div>
+        {% endif %}
+    </section>
+
+    <!-- Utilisateur bloqué -->
+    <section class="bloqued">
+        <h2>Bloqué</h2>
+        <div class="grid-section" id="blockedGrid">
+            {% for user in blocked_users %}
+            <div class="item-grid">
+                <div class="card">
+                    <div class="card-front">
+                        {% if user.profile.image %}
+                        <img src="{{ user.profile.image.url }}" alt="{{ user.username }}">
+                        {% else %}
+                        <img src="{% static 'pictures/default_pictures/default.png' %}" alt="{{ user.username }}">
+                        {% endif %}
+                        <span>{{ user.username }}</span>
+                        <form method="post" action="{% url 'reviews:unblocked_user' user.id %}">
+                            {% csrf_token %}
+                            <button type="submit" class="confirm-btn">Débloquer</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            {% empty %}
+            <p>Aucun utilisateur bloqué pour le moment.</p>
+            {% endfor %}
+        </div>
+
+        {% if blocked_users|length > 1 %}
         <div class="see-more-container">
             <button class="see-more-btn">Voir plus</button>
         </div>
