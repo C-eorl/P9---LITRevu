@@ -11,7 +11,7 @@ from django.views.decorators.http import require_GET, require_POST
 from django.views.generic import TemplateView, CreateView, UpdateView, DeleteView
 
 from .forms import ReviewForm
-from .models import UserFollow, Ticket, Review
+from .models import UserFollow, Ticket, Review, UserBlocked
 from authentication.models import User
 
 
@@ -193,6 +193,7 @@ class FollowView(TemplateView):
         context = super().get_context_data(**kwargs)
         context['followed_users'] = User.objects.filter(followers__user=self.request.user)
         context['followers'] = User.objects.filter(following__following_user=self.request.user)
+        context['blocked_users'] = User.objects.filter(blocked_by__user=self.request.user)
         return context
 
 
@@ -200,12 +201,14 @@ def unfollow_user(request, user_id):
     """ View pour se désabonner d'un utilisateur """
     user_to_unfollow = User.objects.get(pk=user_id)
     UserFollow.objects.filter(user=request.user, following_user=user_to_unfollow).delete()
+    messages.success(request, f"Vous n'êtes plus abonné(e) à {user_to_unfollow}")
     return redirect('reviews:follow')
 
 
 @require_POST
 def follow_user(request):
     """ View pour s'abonner d'un utilisateur """
+    # TODO : refactoriser
     username = request.POST.get("username")
     if not username:
         return JsonResponse({"success": False, "error": "Nom d'utilisateur manquant."})
@@ -214,6 +217,25 @@ def follow_user(request):
     UserFollow.objects.get_or_create(user=request.user, following_user=user_to_follow)
     return JsonResponse({"success": True})
 
+@require_POST
+def blocked_user(request, user_id):
+    """
+    Bloque un utilisateur. Créé une relation (UserBlocked) entre l'utilisateur et un autre et
+    retire la relation (UserFollow)
+    """
+    user_to_blocked = User.objects.get(pk=user_id)
+    UserBlocked.objects.get_or_create(user=request.user, blocked_user=user_to_blocked)
+    UserFollow.objects.filter(user=user_to_blocked, following_user=request.user).delete()
+
+    messages.success(request, f"l'utilisateur {user_to_blocked.username} a été bloqué(e)")
+    return redirect('reviews:follow')
+
+@require_POST
+def unblocked_user(request, user_id):
+    unblocked_user = User.objects.get(pk=user_id)
+    UserBlocked.objects.filter(user=request.user, blocked_user=unblocked_user).delete()
+    messages.success(request, f"Vous avez débloqué {unblocked_user.username}")
+    return redirect('reviews:follow')
 
 
 @require_GET
