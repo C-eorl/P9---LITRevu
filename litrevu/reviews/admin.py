@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from .models import Ticket, Review, UserFollow
+from .models import Ticket, Review, UserFollow, UserBlocked
 
 
 @admin.register(Ticket)
@@ -14,3 +14,7 @@ class ReviewAdmin(admin.ModelAdmin):
 @admin.register(UserFollow)
 class UserFollowAdmin(admin.ModelAdmin):
     list_display = ('user', 'following_user')
+
+@admin.register(UserBlocked)
+class UserBlockedAdmin(admin.ModelAdmin):
+    list_display = ('user', 'blocked_user')
