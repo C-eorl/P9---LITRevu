@@ -11,7 +11,7 @@
     <h2>
         {% if object %}Modifier votre ticket{% else %}Créer un ticket{% endif %}
     </h2>
-    <form method="post">
+    <form method="post" enctype="multipart/form-data">
         {% csrf_token %}
         {{ form.as_p }}
         <button type="submit">
