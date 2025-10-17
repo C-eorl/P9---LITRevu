@@ -35,9 +35,13 @@
                         {% if post.image %}
                             <img src="{{ post.image.url }}" alt="Couverture {{ post.title }}">
                         {% endif %}
+
                         {% if  post.id not in reviewed_ticket_ids%}
-                        <a href="{% url 'reviews:review_create_for_ticket' post.id %}">Créer une critique</a>
+                            <a href="{% url 'reviews:review_create_for_ticket' post.id %}">Créer une critique</a>
+                        {% elif  post.user in blocked_me%}
+                            <a>bloqué</a>
                         {% endif %}
+
                     </div>
             {% endif %}
 
@@ -70,6 +74,13 @@
                         {% if post.ticket.image %}
                             <img src="{{ post.ticket.image.url }}" alt="Couverture {{ post.ticket.title }}">
                         {% endif %}
+                        {% if  post.id not in reviewed_ticket_ids%}
+                            <a href="{% url 'reviews:review_create_for_ticket' post.ticket.id %}">Créer une critique</a>
+                        {% elif post.ticket.user == post.user%}
+                            <a href="{% url 'reviews:review_create_for_ticket' post.ticket.id %}">Créer une critique</a>
+                        {% elif  post.user in blocked_me%}
+                            <a>bloqué</a>
+                        {% endif %}
                     </div>
 
             {% endif %}
@@ -77,7 +88,7 @@
     {% empty %}
         <div class="no-posts">
             <p>Aucun post dans votre flux.</p>
-            <p>Commencez par <a href="{% url 'reviews:follows' %}">suivre des utilisateurs</a> !</p>
+            <p>Commencez par <a href="{% url 'reviews:follow' %}">suivre des utilisateurs</a> !</p>
         </div>
     {% endfor %}
 
