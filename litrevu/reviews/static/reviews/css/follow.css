@@ -170,7 +170,22 @@ section h2 {
 .cancel-btn:hover {
     background-color: #f1f1f1;
 }
+/* --- section Bloqué --- */
+.blocked .grid-section {
+    padding: 16px 0px;
+    display: none;
+    grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+    gap: 1.8rem;
+    justify-items: center;
+    overflow: hidden;
+    max-height: 0px;
+    transition: max-height 0.5s ease;
+}
 
+.blocked .grid-section.expanded {
+    display: grid;
+    max-height: none;
+}
 /* --- Bouton Voir plus --- */
 .see-more-container {
     margin-top: 1.5rem;
