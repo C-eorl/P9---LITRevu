@@ -6,6 +6,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}LITRevu{% endblock %}</title>
+    <link href="https://fonts.cdnfonts.com/css/satoshi" rel="stylesheet">
     <link rel="stylesheet" href="{% static 'css/base.css' %}">
     {% block extra_css %}{% endblock %}
 </head>
@@ -13,7 +14,7 @@
 
     <nav>
         <div class="menu">
-            <a href="{% url 'reviews:feed' %}" class="logo"><h2>LITRevu</h2></a>
+            <a href="{% url 'reviews:feed' %}" class="logo"><h1>LITRevu</h1></a>
             {% if user.is_authenticated %}
             <div class="nav-links">
                 <a href="{% url 'reviews:feed' %}">Flux</a>
@@ -28,7 +29,6 @@
             {% endif %}
         </div>
     </nav>
-
     {% if messages %}
       {% for message in messages %}
         <div class="banner-message">{{ message }}</div>
@@ -37,6 +37,5 @@
     <main>
         {% block content %}{% endblock %}
     </main>
-    <script src="{% static '/js/base.js' %}"></script>
 </body>
 </html>
