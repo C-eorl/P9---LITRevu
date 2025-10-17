@@ -10,30 +10,38 @@
 {% block content %}
 
             {% for post in posts %}
-                {% if post.type == 'ticket' %}
+                {% if post.content_type == 'ticket' %}
                     <div class="bloc-ticket">
                         <h3>Vous avez publié un ticket</h3>
                         <span> {{ post.time_created }} </span>
                         <div class="content-ticket">
                             <h2>{{ post.title }}</h2>
-                            <img src="{{ post.image }}" >
+                            {% if post.image %}
+                                <img src="{{ post.image.url }}" alt="couverture {{ post.title }}">
+                            {% endif %}
                         </div>
                         <a href="{% url 'reviews:ticket_modify' post.id %}">Modifier</a>
                         <a href="{% url 'reviews:ticket_delete' post.id %}">Supprimer</a>
                     </div>
                 {% endif%}
-                {% if post.type == 'review'%}
+                {% if post.content_type == 'review'%}
                     <div class="bloc-review">
                         <h3>Vous avez publié une critique</h3>
                         <span> {{ post.time_created }} </span>
                         <div class="content-review">
                             <strong> {{ post.headline }} </strong>
-                            <span> {{ post.rating}} </span>
+                            <span>
+                                {% for i in "12345" %}
+                                    {% if forloop.counter <= post.rating %}★{% else %}☆{% endif %}
+                                {% endfor %}
+                            </span>
                             <p> {{ post.body }} </p>
                         </div>
                         <div class="content-ticket">
                             <h2>{{ post.ticket.title }}</h2>
-                            <img src="{{ post.ticket.image }}" >
+                            {% if post.image %}
+                                <img src="{{ post.ticket.image.url }}" alt="couverture {{ post.ticket.title }}">
+                            {% endif %}
                         </div>
                         <a href="{% url 'reviews:review_modify' post.id %}">Modifier</a>
                         <a href="{% url 'reviews:review_delete' post.id %}">Supprimer</a>
