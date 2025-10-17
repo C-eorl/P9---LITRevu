@@ -10,16 +10,16 @@
 }
 
 /* ====== Boutons du haut ====== */
-.posts .button-head {
+.button-head {
     display: flex;
     justify-content: center;
     gap: 1rem;
     background-color: #fff;
     padding: 1rem;
-    border-bottom: 1px solid #ddd;
 }
 
-.posts .button-head a {
+.button-head a {
+    text-decoration: none;
     background-color: #2a7ae2;
     color: white;
     padding: 0.6rem 1.2rem;
@@ -28,7 +28,7 @@
     transition: background-color 0.2s ease-in-out;
 }
 
-.posts .button-head a:hover {
+.button-head a:hover {
     background-color: #1859b0;
 }
 
@@ -114,7 +114,7 @@
 
 /* ====== Étoiles ====== */
 .posts .post-content span {
-    color: #f5c518; /* Jaune IMDb */
+    color: #f5c518;
     font-size: 1.1rem;
     margin-left: 0.4rem;
 }
@@ -133,26 +133,4 @@
 .posts .no-posts a {
     color: #2a7ae2;
     font-weight: 500;
-}
-
-/* ====== Responsive ====== */
-@media (max-width: 600px) {
-    .button-head {
-        flex-direction: column;
-        gap: 0.5rem;
-        align-items: center;
-    }
-
-    .button-head a {
-        width: 80%;
-        text-align: center;
-    }
-
-    .posts {
-        margin: 1rem;
-    }
-
-    .post-container {
-        padding: 1rem;
-    }
 }
