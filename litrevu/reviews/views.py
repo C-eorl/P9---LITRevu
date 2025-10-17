@@ -17,7 +17,7 @@ from authentication.models import User
 
 class UserTestCustom(UserPassesTestMixin):
     """
-    UserTestCustom applique test_func() pour vérifier l'utilisateur connecté est l'auteur du ticket &
+    UserTestCustom applique test_func() pour vérifier si l'utilisateur connecté est l'auteur du ticket &
     handle_no_permission() pour la redirection.
     """
     def test_func(self):
@@ -31,12 +31,14 @@ class UserTestCustom(UserPassesTestMixin):
 
 
 class FeedView(TemplateView):
+    """ View pour le template feed.html """
     template_name = 'reviews/feed.html'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        followers_users = UserFollow.objects.filter(user=self.request.user).values_list('following_user', flat=True)
 
+        followers_users = UserFollow.objects.filter(user=self.request.user)\
+                                            .values_list('following_user', flat=True)
         tickets = Ticket.objects.filter(user__in=followers_users)
         tickets = tickets.annotate(content_type=Value("ticket",CharField()))
         reviews = Review.objects.filter(user__in=followers_users)
@@ -47,39 +49,38 @@ class FeedView(TemplateView):
             key=attrgetter('time_created'),
             reverse=True
         )
-
+        blocked_me = UserBlocked.objects.filter(blocked_user=self.request.user) .values_list('user', flat=True)
         reviewed_ticket_ids = Review.objects.values_list('ticket_id', flat=True)
+        context['blocked_me'] = blocked_me
         context['reviewed_ticket_ids'] = reviewed_ticket_ids
         context['list_posts'] = post_followers_users
         return context
 
 class PostView(TemplateView):
+    """ View pour le template posts.html """
     template_name = 'reviews/posts.html'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
 
         tickets = Ticket.objects.filter(user=self.request.user)
+        tickets = tickets.annotate(content_type=Value("ticket",CharField()))
         reviews = Review.objects.filter(user=self.request.user)
-
-        for ticket in tickets:
-            ticket.type = "ticket"
-        for review in reviews:
-            review.type = "review"
-
+        reviews = reviews.annotate(content_type=Value("review",CharField()))
         posts = sorted(
             chain(tickets, reviews),
             key=attrgetter('time_created'),
             reverse=True
         )
-
         context['posts'] = posts
+
         return context
 
 # ================================================================ #
 #                         Ticket                                   #
 # ================================================================ #
 class TicketCreateView(CreateView):
+    """ View pour créer un ticket """
     template_name = 'reviews/ticket_form.html'
     success_url = reverse_lazy('reviews:feed')
     model = Ticket
@@ -93,10 +94,7 @@ class TicketCreateView(CreateView):
 
 
 class TicketModifyView(UserTestCustom, UpdateView):
-    """
-    UserTestCustom applique test_func() pour vérifier l'utilisateur connecté est l'auteur du ticket &
-    handle_no_permission() pour la redirection.
-    """
+    """ View pour modifier un ticket """
     template_name = 'reviews/ticket_form.html'
     success_url = reverse_lazy('reviews:feed')
     model = Ticket
@@ -107,6 +105,7 @@ class TicketModifyView(UserTestCustom, UpdateView):
         return super().form_valid(form)
 
 class TicketDeleteView(UserTestCustom, DeleteView):
+    """ View pour supprimer un ticket """
     model = Ticket
     template_name = 'reviews/ticket_delete.html'
     success_url = reverse_lazy('reviews:posts')
@@ -119,6 +118,7 @@ class TicketDeleteView(UserTestCustom, DeleteView):
 #                         Critique                                 #
 # ================================================================ #
 class ReviewView(CreateView):
+    """ View pour le la création d'une critique """
     template_name = 'reviews/review_form.html'
     success_url = reverse_lazy('reviews:feed')
     model = Review
@@ -158,6 +158,7 @@ class ReviewView(CreateView):
 
 
 class ReviewModifyView(UserTestCustom, UpdateView):
+    """ View pour modifier une critique """
     template_name = 'reviews/review_form.html'
     success_url = reverse_lazy('reviews:feed')
     model = Review
@@ -173,6 +174,7 @@ class ReviewModifyView(UserTestCustom, UpdateView):
         return super().form_valid(form)
 
 class ReviewDeleteView(UserTestCustom, DeleteView):
+    """ View pour supprimer une critique """
     model = Review
     template_name = 'reviews/review_delete.html'
     success_url = reverse_lazy('reviews:posts')
@@ -186,6 +188,7 @@ class ReviewDeleteView(UserTestCustom, DeleteView):
 #                         Abonnements                              #
 # ================================================================ #
 class FollowView(TemplateView):
+    """ View pour le template follow.html """
     template_name = 'reviews/follow.html'
 
     def get_context_data(self, **kwargs):
@@ -219,10 +222,7 @@ def follow_user(request):
 
 @require_POST
 def blocked_user(request, user_id):
-    """
-    Bloque un utilisateur. Créé une relation (UserBlocked) entre l'utilisateur et un autre et
-    retire la relation (UserFollow)
-    """
+    """ Bloque un utilisateur """
     user_to_blocked = User.objects.get(pk=user_id)
     UserBlocked.objects.get_or_create(user=request.user, blocked_user=user_to_blocked)
     UserFollow.objects.filter(user=user_to_blocked, following_user=request.user).delete()
@@ -232,6 +232,7 @@ def blocked_user(request, user_id):
 
 @require_POST
 def unblocked_user(request, user_id):
+    """ Débloquer un utilisateur """
     unblocked_user = User.objects.get(pk=user_id)
     UserBlocked.objects.filter(user=request.user, blocked_user=unblocked_user).delete()
     messages.success(request, f"Vous avez débloqué {unblocked_user.username}")
@@ -240,15 +241,21 @@ def unblocked_user(request, user_id):
 
 @require_GET
 def search_user(request):
-    """ View pour rechercher un utilisateur """
+    """
+    View pour rechercher un utilisateur.
+    Filtre par rapport à input utilisateur, exclus les utilisateurs deja abonné, soit meme et ceux bloqués.
+    """
 
-    # filtre la recherche
     query = request.GET.get("q", "")
     followed_ids = UserFollow.objects.filter(user=request.user) \
                                      .values_list('following_user_id', flat=True)
+    blocked_user = UserBlocked.objects.filter(user=request.user).values_list('blocked_user_id', flat=True)
+
     users = User.objects.filter(username__icontains=query) \
                         .exclude(pk__in=followed_ids) \
-                        .exclude(pk=request.user.pk)[:10]
+                        .exclude(pk=request.user.pk) \
+                        .exclude(pk__in=blocked_user) \
+                        [:10]
 
     data = [
         {
