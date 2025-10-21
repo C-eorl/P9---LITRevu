@@ -10,7 +10,7 @@ from django.urls import reverse_lazy
 from django.views.decorators.http import require_GET, require_POST
 from django.views.generic import TemplateView, CreateView, UpdateView, DeleteView
 
-from .forms import ReviewForm, ReviewWithTicketForm
+from .forms import ReviewForm, TicketForm, ReviewWithTicketForm
 from .models import UserFollow, Ticket, Review, UserBlocked
 from authentication.models import User
 
@@ -89,7 +89,7 @@ class TicketCreateView(CreateView):
     template_name = 'reviews/ticket_form.html'
     success_url = reverse_lazy('reviews:feed')
     model = Ticket
-    fields = ['title', 'description', 'image']
+    form_class = TicketForm
 
     def form_valid(self, form):
         form.instance.user = self.request.user
@@ -103,7 +103,7 @@ class TicketUpdateView(UserTestCustom, UpdateView):
     template_name = 'reviews/ticket_form.html'
     success_url = reverse_lazy('reviews:feed')
     model = Ticket
-    fields = ['title', 'description', 'image']
+    form_class = TicketForm
 
     def form_valid(self, form):
         messages.success(self.request, 'Ticket modifié avec succès!')
@@ -138,7 +138,7 @@ class ReviewCreateView(CreateView):
             # Critique libre (avec création de ticket)
             return ReviewWithTicketForm
 
-    def get_tickets(self):
+    def get_ticket(self):
         """ Récupère le ticket ou None"""
         tickets_id = self.kwargs.get('ticket_id')
         if tickets_id:
@@ -150,7 +150,7 @@ class ReviewCreateView(CreateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
 
-        ticket = self.get_tickets()
+        ticket = self.get_ticket()
         if ticket:
             context['ticket'] = ticket
 
@@ -158,7 +158,7 @@ class ReviewCreateView(CreateView):
 
     def form_valid(self, form):
         """Traite le formulaire selon le type de critique"""
-        ticket = self.get_tickets()
+        ticket = self.get_ticket()
 
         if ticket:
             # Réponse à un ticket existant
