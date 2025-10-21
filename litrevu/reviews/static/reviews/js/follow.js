@@ -1,130 +1,234 @@
-document.addEventListener("DOMContentLoaded", () => {
-    const input = document.querySelector("input[name='name']");
-    const searchGrid = document.getElementById("follow_searchGrid");
-    const csrftoken = getCookie("csrftoken");
-    let timer;
+/**
+ * Gestion des abonnements utilisateurs
+ */
 
-    //  Fonction pour récupérer le CSRF token depuis le cookie
-    function getCookie(name) {
-        let cookieValue = null;
-        if (document.cookie && document.cookie !== "") {
-            const cookies = document.cookie.split(";");
-            for (let cookie of cookies) {
-                cookie = cookie.trim();
-                if (cookie.startsWith(name + "=")) {
-                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
-                    break;
-                }
-            }
-        }
-        return cookieValue;
+class FollowManager {
+    constructor() {
+        this.input = document.querySelector("input[name='name']");
+        this.searchGrid = document.getElementById("follow_searchGrid");
+        this.csrfToken = this.getCookie("csrftoken");
+        this.searchTimer = null;
+        this.searchDelay = 300; 
+        
+        this.init();
     }
 
-    //  Recherche d'utilisateur
-    async function searchUser() {
-        const query = input.value.trim();
+    /**
+     * Initialisation des événements
+     */
+    init() {
+        if (this.input) {
+            this.input.addEventListener("input", () => this.handleSearchInput());
+        }
+        
+        this.initUnsubscribeButtons();
+        this.initCancelButtons();
+        this.initSeeMoreButtons();
+    }
+
+    /**
+     * Récupère le token CSRF depuis les cookies
+     */
+    getCookie(name) {
+        if (!document.cookie) return null;
+        
+        const cookies = document.cookie.split(";");
+        for (let cookie of cookies) {
+            cookie = cookie.trim();
+            if (cookie.startsWith(name + "=")) {
+                return decodeURIComponent(cookie.substring(name.length + 1));
+            }
+        }
+        return null;
+    }
+
+    /**
+     * Gère l'événement de saisie dans le champ de recherche
+     */
+    handleSearchInput() {
+        clearTimeout(this.searchTimer);
+        this.searchTimer = setTimeout(() => this.searchUser(), this.searchDelay);
+    }
+
+    /**
+     * Recherche des utilisateurs via AJAX
+     */
+    async searchUser() {
+        const query = this.input.value.trim();
 
         if (!query) {
-            searchGrid.innerHTML = "<p>Commencez à taper pour chercher un utilisateur.</p>";
-            searchGrid.classList.add("message");
+            this.showMessage("Commencez à taper pour chercher un utilisateur.");
             return;
         }
 
         try {
-            const response = await fetch(`/reviews/search_user/?q=${encodeURIComponent(query)}`);
+            const response = await fetch(
+                `/reviews/search_user/?q=${encodeURIComponent(query)}`
+            );
+            
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            
             const users = await response.json();
 
             if (users.length === 0) {
-                searchGrid.innerHTML = "<p>Aucun utilisateur trouvé.</p>";
-                searchGrid.classList.add("message");
+                this.showMessage("Aucun utilisateur trouvé.");
                 return;
             }
 
-            searchGrid.classList.remove("message");
-            searchGrid.innerHTML = users
-                .map(
-                    (user) => `
-                    <div class="item-grid">
-                        <div class="card">
-                            <div class="card-front">
-                                <img src="${user.image}" alt="${user.username}">
-                                <span>${user.username}</span>
-                                <button class="front-btn sub" data-username="${user.username}">Abonner</button>
-                            </div>
-                        </div>
-                    </div>
-                `
-                )
-                .join("");
-
-            // Ajouter listeners sur tous les boutons "Abonner"
-            searchGrid.querySelectorAll(".front-btn.sub").forEach((button) => {
-                button.addEventListener("click", async (e) => {
-                    const username = e.target.dataset.username;
-                    const card = e.target.closest(".item-grid");
-
-                    try {
-                        const response = await fetch("/reviews/follow_user/", {
-                            method: "POST",
-                            headers: {
-                                "Content-Type": "application/x-www-form-urlencoded",
-                                "X-CSRFToken": csrftoken,
-                            },
-                            body: `username=${encodeURIComponent(username)}`,
-                        });
-
-                        const data = await response.json();
-
-                        if (data.success) {
-                            e.target.textContent = "Abonné ✔";
-                            e.target.disabled = true;
-                            e.target.classList.add("success");
-                            setTimeout(() => {
-                                card.remove();
-                            }, 3000);
-                        } else {
-                            alert(data.error || "Erreur lors de l’abonnement");
-                        }
-                    } catch (error) {
-                        console.error("Erreur:", error);
-                        alert("Erreur réseau");
-                    }
-                });
-            });
+            this.displayUsers(users);
         } catch (error) {
-            console.error("Erreur:", error);
-            searchGrid.innerHTML = "<p>Une erreur est survenue pendant la recherche.</p>";
-            searchGrid.classList.add("message");
+            console.error("Erreur lors de la recherche:", error);
+            this.showMessage("Une erreur est survenue pendant la recherche.");
         }
     }
 
-    //  Appel la recherche avec délai de 300ms
-    input.addEventListener("input", () => {
-        clearTimeout(timer);
-        timer = setTimeout(searchUser, 300);
-    });
+    /**
+     * Affiche un message dans la grille de recherche
+     */
+    showMessage(message) {
+        this.searchGrid.innerHTML = `<p>${message}</p>`;
+        this.searchGrid.classList.add("message");
+    }
 
-    // applique l'animation pour le  Boutons "Désabonner"
-    document.querySelectorAll(".card .unsub").forEach((button) => {
-        button.addEventListener("click", () => {
-            const card = button.closest(".card");
-            card.classList.add("flipped");
-        });
-    });
+    /**
+     * Affiche la liste des utilisateurs trouvés
+     */
+    displayUsers(users) {
+        this.searchGrid.classList.remove("message");
+        
+        this.searchGrid.innerHTML = users
+            .map(user => this.createUserCard(user))
+            .join("");
 
-    document.querySelectorAll(".cancel-btn").forEach((button) => {
-        button.addEventListener("click", () => {
-            const card = button.closest(".card");
-            card.classList.remove("flipped");
+        // Attacher les événements aux boutons d'abonnement
+        this.searchGrid.querySelectorAll(".front-btn.sub").forEach(button => {
+            button.addEventListener("click", (e) => this.handleFollowClick(e));
         });
-    });
+    }
 
-    // Boutons "Voir plus"
-    document.querySelectorAll(".see-more-btn").forEach((btn) => {
-        const grid = btn.closest("section").querySelector(".grid-section");
-        btn.addEventListener("click", () => {
-            grid.classList.toggle("expanded");
-            btn.textContent = grid.classList.contains("expanded") ? "Voir moins" : "Voir plus";
+    /**
+     * Crée le HTML d'une carte utilisateur
+     */
+    createUserCard(user) {
+        return `
+            <div class="item-grid">
+                <div class="card">
+                    <div class="card-front">
+                        <img src="${this.escapeHtml(user.image)}" 
+                             alt="${this.escapeHtml(user.username)}">
+                        <span>${this.escapeHtml(user.username)}</span>
+                        <button class="front-btn sub" 
+                                data-username="${this.escapeHtml(user.username)}">
+                            Abonner
+                        </button>
+                    </div>
+                </div>
+            </div>
+        `;
+    }
+
+    /**
+     * Échappe les caractères HTML pour éviter les XSS (évite d'interprèter le texte)
+     */
+    escapeHtml(text) {
+        const div = document.createElement('div');
+        div.textContent = text;
+        return div.innerHTML;
+    }
+
+    /**
+     * Gère le clic sur un bouton d'abonnement
+     */
+    async handleFollowClick(event) {
+        const button = event.target;
+        const username = button.dataset.username;
+        const card = button.closest(".item-grid");
+
+        // Désactiver le bouton pendant la requête
+        button.disabled = true;
+
+        try {
+            const response = await fetch("/reviews/follow_user/", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/x-www-form-urlencoded",
+                    "X-CSRFToken": this.csrfToken,
+                },
+                body: `username=${encodeURIComponent(username)}`,
+            });
+
+            const data = await response.json();
+
+            if (data.success) {
+                this.showFollowSuccess(button, card);
+            } else {
+                alert(data.error || "Erreur lors de l'abonnement");
+                button.disabled = false;
+            }
+        } catch (error) {
+            console.error("Erreur réseau:", error);
+            alert("Erreur réseau lors de l'abonnement");
+            button.disabled = false;
+        }
+    }
+
+    /**
+     * Affiche le succès de l'abonnement
+     */
+    showFollowSuccess(button, card) {
+        button.textContent = "Abonné ✔";
+        button.classList.add("success");
+        
+        setTimeout(() => {
+            card.style.opacity = "0";
+            setTimeout(() => card.remove(), 300);
+        }, 2000);
+    }
+
+    /**
+     * Initialise les boutons de désabonnement (animation flip)
+     */
+    initUnsubscribeButtons() {
+        document.querySelectorAll(".card .unsub").forEach(button => {
+            button.addEventListener("click", () => {
+                const card = button.closest(".card");
+                card.classList.add("flipped");
+            });
         });
-    });
+    }
+
+    /**
+     * Initialise les boutons d'annulation
+     */
+    initCancelButtons() {
+        document.querySelectorAll(".cancel-btn").forEach(button => {
+            button.addEventListener("click", () => {
+                const card = button.closest(".card");
+                card.classList.remove("flipped");
+            });
+        });
+    }
+
+    /**
+     * Initialise les boutons "Voir plus"
+     */
+    initSeeMoreButtons() {
+        document.querySelectorAll(".see-more-btn").forEach(button => {
+            const grid = button.closest("section").querySelector(".grid-section");
+            
+            button.addEventListener("click", () => {
+                grid.classList.toggle("expanded");
+                button.textContent = grid.classList.contains("expanded") 
+                    ? "Voir moins" 
+                    : "Voir plus";
+            });
+        });
+    }
+}
+
+// Initialisation au chargement du DOM
+document.addEventListener("DOMContentLoaded", () => {
+    new FollowManager();
 });
