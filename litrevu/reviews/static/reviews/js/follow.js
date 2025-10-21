@@ -104,6 +104,10 @@ class FollowManager {
         users.forEach(user => {
             const card = this.createUserCard(user);
             this.searchGrid.appendChild(card);
+            
+        this.searchGrid.querySelectorAll(".front-btn.sub").forEach(button => {
+            button.addEventListener("click", (e) => this.handleFollowClick(e));
+        });
     });
     }
 
