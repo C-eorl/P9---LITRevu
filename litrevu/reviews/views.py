@@ -39,8 +39,10 @@ class FeedView(TemplateView):
         # Récupère les tickets / critiques des utilisateurs auxquels je suis abonnées.
         followers_users = UserFollow.objects.filter(user=self.request.user)\
                                             .values_list('following_user', flat=True)
-        tickets = Ticket.objects.filter(user__in=followers_users)
-        reviews = Review.objects.filter(user__in=followers_users)
+
+        users_to_include = list(followers_users) + [self.request.user.id]
+        tickets = Ticket.objects.filter(user__in=users_to_include)
+        reviews = Review.objects.filter(user__in=users_to_include)
         # Rajoute le champ content_type
         tickets = tickets.annotate(content_type=Value("ticket", CharField()))
         reviews = reviews.annotate(content_type=Value("review",CharField()))
