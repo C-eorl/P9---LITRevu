@@ -98,44 +98,56 @@ class FollowManager {
     displayUsers(users) {
         this.searchGrid.classList.remove("message");
         
-        this.searchGrid.innerHTML = users
-            .map(user => this.createUserCard(user))
-            .join("");
+        this.searchGrid.innerHTML = "";
 
-        // Attacher les événements aux boutons d'abonnement
-        this.searchGrid.querySelectorAll(".front-btn.sub").forEach(button => {
-            button.addEventListener("click", (e) => this.handleFollowClick(e));
-        });
+        // Ajouter chaque carte DOM directement
+        users.forEach(user => {
+            const card = this.createUserCard(user);
+            this.searchGrid.appendChild(card);
+    });
     }
 
     /**
-     * Crée le HTML d'une carte utilisateur
+     * Crée une carte utilisateur sécurisée
      */
     createUserCard(user) {
-        return `
-            <div class="item-grid">
-                <div class="card">
-                    <div class="card-front">
-                        <img src="${this.escapeHtml(user.image)}" 
-                             alt="${this.escapeHtml(user.username)}">
-                        <span>${this.escapeHtml(user.username)}</span>
-                        <button class="front-btn sub" 
-                                data-username="${this.escapeHtml(user.username)}">
-                            Abonner
-                        </button>
-                    </div>
-                </div>
-            </div>
-        `;
-    }
+        // Container principal
+        const itemGrid = document.createElement('div');
+        itemGrid.classList.add('item-grid');
 
-    /**
-     * Échappe les caractères HTML pour éviter les XSS (évite d'interprèter le texte)
-     */
-    escapeHtml(text) {
-        const div = document.createElement('div');
-        div.textContent = text;
-        return div.innerHTML;
+        const card = document.createElement('div');
+        card.classList.add('card');
+
+        const cardFront = document.createElement('div');
+        cardFront.classList.add('card-front');
+
+        // Image
+        const img = document.createElement('img');
+        img.src = user.image; 
+        img.alt = user.username;
+
+        // Nom utilisateur
+        const span = document.createElement('span');
+        span.textContent = user.username; 
+
+        // Bouton Abonner
+        const button = document.createElement('button');
+        button.classList.add('front-btn', 'sub');
+        button.dataset.username = user.username;
+        button.textContent = "Abonner";
+
+        button.addEventListener('click', () => {
+            this.followUser(user.username);
+        });
+
+        cardFront.appendChild(img);
+        cardFront.appendChild(span);
+        cardFront.appendChild(button);
+
+        card.appendChild(cardFront);
+        itemGrid.appendChild(card);
+
+        return itemGrid; 
     }
 
     /**

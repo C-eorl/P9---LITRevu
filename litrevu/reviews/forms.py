@@ -1,8 +1,10 @@
 from django import forms
 from .models import Review, Ticket
 
+
 class TicketForm(forms.ModelForm):
     """Formulaire de base pour les tickets"""
+
     class Meta:
         model = Ticket
         fields = ['title', 'description', 'image']

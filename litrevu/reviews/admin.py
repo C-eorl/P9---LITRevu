@@ -7,13 +7,16 @@ from .models import Ticket, Review, UserFollow, UserBlocked
 class TicketAdmin(admin.ModelAdmin):
     list_display = ('title', 'user', 'time_created')
 
+
 @admin.register(Review)
 class ReviewAdmin(admin.ModelAdmin):
     list_display = ('ticket', 'user', 'headline', 'time_created')
 
+
 @admin.register(UserFollow)
 class UserFollowAdmin(admin.ModelAdmin):
     list_display = ('user', 'following_user')
+
 
 @admin.register(UserBlocked)
 class UserBlockedAdmin(admin.ModelAdmin):

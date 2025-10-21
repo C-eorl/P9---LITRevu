@@ -2,6 +2,7 @@ from django.conf import settings
 from django.core.validators import MinValueValidator, MaxValueValidator
 from django.db import models
 
+
 class Ticket(models.Model):
     title = models.CharField(max_length=128)
     description = models.TextField(max_length=2048)
@@ -11,6 +12,7 @@ class Ticket(models.Model):
 
     def __str__(self):
         return self.title
+
 
 class Review(models.Model):
     ticket = models.ForeignKey(Ticket, on_delete=models.CASCADE)
@@ -33,7 +35,7 @@ class UserFollow(models.Model):
 
     def __str__(self):
         return f"{self.user.username} → {self.following_user.username}"
-    
+
 
 class UserBlocked(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='blocking')

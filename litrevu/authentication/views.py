@@ -16,6 +16,7 @@ def redirection(request):
         return redirect('reviews:feed')
     return redirect("authentication:login")
 
+
 @login_not_required
 class CustomLoginView(LoginView):
     template_name = "authentication/login.html"
@@ -24,6 +25,7 @@ class CustomLoginView(LoginView):
         response = super().form_valid(form)
         messages.success(self.request, f"Bienvenue {self.request.user.username}")
         return response
+
 
 @method_decorator(login_not_required, name='dispatch')
 class SignupView(CreateView):

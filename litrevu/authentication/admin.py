@@ -24,5 +24,3 @@ class UserCustomAdmin(UserAdmin):
         return "-"
 
     profile_image_preview.short_description = "Photo"
-
-

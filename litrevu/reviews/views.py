@@ -2,6 +2,7 @@ from itertools import chain
 from operator import attrgetter
 
 from django.contrib import messages
+from django.contrib.auth import get_user_model
 from django.contrib.auth.mixins import UserPassesTestMixin
 from django.db.models import Value, CharField
 from django.http import JsonResponse
@@ -12,7 +13,8 @@ from django.views.generic import TemplateView, CreateView, UpdateView, DeleteVie
 
 from .forms import ReviewForm, TicketForm, ReviewWithTicketForm
 from .models import UserFollow, Ticket, Review, UserBlocked
-from authentication.models import User
+
+User = get_user_model()
 
 
 class UserTestCustom(UserPassesTestMixin):
@@ -20,6 +22,7 @@ class UserTestCustom(UserPassesTestMixin):
     UserTestCustom applique test_func() pour vérifier si l'utilisateur connecté est l'auteur du ticket &
     handle_no_permission() pour la redirection.
     """
+
     def test_func(self):
         element = self.get_object()
         return element.user == self.request.user
@@ -29,7 +32,6 @@ class UserTestCustom(UserPassesTestMixin):
         return redirect("reviews:feed")
 
 
-
 class FeedView(TemplateView):
     """ View pour le template feed.html """
     template_name = 'reviews/feed.html'
@@ -37,15 +39,15 @@ class FeedView(TemplateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         # Récupère les tickets / critiques des utilisateurs auxquels je suis abonnées.
-        followers_users = UserFollow.objects.filter(user=self.request.user)\
-                                            .values_list('following_user', flat=True)
+        followers_users = UserFollow.objects.filter(user=self.request.user) \
+            .values_list('following_user', flat=True)
 
         users_to_include = list(followers_users) + [self.request.user.id]
         tickets = Ticket.objects.filter(user__in=users_to_include)
         reviews = Review.objects.filter(user__in=users_to_include)
         # Rajoute le champ content_type
         tickets = tickets.annotate(content_type=Value("ticket", CharField()))
-        reviews = reviews.annotate(content_type=Value("review",CharField()))
+        reviews = reviews.annotate(content_type=Value("review", CharField()))
 
         post_followers_users = sorted(
             chain(tickets, reviews),
@@ -62,6 +64,7 @@ class FeedView(TemplateView):
         context['list_posts'] = post_followers_users
         return context
 
+
 class PostView(TemplateView):
     """ View pour le template posts.html """
     template_name = 'reviews/posts.html'
@@ -71,8 +74,8 @@ class PostView(TemplateView):
 
         tickets = Ticket.objects.filter(user=self.request.user)
         reviews = Review.objects.filter(user=self.request.user)
-        tickets = tickets.annotate(content_type=Value("ticket",CharField()))
-        reviews = reviews.annotate(content_type=Value("review",CharField()))
+        tickets = tickets.annotate(content_type=Value("ticket", CharField()))
+        reviews = reviews.annotate(content_type=Value("review", CharField()))
 
         posts = sorted(
             chain(tickets, reviews),
@@ -82,6 +85,7 @@ class PostView(TemplateView):
         context['posts'] = posts
 
         return context
+
 
 # ================================================================ #
 #                         Ticket                                   #
@@ -111,6 +115,7 @@ class TicketUpdateView(UserTestCustom, UpdateView):
         messages.success(self.request, 'Ticket modifié avec succès!')
         return super().form_valid(form)
 
+
 class TicketDeleteView(UserTestCustom, DeleteView):
     """ View pour supprimer un ticket """
     model = Ticket
@@ -120,6 +125,7 @@ class TicketDeleteView(UserTestCustom, DeleteView):
     def delete(self, request, *args, **kwargs):
         messages.success(request, 'Ticket supprimé avec succès!')
         return super().delete(request, *args, **kwargs)
+
 
 # ================================================================ #
 #                         Critique                                 #
@@ -147,7 +153,6 @@ class ReviewCreateView(CreateView):
             return get_object_or_404(Ticket, pk=tickets_id)
         else:
             return None
-
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -239,6 +244,7 @@ def follow_user(request):
     UserFollow.objects.get_or_create(user=request.user, following_user=user_to_follow)
     return JsonResponse({"success": True})
 
+
 @require_GET
 def search_user(request):
     """
@@ -248,14 +254,14 @@ def search_user(request):
 
     query = request.GET.get("q", "")
     followed_ids = UserFollow.objects.filter(user=request.user) \
-                                     .values_list('following_user_id', flat=True)
+        .values_list('following_user_id', flat=True)
     blocked_user = UserBlocked.objects.filter(user=request.user).values_list('blocked_user_id', flat=True)
 
     users = User.objects.filter(username__icontains=query) \
-                        .exclude(pk__in=followed_ids) \
-                        .exclude(pk=request.user.pk) \
-                        .exclude(pk__in=blocked_user) \
-                        [:10]
+        .exclude(pk__in=followed_ids) \
+        .exclude(pk=request.user.pk) \
+        .exclude(pk__in=blocked_user) \
+        [:10]
 
     data = [
         {
@@ -265,6 +271,7 @@ def search_user(request):
         for user in users
     ]
     return JsonResponse(data, safe=False)
+
 
 @require_POST
 def blocked_user(request, user_id):
@@ -276,6 +283,7 @@ def blocked_user(request, user_id):
     messages.success(request, f"l'utilisateur {user_to_blocked.username} a été bloqué(e)")
     return redirect('reviews:follow')
 
+
 @require_POST
 def unblocked_user(request, user_id):
     """ Débloquer un utilisateur """
@@ -283,5 +291,3 @@ def unblocked_user(request, user_id):
     UserBlocked.objects.filter(user=request.user, blocked_user=unblocked_user).delete()
     messages.success(request, f"Vous avez débloqué {unblocked_user.username}")
     return redirect('reviews:follow')
-
-
