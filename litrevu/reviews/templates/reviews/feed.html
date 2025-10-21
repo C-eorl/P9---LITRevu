@@ -74,7 +74,7 @@
                         {% if post.ticket.image %}
                             <img src="{{ post.ticket.image.url }}" alt="Couverture {{ post.ticket.title }}">
                         {% endif %}
-                        {% if  post.id not in reviewed_ticket_ids%}
+                        {% if  post.ticket.id not in reviewed_ticket_ids%}
                             <a href="{% url 'reviews:review_create_for_ticket' post.ticket.id %}">Créer une critique</a>
                         {% elif post.ticket.user == post.user%}
                             <a href="{% url 'reviews:review_create_for_ticket' post.ticket.id %}">Créer une critique</a>
