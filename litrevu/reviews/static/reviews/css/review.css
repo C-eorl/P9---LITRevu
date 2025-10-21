@@ -110,12 +110,7 @@ form a:hover {
     text-decoration: underline;
 }
 
-/* === Messages d’erreurs === */
-form div > div {
-    color: #dc3545;
-    font-size: 0.85rem;
-    margin-top: 0.2rem;
-}
+
 
 /* === Responsive === */
 @media (max-width: 768px) {

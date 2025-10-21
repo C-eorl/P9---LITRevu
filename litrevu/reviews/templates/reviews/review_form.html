@@ -14,11 +14,14 @@
             <h3>
                 {% if object %}Modifier votre critique{% else %}Créer une critique{% endif %}
             </h3>
-            {% if ticket %}
-                <small>Vous êtes en train de publier en réponse à un ticket</small>
-            {% else %}
-                <small>Critique libre</small>
-            {% endif %}
+            <small>
+                {% if object %}
+                    Vous êtes en train de publier en réponse à un ticket
+                {% else %}
+                    Critique libre
+                {% endif %}
+            </small>
+
         </div>
         <div class="card-body">
             <!-- Affichage du ticket concerné si c'est une réponse -->
@@ -41,61 +44,43 @@
 
                 <!-- Champs pour créer un ticket en même temps (critique libre) -->
                 {% if not ticket and not object %}
-                    <div>
+                    <div class="form-section">
                         <h5>Livre / Article</h5>
 
-                        <div>
+                        <div class="form-group">
                             <label for="{{ form.ticket_title.id_for_label }}">Titre <span>*</span></label>
                             {{ form.ticket_title }}
-                            {% if form.ticket_title.errors %}
-                                <div>{{ form.ticket_title.errors }}</div>
-                            {% endif %}
                         </div>
 
-                        <div>
+                        <div class="form-group">
                             <label for="{{ form.ticket_description.id_for_label }}">Description</label>
                             {{ form.ticket_description }}
-                            {% if form.ticket_description.errors %}
-                                <div>{{ form.ticket_description.errors }}</div>
-                            {% endif %}
                         </div>
 
-                        <div>
+                        <div class="form-group">
                             <label for="{{ form.ticket_image.id_for_label }}">Image</label>
                             {{ form.ticket_image }}
-                            {% if form.ticket_image.errors %}
-                                <div>{{ form.ticket_image.errors }}</div>
-                            {% endif %}
                         </div>
                     </div>
                 {% endif %}
 
                 <!-- Champs de la critique -->
-                <div>
+                <div class="form-section">
                     <h5>Critique</h5>
 
-                    <div>
+                    <div class="form-group">
                         <label for="{{ form.headline.id_for_label }}">Titre <span>*</span></label>
                         {{ form.headline }}
-                        {% if form.headline.errors %}
-                            <div>{{ form.headline.errors }}</div>
-                        {% endif %}
                     </div>
 
-                    <div>
+                    <div class="form-group">
                         <label for="{{ form.rating.id_for_label }}">Note <span>*</span></label>
                         {{ form.rating }}
-                        {% if form.rating.errors %}
-                            <div>{{ form.rating.errors }}</div>
-                        {% endif %}
                     </div>
 
-                    <div>
+                    <div class="form-group">
                         <label for="{{ form.body.id_for_label }}">Commentaire</label>
                         {{ form.body }}
-                        {% if form.body.errors %}
-                            <div>{{ form.body.errors }}</div>
-                        {% endif %}
                     </div>
                 </div>
 
