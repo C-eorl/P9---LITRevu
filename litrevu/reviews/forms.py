@@ -1,6 +1,31 @@
 from django import forms
 from .models import Review, Ticket
 
+class TicketForm(forms.ModelForm):
+    """Formulaire de base pour les tickets"""
+    class Meta:
+        model = Ticket
+        fields = ['title', 'description', 'image']
+        widgets = {
+            'title': forms.TextInput(attrs={
+                'class': 'form-control',
+                'placeholder': 'Title'
+            }),
+            'description': forms.Textarea(attrs={
+                'class': 'form-control',
+                'rows': 3,
+                'placeholder': 'Description',
+            }),
+            'image': forms.FileInput(attrs={
+                'class': 'form-control',
+                'placeholder': 'Image'
+            })
+        }
+        labels = {
+            'title': 'Titre',
+            'description': 'Description',
+        }
+
 
 class ReviewForm(forms.ModelForm):
     """Formulaire de base pour les critiques"""
