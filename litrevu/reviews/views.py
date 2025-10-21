@@ -39,29 +39,44 @@ class FeedView(TemplateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         # Récupère les tickets / critiques des utilisateurs auxquels je suis abonnées.
+
+        # utilisateur que je suis
         followers_users = UserFollow.objects.filter(user=self.request.user) \
             .values_list('following_user', flat=True)
-
+        # Récupère la liste des utilisateurs qui ont bloqué l'utilisateur connecté
+        blocked_me = UserBlocked.objects.filter(blocked_user=self.request.user).values_list('user', flat=True)
+        #inclus l'utilisateur connecté
         users_to_include = list(followers_users) + [self.request.user.id]
-        tickets = Ticket.objects.filter(user__in=users_to_include)
-        reviews = Review.objects.filter(user__in=users_to_include)
-        # Rajoute le champ content_type
-        tickets = tickets.annotate(content_type=Value("ticket", CharField()))
-        reviews = reviews.annotate(content_type=Value("review", CharField()))
 
-        post_followers_users = sorted(
+        # Tickets gestion
+        tickets =(
+            Ticket.objects
+            .filter(user__in=users_to_include)
+            .exclude(user__in=blocked_me)
+            .annotate(content_type=Value("ticket", CharField()))
+        )
+
+        # Reviews gestion
+        # Reviews publié par User et mes abonnements + les reviews sur les tickets User & abonnements
+        reviews_from_users = Review.objects.filter(user__in=users_to_include)
+        reviews_on_our_tickets = Review.objects.filter(ticket__user__in=users_to_include)
+
+        reviews = (reviews_from_users | reviews_on_our_tickets).annotate(content_type=Value("review", CharField()))\
+                                                    .exclude(user__in=blocked_me)\
+                                                    .distinct()
+
+        posts = sorted(
             chain(tickets, reviews),
             key=attrgetter('time_created'),
             reverse=True
         )
-        # Récupère la liste des utilisateurs qui ont bloqué l'utilisateur connecté
-        blocked_me = UserBlocked.objects.filter(blocked_user=self.request.user).values_list('user', flat=True)
+
         # Récupère la liste des ID de ticket déjà critiqué
         reviewed_ticket_ids = Review.objects.values_list('ticket_id', flat=True)
 
         context['blocked_me'] = blocked_me
         context['reviewed_ticket_ids'] = reviewed_ticket_ids
-        context['list_posts'] = post_followers_users
+        context['list_posts'] = posts
         return context
 
 
@@ -177,8 +192,7 @@ class ReviewCreateView(CreateView):
             # Critique libre avec création de ticket
             form.save(user=self.request.user)
             messages.success(self.request, 'Critique créée avec succès!')
-            return super().form_valid(form)
-
+            return redirect(self.success_url)
 
 class ReviewUpdateView(UserTestCustom, UpdateView):
     """Vue pour modifier une critique existante"""
