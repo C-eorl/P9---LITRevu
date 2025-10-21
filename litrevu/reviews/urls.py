@@ -1,5 +1,20 @@
 from django.urls import path
-from .views import *
+from .views import (
+    FeedView,
+    PostView,
+    FollowView,
+    follow_user,
+    unfollow_user,
+    blocked_user,
+    unblocked_user,
+    search_user,
+    TicketCreateView,
+    TicketUpdateView,
+    TicketDeleteView,
+    ReviewCreateView,
+    ReviewUpdateView,
+    ReviewDeleteView
+)
 
 app_name = 'reviews'
 

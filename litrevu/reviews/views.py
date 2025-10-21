@@ -260,8 +260,7 @@ def search_user(request):
     users = User.objects.filter(username__icontains=query) \
         .exclude(pk__in=followed_ids) \
         .exclude(pk=request.user.pk) \
-        .exclude(pk__in=blocked_user) \
-        [:10]
+        .exclude(pk__in=blocked_user)[:10]
 
     data = [
         {
