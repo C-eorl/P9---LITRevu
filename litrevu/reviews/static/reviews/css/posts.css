@@ -1,166 +1,212 @@
+/* posts.css - Style Glassmorphism */
 
-/* === Conteneur principal === */
-main, .content {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 2rem 1rem 3rem;
+/* Message pour pas de posts */
+main > p {
+    text-align: center;
+    padding: 4rem 2rem;
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border-radius: 16px;
+    box-shadow: 0 8px 32px rgba(31, 38, 135, 0.2);
+    color: rgba(255, 255, 255, 0.9);
+    font-size: 1.1rem;
 }
 
-h2, h3 {
-  margin: 0;
-  color: #222;
+/* Bloc ticket */
+.bloc-ticket {
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border-radius: 16px;
+    box-shadow: -20px 20px 32px rgba(0, 0, 0, 0.4);
+    padding: 2rem;
+    margin-bottom: 1.5rem;
+    transition: all 0.3s ease;
 }
 
-span {
-  font-size: 0.9rem;
-  color: #666;
+.bloc-ticket:hover {
+    transform: translateY(-4px);
+    background: rgba(255, 255, 255, 0.15);
+
 }
 
-/* === Bloc commun à tous les posts === */
-.bloc-ticket,
-.bloc-review {
-  width: 100%;
-  max-width: 700px;
-  background-color: white;
-  border: 1px solid #ddd;
-  border-radius: 8px;
-  padding: 1.5rem;
-  margin-bottom: 1.5rem;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
-  transition: transform 0.2s, box-shadow 0.2s;
+.bloc-ticket h3 {
+    color: #ffffff;
+    font-size: 1rem;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
 }
 
-.bloc-ticket:hover,
-.bloc-review:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.12);
+.bloc-ticket > span {
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 0.875rem;
+    display: block;
+    margin-bottom: 1.5rem;
 }
 
-/* === En-têtes de sections === */
-.bloc-ticket h3,
-.bloc-review h3 {
-  font-size: 1.1rem;
-  font-weight: 600;
-  color: #007bff;
-  margin-bottom: 0.3rem;
-}
-
-.bloc-ticket > span,
-.bloc-review > span {
-  display: block;
-  font-size: 0.85rem;
-  color: #777;
-  margin-bottom: 0.8rem;
-}
-
-/* === Contenu d’un ticket === */
+/* Contenu du ticket */
 .content-ticket {
-  background-color: #f9f9f9;
-  border-left: 4px solid #007bff;
-  border-radius: 4px;
-  padding: 1rem;
-  margin-bottom: 1rem;
+    background: rgba(255, 255, 255, 0.08);
+    border-radius: 12px;
+    padding: 1.5rem;
+    margin-bottom: 1.5rem;
 }
 
 .content-ticket h2 {
-  font-size: 1.1rem;
-  margin-bottom: 0.5rem;
+    color: #ffffff;
+    font-size: 1.4rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
 }
 
 .content-ticket img {
-  display: block;
-  max-width: 100%;
-  height: auto;
-  margin-top: 0.5rem;
-  border-radius: 6px;
+    max-width: 200px;
+    height: auto;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.2);
 }
 
-/* === Contenu d’une critique === */
+/* Boutons d'action pour ticket */
+.bloc-ticket a {
+    display: inline-block;
+    padding: 0.75rem 1.5rem;
+    background: rgba(255, 255, 255, 0.15);
+    border-radius: 10px;
+    color: #ffffff;
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 0.95rem;
+    transition: all 0.3s ease;
+    margin-right: 0.75rem;
+    margin-top: 0.5rem;
+}
+
+.bloc-ticket a:hover {
+    background: rgba(255, 255, 255, 0.25);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.bloc-ticket a:last-child {
+    background: rgba(255, 107, 107, 0.25);
+    border-color: rgba(255, 107, 107, 0.534);
+}
+
+.bloc-ticket a:last-child:hover {
+    background: rgba(255, 107, 107, 0.35);
+    box-shadow: 0 4px 12px rgba(252, 110, 110, 0.3);
+}
+
+/* Bloc review */
+.bloc-review {
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border-radius: 16px;
+    box-shadow: -20px 20px 32px rgba(0, 0, 0, 0.4);
+    padding: 2rem;
+    margin-bottom: 1.5rem;
+    transition: all 0.3s ease;
+}
+
+.bloc-review:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 40px rgba(31, 38, 135, 0.3);
+}
+
+.bloc-review h3 {
+    color: #ffffff;
+    font-size: 1rem;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.bloc-review > span {
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 0.875rem;
+    display: block;
+    margin-bottom: 1.5rem;
+}
+
+/* Contenu de la review */
 .content-review {
-  background-color: #fefefe;
-  border-left: 4px solid #28a745;
-  border-radius: 4px;
-  padding: 1rem;
-  margin-bottom: 1rem;
+    background: rgba(255, 255, 255, 0.08);
+    border-radius: 12px;
+    padding: 1.5rem;
+    margin-bottom: 1.5rem;
 }
 
 .content-review strong {
-  display: block;
-  font-size: 1.1rem;
-  margin-bottom: 0.3rem;
-  color: #333;
+    color: #ffffff;
+    font-size: 1.3rem;
+    font-weight: 600;
+    display: block;
+    margin-bottom: 0.75rem;
 }
 
-.content-review span {
-  color: #ffb400;
-  font-size: 1rem;
+.content-review > span {
+    color: #ffd700;
+    font-size: 1.2rem;
+    letter-spacing: 2px;
+    text-shadow: 0 2px 8px rgba(255, 215, 0, 0.3);
+    display: block;
+    margin-bottom: 1rem;
 }
 
 .content-review p {
-  margin-top: 0.5rem;
-  color: #444;
+    color: rgba(255, 255, 255, 0.9);
+    line-height: 1.7;
+    margin-top: 1rem;
 }
 
-/* === Liens (modifier/supprimer) === */
-.bloc-ticket a,
+/* Ticket dans une review */
+.bloc-review .content-ticket {
+    background: rgba(255, 255, 255, 0.05);
+}
+
+.bloc-review .content-ticket h2 {
+    font-size: 1.2rem;
+    color: rgba(255, 255, 255, 0.95);
+}
+
+.bloc-review .content-ticket img {
+    max-width: 150px;
+}
+
+/* Boutons d'action pour review */
 .bloc-review a {
-  display: inline-block;
-  margin-right: 1rem;
-  margin-top: 0.5rem;
-  padding: 0.5rem 1rem;
-  border-radius: 5px;
-  text-decoration: none;
-  color: white;
-  font-weight: 500;
-  transition: background-color 0.2s;
+    display: inline-block;
+    padding: 0.75rem 1.5rem;
+    background: rgba(255, 255, 255, 0.15);
+    border-radius: 10px;
+    color: #ffffff;
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 0.95rem;
+    transition: all 0.3s ease;
+    margin-right: 0.75rem;
+    margin-top: 0.5rem;
 }
 
-/* Modifier */
-.bloc-ticket a[href*="modify"],
-.bloc-review a[href*="modify"] {
-  background-color: #007bff;
+.bloc-review a:hover {
+    background: rgba(255, 255, 255, 0.25);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
 }
 
-.bloc-ticket a[href*="modify"]:hover,
-.bloc-review a[href*="modify"]:hover {
-  background-color: #0056b3;
+.bloc-review a:last-child {
+    background: rgba(255, 107, 107, 0.25);
+    border-color: rgba(255, 107, 107, 0.4);
 }
 
-/* Supprimer */
-.bloc-ticket a[href*="delete"],
-.bloc-review a[href*="delete"] {
-  background-color: #dc3545;
-}
-
-.bloc-ticket a[href*="delete"]:hover,
-.bloc-review a[href*="delete"]:hover {
-  background-color: #a71d2a;
-}
-
-/* === Message quand aucun post === */
-p {
-  text-align: center;
-  font-size: 1rem;
-  color: #555;
-}
-
-/* === Responsive === */
-@media (max-width: 768px) {
-  .bloc-ticket,
-  .bloc-review {
-    padding: 1rem;
-  }
-
-  .content-ticket,
-  .content-review {
-    padding: 0.8rem;
-  }
-
-  .bloc-ticket a,
-  .bloc-review a {
-    display: block;
-    margin: 0.4rem 0;
-    text-align: center;
-  }
+.bloc-review a:last-child:hover {
+    background: rgba(255, 107, 107, 0.35);
+    box-shadow: 0 4px 12px rgba(255, 107, 107, 0.3);
 }

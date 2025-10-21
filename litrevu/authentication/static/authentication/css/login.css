@@ -1,53 +1,170 @@
+
+/* --- Conteneur principal --- */
 .container {
     display: flex;
-    justify-content: center; 
-    align-items: center;    
-    height: 100vh;     
-    gap: 4rem;    
+    justify-content: space-between;
+    align-items: stretch;
+    flex-wrap: wrap;
+    gap: 2rem;
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border-radius: 20px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    box-shadow: 0 8px 32px rgba(31, 38, 135, 0.3);
+    padding: 3rem 2.5rem;
+    max-width: 850px;
+    width: 90%;
 }
 
-.register-form, .login-form {
-    background-color: #f5f5f5;
+/* --- Bloc gauche : lien d'inscription --- */
+.register-form {
+    flex: 1;
+    background: rgba(255, 255, 255, 0.08);
+    border-radius: 16px;
     padding: 2rem;
-    border-radius: 10px;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-    width: 300px;
-    min-height: 300px;
+    text-align: center;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    transition: all 0.3s ease;
 }
 
-.register-form p, .login-form p {
-    margin-bottom: 1rem;
-    font-weight: 500;
+.register-form:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 10px 30px rgba(31, 38, 135, 0.35);
 }
-.register-form a {
+
+.register-form p {
+    font-size: 1.1rem;
+    margin-bottom: 1rem;
+    color: rgba(255, 255, 255, 0.9);
+}
+
+.register-form .btn {
+    display: inline-block;
+    padding: 0.8rem 1.6rem;
+    background: rgba(255, 255, 255, 0.15);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 12px;
+    color: #ffffff;
     text-decoration: none;
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+.register-form .btn:hover {
+    background: rgba(255, 255, 255, 0.25);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.25);
+}
+
+/* --- Bloc droit : formulaire de login --- */
+.login-form {
+    flex: 2;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 16px;
+    padding: 2rem 3rem;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.login-form p {
+    font-size: 1.4rem;
+    font-weight: 600;
+    margin-bottom: 1.5rem;
+    text-align: center;
+    color: #ffffff;
+}
+
+/* --- Champs du formulaire --- */
+.login-form form div {
+    margin-bottom: 1.25rem;
+}
+
+.login-form label {
+    display: block;
+    margin-bottom: 0.5rem;
+    color: rgba(255, 255, 255, 0.85);
+    font-weight: 500;
 }
 
 .login-form input {
     width: 100%;
-    padding: 0.5rem;
-    margin-bottom: 1rem;
-    border-radius: 6px;
-    border: 1px solid #ccc;
-    box-sizing: border-box;
+    padding: 0.75rem 1rem;
+    border-radius: 10px;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    background: rgba(255, 255, 255, 0.08);
+    color: #fff;
+    font-size: 1rem;
+    outline: none;
+    transition: all 0.3s ease;
 }
 
-.btn, .login-form button {
+.login-form input:focus {
+    background: rgba(255, 255, 255, 0.15);
+    border-color: rgba(255, 255, 255, 0.5);
+}
+
+/* --- Bouton de soumission --- */
+.login-form button {
     width: 100%;
-    padding: 0.5rem;
-    border: none;
-    border-radius: 6px;
-    background-color: #007BFF;
-    color: white;
+    padding: 0.9rem;
+    background: rgba(255, 255, 255, 0.15);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 12px;
+    color: #ffffff;
+    font-size: 1.1rem;
     font-weight: 600;
     cursor: pointer;
-    transition: background-color 0.2s;
+    transition: all 0.3s ease;
+    margin-top: 0.5rem;
 }
 
-.btn:hover, .login-form button:hover {
-    background-color: #0056b3;
+.login-form button:hover {
+    background: rgba(255, 255, 255, 0.25);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
 }
 
-.login-form div {
-    margin-bottom: 1rem;
+/* --- Messages d'erreurs --- */
+.login-form div ul {
+    list-style: none;
+    margin: 0;
+    padding: 0.5rem 0;
+}
+
+.login-form div ul li {
+    background: rgba(255, 107, 107, 0.2);
+    color: #ff6b6b;
+    border: 1px solid rgba(255, 107, 107, 0.4);
+    border-radius: 10px;
+    padding: 0.5rem 1rem;
+    margin-top: 0.5rem;
+    font-size: 0.95rem;
+}
+
+/* --- Responsive --- */
+@media (max-width: 768px) {
+    .container {
+        flex-direction: column;
+        padding: 2rem 1.5rem;
+    }
+
+    .register-form,
+    .login-form {
+        flex: none;
+        width: 100%;
+    }
+
+    .login-form {
+        padding: 2rem;
+    }
+
+    .register-form {
+        order: 2;
+    }
 }

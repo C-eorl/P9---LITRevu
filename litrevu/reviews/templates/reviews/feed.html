@@ -20,22 +20,27 @@
 
             {% if post.content_type == 'ticket' %}
                     <div class="post-header">
-                        <small>
+                        {% if post.user.profile_picture %}
+                            <img src="{{ post.user.profile_picture }}" alt="image profil {{ post.user.username}}">
+                        {% else %}
+                            <img src="{% static 'pictures/default_pictures/default.png' %}" alt="{{ followed_user.username }}">
+                        {% endif %}
+                        <h5>
                             {% if post.user == request.user %}
                                 Vous avez demandé une critique
                             {% else %}
                                 {{ post.user.username }} a demandé une critique
                             {% endif %}
-                            • {{ post.time_created|date:"d/m/Y à H:i" }}
-                        </small>
+                        </h5>
+                        <small> {{ post.time_created|date:"d/m/Y à H:i" }}</small>
                     </div>
 
-                    <div class="post-content">
-                        <h3>{{ post.title }}</h3>
+                    <div class="post-content ticket">
                         {% if post.image %}
                             <img src="{{ post.image.url }}" alt="Couverture {{ post.title }}">
                         {% endif %}
-
+                        <h4>{{ post.title}}</h4>
+                        <p>{{ post.description }}</p>
                         {% if  post.id not in reviewed_ticket_ids%}
                             <a href="{% url 'reviews:review_create_for_ticket' post.id %}">Créer une critique</a>
                         {% elif  post.user in blocked_me%}
@@ -47,14 +52,19 @@
 
             {% if post.content_type == 'review' %}
                 <div class="post-header">
-                        <small>
+                        {% if post.user.profile_picture %}
+                            <img src="{{ post.user.profile_picture }}" alt="image profil {{ post.user.username}}">
+                        {% else %}
+                            <img src="{% static 'pictures/default_pictures/default.png' %}" alt="{{ followed_user.username }}">
+                        {% endif %}
+                        <h5>
                             {% if post.user == request.user %}
                                 Vous avez publié une critique
                             {% else %}
                                 {{ post.user.username }} a publié une critique
                             {% endif %}
-                            • {{ post.time_created|date:"d/m/Y à H:i" }}
-                        </small>
+                        </h5>
+                        <small> {{ post.time_created|date:"d/m/Y à H:i" }}</small>
                     </div>
                     <div class="post-content">
                         <h5>{{ post.headline }}

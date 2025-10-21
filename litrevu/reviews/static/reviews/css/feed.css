@@ -1,136 +1,282 @@
-/* ====== Général ====== */
+/* feed.css - Style Glassmorphism */
 
-.posts a {
-    color: #2a7ae2;
-    text-decoration: none;
-}
-
-.posts a:hover {
-    text-decoration: underline;
-}
-
-/* ====== Boutons du haut ====== */
+/* Boutons d'action en tête */
 .button-head {
     display: flex;
-    justify-content: center;
     gap: 1rem;
-    background-color: #fff;
-    padding: 1rem;
+    margin-bottom: 2rem;
+    justify-content: center;
 }
 
 .button-head a {
+    padding: 1rem 2rem;
+    background: rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 12px;
+    color: #ffffff;
     text-decoration: none;
-    background-color: #2a7ae2;
-    color: white;
-    padding: 0.6rem 1.2rem;
-    border-radius: 8px;
-    font-weight: 500;
-    transition: background-color 0.2s ease-in-out;
+    font-weight: 600;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 16px rgba(31, 38, 135, 0.2);
 }
 
 .button-head a:hover {
-    background-color: #1859b0;
+    background: rgba(255, 255, 255, 0.3);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(31, 38, 135, 0.3);
 }
 
-/* ====== Conteneur principal ====== */
+/* Conteneur des posts */
 .posts {
-    max-width: 800px;
-    margin: 2rem auto;
     display: flex;
     flex-direction: column;
     gap: 1.5rem;
 }
 
-/* ====== Post ====== */
-.posts .post-container {
-    background-color: #fff;
-    border-radius: 12px;
-    box-shadow: 0 2px 6px rgba(0,0,0,0.08);
-    padding: 1.5rem;
-    transition: transform 0.15s ease, box-shadow 0.15s ease;
+/* Carte de post */
+.post-container {
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border-radius: 16px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    box-shadow: 0 8px 32px rgba(31, 38, 135, 0.2);
+    overflow: hidden;
+    transition: all 0.3s ease;
 }
 
-.posts .post-container:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 4px 10px rgba(0,0,0,0.12);
+.post-container:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 40px rgba(31, 38, 135, 0.3);
 }
 
-/* ====== En-tête du post ====== */
+/* En-tête du post */
 .post-header {
+    display: flex;
+    align-items: center;
+    gap: 36px;
+    padding: 1.25rem 1.5rem;
+    background: rgba(255, 255, 255, 0.05);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+.post-header img {
+    width: 45px;
+    height: 45px;
+    object-fit: cover;
+    border-radius: 50%;
+}
+
+
+.post-header small {
+    color: rgba(255, 255, 255, 0.85);
     font-size: 0.9rem;
-    color: #666;
-    margin-bottom: 0.8rem;
+    font-weight: 500;
+}
+.post-header small:last-child {
+    margin-left: auto;
 }
 
-/* ====== Contenu du post ====== */
-.post-content h3,
+/* Contenu du post */
+.post-content {
+    padding: 1.5rem;
+}
+
+.post-content h3 {
+    color: #ffffff;
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
 .post-content h5 {
-    margin: 0.5rem 0;
-    color: #222;
+    color: #ffffff;
+    font-size: 1.3rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
 }
 
-.post-content img {
-    max-width: 100%;
-    height: auto;
-    border-radius: 10px;
-    margin-top: 0.8rem;
+.post-content h5 span {
+    color: #ffd700;
+    font-size: 1.2rem;
+    letter-spacing: 2px;
+    text-shadow: 0 2px 8px rgba(255, 215, 0, 0.3);
 }
 
 .post-content p {
-    margin-top: 0.5rem;
-    line-height: 1.5;
+    color: rgba(255, 255, 255, 0.9);
+    line-height: 1.7;
+    margin-bottom: 1rem;
 }
 
-/* ====== Liens pour créer une critique ====== */
-.posts .post-content a {
-    display: inline-block;
-    margin-top: 0.8rem;
-    background-color: #4caf50;
-    color: white;
-    padding: 0.4rem 1rem;
-    border-radius: 6px;
-    transition: background-color 0.2s;
-}
-
-.posts .post-content a:hover {
-    background-color: #3e8e41;
-}
-
-/* ====== Section “ticket lié” ====== */
-.posts .content-related {
-    margin-top: 1rem;
-    background-color: #f0f4f8;
-    padding: 1rem;
-    border-radius: 8px;
-    font-size: 0.95rem;
-}
-
-.posts .content-related img {
-    max-width: 100%;
+.post-content img {
+    max-width: 200px;
     height: auto;
     border-radius: 8px;
+    margin: 1rem 0;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.post-content a {
+    display: inline-block;
+    padding: 0.75rem 1.5rem;
+    background: rgba(255, 255, 255, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 10px;
+    color: #ffffff;
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 0.95rem;
+    transition: all 0.3s ease;
     margin-top: 0.5rem;
 }
 
-/* ====== Étoiles ====== */
-.posts .post-content span {
-    color: #f5c518;
-    font-size: 1.1rem;
-    margin-left: 0.4rem;
+.post-content a:hover {
+    background: rgba(255, 255, 255, 0.3);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
 }
 
-/* ====== Message “Aucun post” ====== */
-.posts .no-posts {
-    text-align: center;
-    padding: 2rem;
-    color: #666;
-    font-size: 1rem;
-    background-color: #fff;
-    border-radius: 10px;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+/* Contenu lié (ticket dans une review) */
+.content-related {
+    margin: 1.5rem;
+    margin-top: 0;
+    padding: 1.25rem;
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 12px;
 }
 
-.posts .no-posts a {
-    color: #2a7ae2;
+.content-related p:first-child {
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 0.85rem;
     font-weight: 500;
+    margin-bottom: 0.5rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.content-related p:nth-child(2) {
+    color: #ffffff;
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+}
+
+.content-related img {
+    max-width: 150px;
+    height: auto;
+    border-radius: 8px;
+    margin: 0.75rem 0;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.content-related a {
+    display: inline-block;
+    padding: 0.625rem 1.25rem;
+    background: rgba(255, 255, 255, 0.15);
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    border-radius: 8px;
+    color: #ffffff;
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 0.9rem;
+    transition: all 0.3s ease;
+    margin-top: 0.5rem;
+}
+
+.content-related a:hover {
+    background: rgba(255, 255, 255, 0.25);
+    transform: translateY(-2px);
+}
+
+/* Message pour flux vide */
+.no-posts {
+    text-align: center;
+    padding: 4rem 2rem;
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border-radius: 16px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    box-shadow: 0 8px 32px rgba(31, 38, 135, 0.2);
+}
+
+.no-posts p {
+    color: rgba(255, 255, 255, 0.9);
+    font-size: 1.1rem;
+    margin-bottom: 1rem;
+}
+
+.no-posts p:last-child {
+    font-size: 1rem;
+}
+
+.no-posts a {
+    color: #ffffff;
+    text-decoration: underline;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+.no-posts a:hover {
+    text-shadow: 0 2px 8px rgba(255, 255, 255, 0.5);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .button-head {
+        flex-direction: column;
+        gap: 0.75rem;
+    }
+
+    .button-head a {
+        width: 100%;
+        text-align: center;
+        padding: 0.875rem 1.5rem;
+    }
+
+    .post-content h3 {
+        font-size: 1.3rem;
+    }
+
+    .post-content h5 {
+        font-size: 1.15rem;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.5rem;
+    }
+
+    .post-content img,
+    .content-related img {
+        max-width: 100%;
+    }
+
+    .no-posts {
+        padding: 3rem 1.5rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .post-header {
+        padding: 1rem;
+    }
+
+    .post-content {
+        padding: 1.25rem;
+    }
+
+    .content-related {
+        margin: 1.25rem;
+        padding: 1rem;
+    }
 }

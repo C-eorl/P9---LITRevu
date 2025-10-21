@@ -24,6 +24,7 @@
                         <a href="{% url 'reviews:ticket_delete' post.id %}">Supprimer</a>
                     </div>
                 {% endif%}
+                
                 {% if post.content_type == 'review'%}
                     <div class="bloc-review">
                         <h3>Vous avez publié une critique</h3>
