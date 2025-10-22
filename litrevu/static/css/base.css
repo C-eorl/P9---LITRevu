@@ -1,4 +1,6 @@
-/* base.css - Style Glassmorphism */
+/* ===========================
+   BASE.CSS - Styles globaux
+   =========================== */
 
 * {
     margin: 0;
@@ -6,27 +8,40 @@
     box-sizing: border-box;
 }
 
+:root {
+    --primary: #6366f1;
+    --primary-dark: #4f46e5;
+    --secondary: #ec4899;
+    --bg-dark: #0f172a;
+    --bg-light: #1e293b;
+    --glass-bg: rgba(30, 41, 59, 0.7);
+    --glass-border: rgba(255, 255, 255, 0.125);
+    --text-primary: #f1f5f9;
+    --text-secondary: #cbd5e1;
+    --accent: #06b6d4;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
 body {
     font-family: 'Satoshi', sans-serif;
-    font-size: 18px;
-    background: linear-gradient(135deg, #4e386b, #221738);    background-repeat: no-repeat;
-    background-position: center; 
+    background: linear-gradient(135deg, #0f172a 0%, #341347 100%);
+    color: var(--text-primary);
     background-attachment: fixed;
     min-height: 100vh;
-    color: #ffffff;
 }
 
 /* Navigation */
 nav {
-    padding: 1.5rem 2rem;
-    background: rgba(255, 255, 255, 0.25);
+    background: var(--glass-bg);
     backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
-    box-shadow: 0 4px 16px rgba(31, 38, 135, 0.2);
+    border-bottom: 1px solid var(--glass-border);
     position: sticky;
     top: 0;
-    z-index: 1000;
+    z-index: 100;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
 }
 
 .menu {
@@ -35,131 +50,153 @@ nav {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    padding: 1rem 2rem;
 }
 
-.logo {
-    text-decoration: none;
-}
-
-.logo h1 {
-    color: #ffffff;
-    font-size: 2.2rem;
+.menu .logo h1 {
+    font-size: 2rem;
+    background: linear-gradient(135deg, var(--primary), var(--secondary));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
     font-weight: 700;
-    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-    transition: transform 0.3s ease;
-}
-
-.logo:hover h1 {
-    transform: scale(1.05);
 }
 
 .nav-links {
     display: flex;
+    gap: 2rem;
     align-items: center;
-    gap: 1rem;
 }
 
-.nav-links a,
-.nav-links button {
-    padding: 0.75rem 1.5rem;
-    background: rgba(255, 255, 255, 0.15);
-    border: 1px solid rgba(255, 255, 255, 0.3);
-    border-radius: 12px;
-    color: #ffffff;
+.nav-links a {
+    color: var(--text-secondary);
     text-decoration: none;
     font-weight: 500;
-    font-size: 0.95rem;
-    transition: all 0.3s ease;
+    position: relative;
+    transition: color 0.3s ease;
+}
+
+.nav-links a::after {
+    content: '';
+    position: absolute;
+    bottom: -5px;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background: var(--primary);
+    transition: width 0.3s ease;
+}
+
+.nav-links a:hover {
+    color: var(--text-primary);
+}
+
+.nav-links a:hover::after {
+    width: 100%;
+}
+
+.nav-links button {
+    background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+    border: none;
+    color: white;
+    padding: 0.6rem 1.5rem;
+    border-radius: 8px;
     cursor: pointer;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    font-family: inherit;
+    font-size: 0.95rem;
 }
 
-.nav-links a:hover,
 .nav-links button:hover {
-    background: rgba(255, 255, 255, 0.3);
     transform: translateY(-2px);
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 8px 20px rgba(99, 102, 241, 0.3);
 }
 
-.nav-links form {
-    margin: 0;
-}
-
-/* Messages banner */
+/* Messages */
 .banner-message {
-    max-width: 1200px;
-    margin: 1.5rem auto;
-    padding: 1rem 1.5rem;
-    background: rgba(255, 255, 255, 0.2);
+    background: var(--glass-bg);
     backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-    border: 1px solid rgba(255, 255, 255, 0.3);
-    border-radius: 12px;
-    color: #ffffff;
+    border: 1px solid var(--glass-border);
+    border-left: 4px solid var(--accent);
+    padding: 1rem 2rem;
+    margin: 1rem auto;
+    max-width: 1200px;
+    border-radius: 8px;
+    color: var(--accent);
     font-weight: 500;
-    text-align: center;
-    box-shadow: 0 4px 16px rgba(31, 38, 135, 0.2);
-    animation: slideDown 0.5s ease;
+    animation: fadeOut 1s ease 3s forwards; 
 }
 
-@keyframes slideDown {
+@keyframes fadeOut {
     from {
-        opacity: 0;
-        transform: translateY(-20px);
-    }
-    to {
         opacity: 1;
         transform: translateY(0);
     }
+    to {
+        opacity: 0;
+        transform: translateY(-10px);
+        pointer-events: none;
+    }
 }
 
-/* Main content */
+/* Main Content */
 main {
     max-width: 1200px;
-    margin: 0 auto;
-    padding: 2rem;
+    margin: 2rem auto;
+    padding: 0 2rem;
+    min-height: calc(100vh - 150px);
 }
 
-/* Responsive */
-@media (max-width: 768px) {
-    nav {
-        padding: 1rem;
-    }
-
-    .menu {
-        flex-direction: column;
-        gap: 1rem;
-    }
-
-    .logo h1 {
-        font-size: 1.5rem;
-    }
-
-    .nav-links {
-        flex-wrap: wrap;
-        justify-content: center;
-        gap: 0.5rem;
-    }
-
-    .nav-links a,
-    .nav-links button {
-        padding: 0.625rem 1rem;
-        font-size: 0.9rem;
-    }
-
-    main {
-        padding: 1.5rem 1rem;
-    }
-
-    .banner-message {
-        margin: 1rem;
-    }
+/* Boutons généraux */
+button, .btn {
+    background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+    border: none;
+    color: white;
+    padding: 0.8rem 1.5rem;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    font-family: inherit;
+    font-size: 0.95rem;
+    text-decoration: none;
+    display: inline-block;
 }
 
-@media (max-width: 480px) {
-    .nav-links a,
-    .nav-links button {
-        flex: 1 1 auto;
-        text-align: center;
-        min-width: calc(50% - 0.25rem);
-    }
+button:hover, .btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(99, 102, 241, 0.3);
+}
+
+button:active {
+    transform: translateY(0);
+}
+
+/* Liens */
+a {
+    color: var(--accent);
+    transition: color 0.3s ease;
+}
+
+a:hover {
+    color: #00d4ff;
+}
+
+/* Scrollbar */
+::-webkit-scrollbar {
+    width: 10px;
+}
+
+::-webkit-scrollbar-track {
+    background: var(--bg-dark);
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--primary);
+    border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: var(--primary-dark);
 }

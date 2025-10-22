@@ -1,265 +1,245 @@
-/* review.css - Style Glassmorphism */
-
 .content {
-    max-width: 700px;
-    margin: 2rem auto;
-    background: rgba(255, 255, 255, 0.1);
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-    border-radius: 20px;
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    box-shadow: 0 8px 32px rgba(31, 38, 135, 0.37);
-    overflow: hidden;
+    animation: fadeInUp 0.5s ease;
+    max-width: 900px;
 }
 
-/* En-tête de la carte */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Card Header */
 .card-header {
-    padding: 2rem 2.5rem;
-    background: rgba(255, 255, 255, 0.05);
-    border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+    background: linear-gradient(135deg, rgba(99, 102, 241, 0.2), rgba(236, 72, 153, 0.2));
+    border: 1px solid rgba(255, 255, 255, 0.125);
+    border-radius: 12px 12px 0 0;
+    padding: 2rem;
+    border-bottom: none;
 }
 
 .card-header h3 {
-    color: #ffffff;
-    font-size: 1.8rem;
-    font-weight: 600;
-    margin-bottom: 0.5rem;
-    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    margin: 0;
+    font-size: 1.5rem;
+    color: #f1f5f9;
+    font-weight: 700;
 }
 
 .card-header small {
-    color: rgba(255, 255, 255, 0.8);
+    color: #cbd5e1;
+    display: block;
+    margin-top: 0.8rem;
     font-size: 0.95rem;
-    font-weight: 500;
 }
 
-/* Corps de la carte */
+/* Card Body */
 .card-body {
-    padding: 2.5rem;
+    background: rgba(30, 41, 59, 0.7);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.125);
+    border-radius: 0 0 12px 12px;
+    padding: 2rem;
 }
 
-/* Affichage du ticket */
-.card-body > div:first-child {
-    background: rgba(255, 255, 255, 0.08);
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    border-radius: 12px;
+/* Ticket Display Section */
+.card-body > div:first-of-type {
+    background: rgba(15, 23, 42, 0.5);
+    border: 1px solid rgba(255, 255, 255, 0.05);
     padding: 1.5rem;
+    border-radius: 8px;
     margin-bottom: 2rem;
 }
 
-.card-body > div:first-child h6 {
-    color: #ffffff;
-    font-size: 1.3rem;
+.card-body > div:first-of-type h6 {
+    font-size: 1.2rem;
+    color: #f1f5f9;
+    margin: 0 0 0.8rem 0;
     font-weight: 600;
-    margin-bottom: 0.5rem;
 }
 
-.card-body > div:first-child small {
-    color: rgba(255, 255, 255, 0.75);
-    font-size: 0.875rem;
+.card-body > div:first-of-type small {
+    color: #94a3b8;
     display: block;
     margin-bottom: 1rem;
+    font-size: 0.9rem;
 }
 
-.card-body > div:first-child p {
-    color: rgba(255, 255, 255, 0.9);
+.card-body > div:first-of-type p {
+    color: #cbd5e1;
+    margin: 0.8rem 0;
     line-height: 1.6;
-    margin: 1rem 0;
+    font-size: 0.95rem;
 }
 
-.card-body > div:first-child img {
-    max-width: 180px;
-    height: auto;
+.card-body > div:first-of-type img {
+    width: 140px;
+    height: 200px;
+    object-fit: cover;
     border-radius: 8px;
-    margin: 1rem 0;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-    border: 1px solid rgba(255, 255, 255, 0.2);
-}
-
-.card-body > div:first-child > div:last-child {
-    color: rgba(255, 255, 255, 0.7);
-    font-size: 0.85rem;
+    border: 1px solid rgba(255, 255, 255, 0.125);
     margin-top: 1rem;
+    display: block;
 }
 
-/* Sections du formulaire */
+.card-body > div:first-of-type > div {
+    color: #94a3b8;
+    font-size: 0.9rem;
+    margin-top: 1.2rem;
+}
+
+/* Forms */
+form {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+}
+
 .form-section {
     margin-bottom: 2rem;
 }
 
-.form-section h5 {
-    color: #ffffff;
-    font-size: 1.3rem;
-    font-weight: 600;
+.form-section:last-of-type {
     margin-bottom: 1.5rem;
-    padding-bottom: 0.75rem;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
 }
 
-/* Groupes de champs */
+.form-section h5 {
+    font-size: 1.15rem;
+    color: #f1f5f9;
+    margin: 0 0 1.5rem 0;
+    font-weight: 600;
+    border-bottom: 2px solid rgba(99, 102, 241, 0.5);
+    padding-bottom: 0.8rem;
+}
+
 .form-group {
+    margin-bottom: 1.8rem;
+}
+
+.form-group:last-of-type {
     margin-bottom: 1.5rem;
 }
 
 .form-group label {
     display: block;
-    color: #ffffff;
-    font-weight: 500;
-    margin-bottom: 0.5rem;
+    color: #f1f5f9;
+    font-weight: 600;
+    margin-bottom: 0.7rem;
     font-size: 0.95rem;
 }
 
 .form-group label span {
-    color: #ff6b6b;
-    font-weight: 600;
+    color: #ef4444;
 }
 
-.form-group input[type="text"],
+/* Input, Textarea, Select */
+.form-group input,
 .form-group textarea,
-.form-group input[type="file"],
 .form-group select {
     width: 100%;
-    padding: 0.875rem 1rem;
-    background: rgba(255, 255, 255, 0.15);
-    border: 1px solid rgba(255, 255, 255, 0.3);
-    border-radius: 12px;
-    color: #ffffff;
-    font-size: 1rem;
+    padding: 0.85rem 1.2rem;
+    background: rgba(15, 23, 42, 0.5);
+    border: 1px solid rgba(255, 255, 255, 0.125);
+    border-radius: 8px;
+    color: #f1f5f9;
+    font-size: 0.95rem;
     font-family: 'Satoshi', sans-serif;
     transition: all 0.3s ease;
-    box-sizing: border-box;
-}
-
-.form-group input[type="text"]::placeholder,
-.form-group textarea::placeholder {
-    color: rgba(255, 255, 255, 0.6);
-}
-
-.form-group input[type="text"]:focus,
-.form-group textarea:focus,
-.form-group select:focus {
-    outline: none;
-    background: rgba(255, 255, 255, 0.2);
-    border-color: rgba(255, 255, 255, 0.5);
-    box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.1);
-}
-
-.form-group textarea {
-    min-height: 120px;
     resize: vertical;
 }
 
-/* Style pour le select de notation */
-.form-group select {
-    cursor: pointer;
-    appearance: none;
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23ffffff' d='M6 9L1 4h10z'/%3E%3C/svg%3E");
-    background-repeat: no-repeat;
-    background-position: right 1rem center;
-    padding-right: 3rem;
+.form-group input:hover,
+.form-group textarea:hover,
+.form-group select:hover {
+    border-color: rgba(255, 255, 255, 0.2);
+}
+
+.form-group input:focus,
+.form-group textarea:focus,
+.form-group select:focus {
+    outline: none;
+    border-color: #6366f1;
+    background: rgba(15, 23, 42, 0.8);
+    box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.15);
+}
+
+.form-group input::placeholder,
+.form-group textarea::placeholder {
+    color: #64748b;
 }
 
 .form-group select option {
-    background: #764ba2;
-    color: #ffffff;
+    background: #1e293b;
+    color: #f1f5f9;
 }
 
-/* Input file */
-.form-group input[type="file"] {
-    padding: 0.75rem;
-    cursor: pointer;
+/* Textarea spécifique */
+.form-group textarea {
+    min-height: 140px;
+    resize: vertical;
 }
 
-.form-group input[type="file"]::file-selector-button {
-    padding: 0.5rem 1rem;
-    background: rgba(255, 255, 255, 0.2);
-    border: 1px solid rgba(255, 255, 255, 0.3);
-    border-radius: 8px;
-    color: #ffffff;
-    cursor: pointer;
-    font-family: 'Satoshi', sans-serif;
-    transition: all 0.3s ease;
-    margin-right: 0.75rem;
-}
-
-.form-group input[type="file"]::file-selector-button:hover {
-    background: rgba(255, 255, 255, 0.3);
-}
-
-/* Boutons d'action */
-.card-body > form > div:last-child {
+/* Section boutons */
+form > div:last-of-type {
     display: flex;
     gap: 1rem;
     margin-top: 2rem;
-    justify-content: center;
+    padding-top: 1.5rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
 }
 
-.card-body button[type="submit"],
-.card-body > form > div:last-child a {
-    display: inline-block;
-    padding: 0.875rem 2rem;
-    border-radius: 12px;
-    font-weight: 500;
-    font-size: 1rem;
+form button,
+form a {
+    padding: 0.9rem 2rem;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 0.95rem;
     text-decoration: none;
     transition: all 0.3s ease;
-    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-family: inherit;
+}
+
+form button {
+    background: linear-gradient(135deg, #6366f1, #4f46e5);
     border: none;
-    font-family: 'Satoshi', sans-serif;
+    color: white;
+    cursor: pointer;
+    flex: 1.2;
 }
 
-.card-body button[type="submit"] {
-    background: rgba(255, 255, 255, 0.25);
-    color: #ffffff;
-    border: 1px solid rgba(255, 255, 255, 0.4);
-}
-
-.card-body button[type="submit"]:hover {
-    background: rgba(255, 255, 255, 0.35);
+form button:hover {
     transform: translateY(-2px);
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 8px 20px rgba(99, 102, 241, 0.3);
 }
 
-.card-body > form > div:last-child a {
-    background: rgba(255, 255, 255, 0.1);
-    color: #ffffff;
-    border: 1px solid rgba(255, 255, 255, 0.3);
+form button:active {
+    transform: translateY(0);
 }
 
-.card-body > form > div:last-child a:hover {
-    background: rgba(255, 255, 255, 0.15);
-    transform: translateY(-2px);
+form a {
+    background: rgba(100, 116, 139, 0.2);
+    color: #cbd5e1;
+    border: 1px solid rgba(100, 116, 139, 0.5);
+    flex: 1;
 }
 
-/* Messages d'erreur */
-.errorlist {
-    list-style: none;
-    padding: 0;
-    margin: 0.5rem 0 0 0;
-}
-
-.errorlist li {
-    color: #ff6b6b;
-    background: rgba(255, 107, 107, 0.15);
-    padding: 0.5rem 0.75rem;
-    border-radius: 8px;
-    font-size: 0.9rem;
-    margin-top: 0.5rem;
-    border: 1px solid rgba(255, 107, 107, 0.3);
-}
-
-/* Texte d'aide */
-.helptext {
-    display: block;
-    color: rgba(255, 255, 255, 0.7);
-    font-size: 0.875rem;
-    margin-top: 0.5rem;
+form a:hover {
+    background: rgba(100, 116, 139, 0.3);
+    color: #f1f5f9;
+    text-decoration: none;
 }
 
 /* Responsive */
 @media (max-width: 768px) {
     .content {
-        margin: 2rem 1rem;
+        max-width: 100%;
     }
 
     .card-header {
@@ -267,24 +247,33 @@
     }
 
     .card-header h3 {
-        font-size: 1.5rem;
+        font-size: 1.3rem;
     }
 
     .card-body {
         padding: 1.5rem;
     }
 
-    .card-body > div:first-child img {
-        max-width: 100%;
+    .card-body > div:first-of-type {
+        padding: 1.2rem;
     }
 
-    .card-body > form > div:last-child {
+    .form-section h5 {
+        font-size: 1.05rem;
+    }
+
+    form > div:last-of-type {
         flex-direction: column;
     }
 
-    .card-body button[type="submit"],
-    .card-body > form > div:last-child a {
-        width: 100%;
-        text-align: center;
+    form button,
+    form a {
+        flex: 1;
+        padding: 0.8rem 1.5rem;
+    }
+
+    .card-body > div:first-of-type img {
+        width: 100px;
+        height: 150px;
     }
 }

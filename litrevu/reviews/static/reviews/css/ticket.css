@@ -1,176 +1,289 @@
-/* ticket.css - Style Glassmorphism */
+/* ===========================
+   TICKET.CSS - Formulaire de ticket
+   =========================== */
 
 .ticket-form {
-    max-width: 600px;
-    margin: 3rem auto;
-    padding: 2.5rem;
-    
-    /* Glassmorphism effect */
-    background: rgba(255, 255, 255, 0.1);
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-    border-radius: 20px;
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+    animation: fadeInUp 0.5s ease;
+    max-width: 900px;
 }
 
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Title */
 .ticket-form h2 {
-    color: #ffffff;
-    font-size: 1.8rem;
-    font-weight: 600;
+    font-size: 2rem;
+    color: #f1f5f9;
     margin-bottom: 2rem;
-    text-align: center;
-    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    font-weight: 700;
+    background: linear-gradient(135deg, #6366f1, #ec4899);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
 }
 
-.ticket-form form p {
-    margin-bottom: 1.5rem;
+/* Form Container */
+.ticket-form form {
+    background: rgba(30, 41, 59, 0.7);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.125);
+    border-radius: 12px;
+    padding: 2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0;
 }
 
-.ticket-form label {
+/* Form Groups */
+.form-group {
+    margin-bottom: 1.8rem;
+}
+
+.form-group:last-of-type {
+    margin-bottom: 2rem;
+}
+
+.form-group label {
     display: block;
-    color: #ffffff;
-    font-weight: 500;
-    margin-bottom: 0.5rem;
+    color: #f1f5f9;
+    font-weight: 600;
+    margin-bottom: 0.7rem;
     font-size: 0.95rem;
 }
 
-.ticket-form input[type="text"],
-.ticket-form textarea,
-.ticket-form input[type="file"] {
+.form-group label span {
+    color: #ef4444;
+}
+
+/* Inputs et Textarea */
+.form-group input,
+.form-group textarea {
     width: 100%;
-    padding: 0.875rem 1rem;
-    background: rgba(255, 255, 255, 0.15);
-    border: 1px solid rgba(255, 255, 255, 0.3);
-    border-radius: 12px;
-    color: #ffffff;
-    font-size: 1rem;
+    padding: 0.85rem 1.2rem;
+    background: rgba(15, 23, 42, 0.5);
+    border: 1px solid rgba(255, 255, 255, 0.125);
+    border-radius: 8px;
+    color: #f1f5f9;
+    font-size: 0.95rem;
     font-family: 'Satoshi', sans-serif;
     transition: all 0.3s ease;
-    box-sizing: border-box;
+    resize: vertical;
 }
 
-.ticket-form input[type="text"]::placeholder,
-.ticket-form textarea::placeholder {
-    color: rgba(255, 255, 255, 0.6);
+.form-group input:hover,
+.form-group textarea:hover {
+    border-color: rgba(255, 255, 255, 0.2);
 }
 
-.ticket-form input[type="text"]:focus,
-.ticket-form textarea:focus {
+.form-group input:focus,
+.form-group textarea:focus {
     outline: none;
-    background: rgba(255, 255, 255, 0.2);
-    border-color: rgba(255, 255, 255, 0.5);
-    box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.1);
+    border-color: #6366f1;
+    background: rgba(15, 23, 42, 0.8);
+    box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.15);
 }
 
-.ticket-form textarea {
+.form-group input::placeholder,
+.form-group textarea::placeholder {
+    color: #64748b;
+}
+
+.form-group textarea {
     min-height: 150px;
     resize: vertical;
 }
 
-.ticket-form input[type="file"] {
-    padding: 0.75rem;
+/* File Input */
+.form-group input[type="file"] {
+    padding: 0.6rem;
     cursor: pointer;
 }
 
-.ticket-form input[type="file"]::file-selector-button {
-    padding: 0.5rem 1rem;
-    background: rgba(255, 255, 255, 0.2);
-    border: 1px solid rgba(255, 255, 255, 0.3);
-    border-radius: 8px;
-    color: #ffffff;
-    cursor: pointer;
-    font-family: 'Satoshi', sans-serif;
-    transition: all 0.3s ease;
-    margin-right: 0.75rem;
-}
-
-.ticket-form input[type="file"]::file-selector-button:hover {
-    background: rgba(255, 255, 255, 0.3);
-}
-
-.ticket-form button[type="submit"],
-.ticket-form a {
-    display: inline-block;
-    padding: 0.875rem 2rem;
-    border-radius: 12px;
-    font-weight: 500;
-    font-size: 1rem;
-    text-decoration: none;
-    transition: all 0.3s ease;
-    cursor: pointer;
+.form-group input[type="file"]::file-selector-button {
+    background: linear-gradient(135deg, #6366f1, #4f46e5);
+    color: white;
     border: none;
-    font-family: 'Satoshi', sans-serif;
-}
-
-.ticket-form button[type="submit"] {
-    background: rgba(255, 255, 255, 0.25);
-    color: #ffffff;
-    border: 1px solid rgba(255, 255, 255, 0.4);
+    padding: 0.6rem 1.2rem;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: all 0.3s ease;
     margin-right: 1rem;
 }
 
-.ticket-form button[type="submit"]:hover {
-    background: rgba(255, 255, 255, 0.35);
+.form-group input[type="file"]::file-selector-button:hover {
     transform: translateY(-2px);
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 8px 20px rgba(99, 102, 241, 0.3);
+}
+
+/* Django form.as_p styling */
+.ticket-form form > * {
+    margin-bottom: 1.5rem;
+}
+
+.ticket-form form p {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+}
+
+.ticket-form form label {
+    display: block;
+    color: #f1f5f9;
+    font-weight: 600;
+    margin-bottom: 0.7rem;
+    font-size: 0.95rem;
+}
+
+.ticket-form form input[type="text"],
+.ticket-form form input[type="email"],
+.ticket-form form input[type="password"],
+.ticket-form form textarea {
+    width: 100%;
+    padding: 0.85rem 1.2rem;
+    background: rgba(15, 23, 42, 0.5);
+    border: 1px solid rgba(255, 255, 255, 0.125);
+    border-radius: 8px;
+    color: #f1f5f9;
+    font-size: 0.95rem;
+    font-family: 'Satoshi', sans-serif;
+    transition: all 0.3s ease;
+    resize: vertical;
+}
+
+.ticket-form form input[type="text"]:hover,
+.ticket-form form input[type="email"]:hover,
+.ticket-form form input[type="password"]:hover,
+.ticket-form form textarea:hover {
+    border-color: rgba(255, 255, 255, 0.2);
+}
+
+.ticket-form form input[type="text"]:focus,
+.ticket-form form input[type="email"]:focus,
+.ticket-form form input[type="password"]:focus,
+.ticket-form form textarea:focus {
+    outline: none;
+    border-color: #6366f1;
+    background: rgba(15, 23, 42, 0.8);
+    box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.15);
+}
+
+.ticket-form form textarea {
+    min-height: 150px;
+}
+
+/* Section Actions */
+.ticket-form form > div {
+    display: flex;
+    gap: 1rem;
+    margin-top: 2rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.ticket-form button,
+.ticket-form a {
+    padding: 0.9rem 2rem;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 0.95rem;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-family: inherit;
+}
+
+.ticket-form button {
+    background: linear-gradient(135deg, #6366f1, #4f46e5);
+    border: none;
+    color: white;
+    cursor: pointer;
+    flex: 1.2;
+}
+
+.ticket-form button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(99, 102, 241, 0.3);
+}
+
+.ticket-form button:active {
+    transform: translateY(0);
 }
 
 .ticket-form a {
-    background: rgba(255, 255, 255, 0.1);
-    color: #ffffff;
-    border: 1px solid rgba(255, 255, 255, 0.3);
+    background: rgba(100, 116, 139, 0.2);
+    color: #cbd5e1;
+    border: 1px solid rgba(100, 116, 139, 0.5);
+    flex: 1;
 }
 
 .ticket-form a:hover {
-    background: rgba(255, 255, 255, 0.15);
-    transform: translateY(-2px);
+    background: rgba(100, 116, 139, 0.3);
+    color: #f1f5f9;
+    text-decoration: none;
 }
 
-/* Messages d'erreur */
-.ticket-form .errorlist {
+/* Erreurs Django */
+.errorlist {
     list-style: none;
-    padding: 0;
-    margin: 0.5rem 0 0 0;
-}
-
-.ticket-form .errorlist li {
-    color: #ff6b6b;
-    background: rgba(255, 107, 107, 0.15);
-    padding: 0.5rem 0.75rem;
-    border-radius: 8px;
+    margin: -1rem 0 1rem 0;
+    padding: 0.8rem 1rem;
+    background: rgba(239, 68, 68, 0.1);
+    border: 1px solid rgba(239, 68, 68, 0.5);
+    border-radius: 6px;
+    color: #fca5a5;
     font-size: 0.9rem;
-    margin-top: 0.5rem;
-    border: 1px solid rgba(255, 107, 107, 0.3);
 }
 
-/* Texte d'aide */
-.ticket-form .helptext {
-    display: block;
-    color: rgba(255, 255, 255, 0.7);
-    font-size: 0.875rem;
-    margin-top: 0.5rem;
+.errorlist li {
+    margin: 0;
+}
+
+.errorlist li::before {
+    content: "⚠ ";
+    margin-right: 0.5rem;
 }
 
 /* Responsive */
 @media (max-width: 768px) {
     .ticket-form {
-        margin: 2rem 1rem;
-        padding: 2rem 1.5rem;
+        max-width: 100%;
     }
 
     .ticket-form h2 {
         font-size: 1.5rem;
+        margin-bottom: 1.5rem;
     }
 
-    .ticket-form button[type="submit"] {
-        width: 100%;
-        margin-right: 0;
-        margin-bottom: 1rem;
+    .ticket-form form {
+        padding: 1.5rem;
     }
 
+    .form-group {
+        margin-bottom: 1.5rem;
+    }
+
+    .ticket-form form > div {
+        flex-direction: column;
+    }
+
+    .ticket-form button,
     .ticket-form a {
-        width: 100%;
-        text-align: center;
+        flex: 1;
+        padding: 0.8rem 1.5rem;
+    }
+
+    .form-group textarea {
+        min-height: 120px;
     }
 }

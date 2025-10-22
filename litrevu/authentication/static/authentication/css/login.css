@@ -1,170 +1,216 @@
+/* ===========================
+   LOGIN.CSS
+   =========================== */
 
-/* --- Conteneur principal --- */
 .container {
     display: flex;
-    justify-content: space-between;
-    align-items: stretch;
-    flex-wrap: wrap;
-    gap: 2rem;
-    background: rgba(255, 255, 255, 0.1);
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-    border-radius: 20px;
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    box-shadow: 0 8px 32px rgba(31, 38, 135, 0.3);
-    padding: 3rem 2.5rem;
-    max-width: 850px;
-    width: 90%;
-}
-
-/* --- Bloc gauche : lien d'inscription --- */
-.register-form {
-    flex: 1;
-    background: rgba(255, 255, 255, 0.08);
-    border-radius: 16px;
+    align-items: center;
+    justify-content: center;
     padding: 2rem;
-    text-align: center;
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    transition: all 0.3s ease;
+    animation: fadeIn 0.5s ease;
 }
 
-.register-form:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 10px 30px rgba(31, 38, 135, 0.35);
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
 }
 
-.register-form p {
-    font-size: 1.1rem;
-    margin-bottom: 1rem;
-    color: rgba(255, 255, 255, 0.9);
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
-.register-form .btn {
-    display: inline-block;
-    padding: 0.8rem 1.6rem;
-    background: rgba(255, 255, 255, 0.15);
-    border: 1px solid rgba(255, 255, 255, 0.3);
-    border-radius: 12px;
-    color: #ffffff;
-    text-decoration: none;
-    font-weight: 500;
-    transition: all 0.3s ease;
-}
-
-.register-form .btn:hover {
-    background: rgba(255, 255, 255, 0.25);
-    transform: translateY(-2px);
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.25);
-}
-
-/* --- Bloc droit : formulaire de login --- */
+/* Login Form */
 .login-form {
-    flex: 2;
-    background: rgba(255, 255, 255, 0.1);
-    border-radius: 16px;
-    padding: 2rem 3rem;
-    border: 1px solid rgba(255, 255, 255, 0.2);
+    background: rgba(30, 41, 59, 0.7);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.125);
+    border-radius: 12px;
+    padding: 2.5rem;
+    animation: slideIn 0.5s ease;
+    max-width: 450px;
+    width: 100%;
+}
+
+.login-header {
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+.login-header h2 {
+    font-size: 2.5rem;
+    background: linear-gradient(135deg, #6366f1, #ec4899);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin: 0 0 0.8rem 0;
+    font-weight: 700;
+}
+
+.login-header p {
+    color: #cbd5e1;
+    font-size: 1.1rem;
+    margin: 0;
+}
+
+/* Form */
+.login-form form {
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    gap: 1.5rem;
 }
 
-.login-form p {
-    font-size: 1.4rem;
-    font-weight: 600;
-    margin-bottom: 1.5rem;
-    text-align: center;
-    color: #ffffff;
-}
-
-/* --- Champs du formulaire --- */
-.login-form form div {
-    margin-bottom: 1.25rem;
+.login-form form > div {
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
 }
 
 .login-form label {
-    display: block;
-    margin-bottom: 0.5rem;
-    color: rgba(255, 255, 255, 0.85);
-    font-weight: 500;
-}
-
-.login-form input {
-    width: 100%;
-    padding: 0.75rem 1rem;
-    border-radius: 10px;
-    border: 1px solid rgba(255, 255, 255, 0.3);
-    background: rgba(255, 255, 255, 0.08);
-    color: #fff;
-    font-size: 1rem;
-    outline: none;
-    transition: all 0.3s ease;
-}
-
-.login-form input:focus {
-    background: rgba(255, 255, 255, 0.15);
-    border-color: rgba(255, 255, 255, 0.5);
-}
-
-/* --- Bouton de soumission --- */
-.login-form button {
-    width: 100%;
-    padding: 0.9rem;
-    background: rgba(255, 255, 255, 0.15);
-    border: 1px solid rgba(255, 255, 255, 0.3);
-    border-radius: 12px;
-    color: #ffffff;
-    font-size: 1.1rem;
+    color: #f1f5f9;
     font-weight: 600;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    margin-top: 0.5rem;
-}
-
-.login-form button:hover {
-    background: rgba(255, 255, 255, 0.25);
-    transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
-}
-
-/* --- Messages d'erreurs --- */
-.login-form div ul {
-    list-style: none;
-    margin: 0;
-    padding: 0.5rem 0;
-}
-
-.login-form div ul li {
-    background: rgba(255, 107, 107, 0.2);
-    color: #ff6b6b;
-    border: 1px solid rgba(255, 107, 107, 0.4);
-    border-radius: 10px;
-    padding: 0.5rem 1rem;
-    margin-top: 0.5rem;
     font-size: 0.95rem;
 }
 
-/* --- Responsive --- */
+.login-form input {
+    padding: 0.85rem 1.2rem;
+    background: rgba(15, 23, 42, 0.5);
+    border: 1px solid rgba(255, 255, 255, 0.125);
+    border-radius: 8px;
+    color: #f1f5f9;
+    font-size: 0.95rem;
+    font-family: inherit;
+    transition: all 0.3s ease;
+}
+
+.login-form input:hover {
+    border-color: rgba(255, 255, 255, 0.2);
+}
+
+.login-form input:focus {
+    outline: none;
+    border-color: #6366f1;
+    background: rgba(15, 23, 42, 0.8);
+    box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.15);
+}
+
+.login-form input::placeholder {
+    color: #64748b;
+}
+
+/* Erreurs */
+.login-form > div:nth-child(4) {
+    background: rgba(239, 68, 68, 0.1);
+    border: 1px solid rgba(239, 68, 68, 0.5);
+    color: #fca5a5;
+    padding: 1rem;
+    border-radius: 8px;
+    margin-bottom: 0.5rem;
+}
+
+.login-form .errorlist {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.login-form .errorlist li {
+    margin: 0.4rem 0;
+}
+
+.login-form .errorlist li::before {
+    content: "⚠ ";
+    margin-right: 0.5rem;
+}
+
+/* Bouton */
+.login-form button {
+    background: linear-gradient(135deg, #6366f1, #4f46e5);
+    border: none;
+    color: white;
+    padding: 0.9rem 1.5rem;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    font-family: inherit;
+    font-size: 0.95rem;
+    transition: all 0.3s ease;
+}
+
+.login-form button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(99, 102, 241, 0.3);
+}
+
+.login-form button:active {
+    transform: translateY(0);
+}
+
+/* Signup Link */
+.signup-link {
+    text-align: center;
+    margin-top: 1.5rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.signup-link p {
+    color: #cbd5e1;
+    margin: 0;
+    font-size: 0.95rem;
+}
+
+.signup-link a {
+    color: #6366f1;
+    text-decoration: none;
+    font-weight: 600;
+    transition: color 0.3s ease;
+}
+
+.signup-link a:hover {
+    color: #ec4899;
+}
+
+/* Responsive */
 @media (max-width: 768px) {
     .container {
-        flex-direction: column;
-        padding: 2rem 1.5rem;
-    }
-
-    .register-form,
-    .login-form {
-        flex: none;
-        width: 100%;
+        padding: 1rem;
+        min-height: auto;
+        margin: auto;
     }
 
     .login-form {
-        padding: 2rem;
+        padding: 1.5rem;
+        max-width: 100%;
     }
 
-    .register-form {
-        order: 2;
+    .login-header h2 {
+        font-size: 2rem;
+    }
+
+    .login-header p {
+        font-size: 1rem;
+    }
+
+    .login-form form {
+        gap: 1.2rem;
+    }
+
+    .login-form form > div {
+        gap: 0.5rem;
+    }
+
+    .login-form button {
+        padding: 0.85rem 1.2rem;
     }
 }

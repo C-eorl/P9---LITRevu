@@ -39,13 +39,15 @@
                         {% if post.image %}
                             <img src="{{ post.image.url }}" alt="Couverture {{ post.title }}">
                         {% endif %}
-                        <h4>{{ post.title}}</h4>
-                        <p>{{ post.description }}</p>
-                        {% if  post.id not in reviewed_ticket_ids%}
-                            <a href="{% url 'reviews:review_create_for_ticket' post.id %}">Créer une critique</a>
-                        {% elif  post.user in blocked_me%}
-                            <a>bloqué</a>
-                        {% endif %}
+                        <div>
+                            <h4>{{ post.title}}</h4>
+                            <p>{{ post.description }}</p>
+                            {% if  post.id not in reviewed_ticket_ids%}
+                                <a href="{% url 'reviews:review_create_for_ticket' post.id %}">Créer une critique</a>
+                            {% elif  post.user in blocked_me%}
+                                <a>bloqué</a>
+                            {% endif %}
+                        </div>
 
                     </div>
             {% endif %}
@@ -78,19 +80,21 @@
                             <p>{{ post.body }}</p>
                         {% endif %}
                     </div>
-                    <div class="content-related">
-                        <p>Ticket - {{ post.ticket.user }}</p>
-                        <p>{{ post.ticket.title }}</p>
+                    <div class="content-related ticket">
                         {% if post.ticket.image %}
                             <img src="{{ post.ticket.image.url }}" alt="Couverture {{ post.ticket.title }}">
                         {% endif %}
-                        {% if  post.ticket.id not in reviewed_ticket_ids%}
-                            <a href="{% url 'reviews:review_create_for_ticket' post.ticket.id %}">Créer une critique</a>
-                        {% elif post.ticket.user == post.user%}
-                            <a href="{% url 'reviews:review_create_for_ticket' post.ticket.id %}">Créer une critique</a>
-                        {% elif  post.user in blocked_me%}
-                            <a>bloqué</a>
-                        {% endif %}
+                        <div>
+                            <p>Ticket - {{ post.ticket.user }}</p>
+                            <p>{{ post.ticket.title }}</p>
+                            {% if  post.ticket.id not in reviewed_ticket_ids%}
+                                <a href="{% url 'reviews:review_create_for_ticket' post.ticket.id %}">Créer une critique</a>
+                            {% elif post.ticket.user == post.user%}
+                                <a href="{% url 'reviews:review_create_for_ticket' post.ticket.id %}">Créer une critique</a>
+                            {% elif  post.user in blocked_me%}
+                                <a>bloqué</a>
+                            {% endif %}
+                        </div>
                     </div>
 
             {% endif %}
