@@ -113,21 +113,16 @@
     background: rgba(239, 68, 68, 0.1);
     border: 1px solid rgba(239, 68, 68, 0.5);
     color: #fca5a5;
-    padding: 0.8rem 1rem;
+    padding: 0.2rem 1rem;
     border-radius: 6px;
     font-size: 0.9rem;
-    margin-top: -0.3rem;
+    margin-top: 0.3rem;
     list-style: none;
 }
 
 .form-group .error li {
     list-style: none;
     margin: 0.3rem 0;
-}
-
-.form-group .error li::before {
-    content: "⚠ ";
-    margin-right: 0.5rem;
 }
 
 .form-group .error:first-child {

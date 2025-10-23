@@ -9,32 +9,39 @@
 {% block content %}
 <div class="container">
     <div class="login-form">
+
         <div class="login-header">
             <h2>LITRevu</h2>
             <p>Connectez-vous</p>
         </div>
+
         <form method="post">
             {% csrf_token %}
             <div>
                 <label for="{{ form.username.id_for_label }}">Nom d'utilisateur</label>
-                <input type="text" name="{{ form.username.name }}" id="{{ form.username.id_for_label }}" required>
+                {{ form.username }}
             </div>
             <div>
                 <label for="{{ form.password.id_for_label }}">Mot de passe</label>
-                <input type="password" name="{{ form.password.name }}" id="{{ form.password.id_for_label }}" required>
+                {{ form.password }}
             </div>
-
-            {% if form.errors %}
-                <div>
-                    {{ form.errors }}
-                </div>
-            {% endif %}
-
             <button type="submit" >Se connecter</button>
         </form>
+
+        {% if form.non_field_errors %}
+            <div class="error">
+                {% for field in form.non_field_errors %}
+                    {% if field != '__all__'%}
+                        <p>{{field}}</p>
+                    {% endif %}
+                {% endfor %}
+            </div>
+        {% endif %}
+
         <div class="signup-link">
             <p>Pas encore de compte ?  <a href="{% url 'authentication:signup' %}">S'inscrire</a></p>
         </div>
+
     </div>
 </div>
 {% endblock %}
