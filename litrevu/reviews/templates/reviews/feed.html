@@ -38,6 +38,8 @@
                     <div class="post-content ticket">
                         {% if post.image %}
                             <img src="{{ post.image.url }}" alt="Couverture {{ post.title }}">
+                        {% else %}
+                            <img src="https://picsum.photos/seed/{{ post.id }}/600/400" alt="Couverture {{ post.title }}">
                         {% endif %}
                         <div>
                             <h4>{{ post.title}}</h4>
@@ -83,6 +85,8 @@
                     <div class="content-related ticket">
                         {% if post.ticket.image %}
                             <img src="{{ post.ticket.image.url }}" alt="Couverture {{ post.ticket.title }}">
+                        {% else %}
+                            <img src="https://picsum.photos/seed/{{ post.ticket.id }}/600/400" alt="Couverture {{ post.title }}">
                         {% endif %}
                         <div>
                             <p>Ticket - {{ post.ticket.user }}</p>

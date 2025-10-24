@@ -1,10 +1,7 @@
-/* ===========================
-   TICKET.CSS - Formulaire de ticket
-   =========================== */
-
 .ticket-form {
     animation: fadeInUp 0.5s ease;
     max-width: 900px;
+    margin: auto;
 }
 
 @keyframes fadeInUp {

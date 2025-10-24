@@ -1,5 +1,7 @@
 
+/* Règle général */
 .delete {
+    margin: auto;
     background: rgba(30, 41, 59, 0.7);
     backdrop-filter: blur(10px);
     border: 1px solid rgba(255, 255, 255, 0.125);
@@ -54,7 +56,7 @@
 .delete > div:last-of-type strong {
     color: #fca5a5;
 }
-
+/* Form */
 .delete form {
     display: flex;
     gap: 0;
