@@ -85,6 +85,14 @@ section h2 {
 }
 
 /* Cards Flip pour Follow et Abonnements */
+
+.followed p {
+    grid-column: 1 / -1; 
+    text-align: center;  
+    width: 100%;  
+    font-style: italic;   
+}
+
 .follow .item-grid,
 .followed .item-grid {
     perspective: 1000px;
