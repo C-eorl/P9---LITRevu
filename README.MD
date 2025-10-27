@@ -114,11 +114,8 @@ L'application sera accessible à l'adresse : **http://127.0.0.1:8000/**
 Interface admin Django : **http://127.0.0.1:8000/admin/**
 
 ### Accèder à l'application
-Connectez-vous grâce à ses identifiants :
 
-**Identifiant** —  test
-
-**Mot de passe** — test
+Inscrivez-vous pour accèder au site
 
 
 ---
