@@ -13,8 +13,8 @@
     <!-- Section : Suivre un utilisateur -->
     <section class="follow">
         <h2>Suivre un utilisateur</h2>
-        
-            <input type="text" name="name" placeholder="Nom d'utilisateur">
+            <label for="name">Nom d'utilisateur recherché</label>
+            <input type="text" name="name" id="name" placeholder="Nom d'utilisateur">
    
         <div class="follow-search">
             <div class="grid-section message" id="follow_searchGrid">
@@ -33,9 +33,9 @@
                 <div class="card">
                     <div class="card-front">
                         {% if followed_user.profile.image %}
-                        <img src="{{ followed_user.profile.image.url }}" alt="{{ followed_user.username }}">
+                        <img src="{{ followed_user.profile.image.url }}" alt="photo {{ followed_user.username }}">
                         {% else %}
-                        <img src="{% static 'pictures/default_pictures/default.png' %}" alt="{{ followed_user.username }}">
+                        <img src="{% static 'pictures/default_pictures/default.png' %}" alt="photo {{ followed_user.username }}">
                         {% endif %}
                         <span>{{ followed_user.username }}</span>
                         <button type="button" class="front-btn unsub">Désabonner</button>
@@ -71,9 +71,9 @@
                 <div class="card">
                     <div class="card-front">
                         {% if follower.profile.image %}
-                        <img src="{{ follower.profile.image.url }}" alt="{{ follower.username }}">
+                        <img src="{{ follower.profile.image.url }}" alt="photo {{ follower.username }}">
                         {% else %}
-                        <img src="{% static 'pictures/default_pictures/default.png' %}" alt="{{ follower.username }}">
+                        <img src="{% static 'pictures/default_pictures/default.png' %}" alt="photo {{ follower.username }}">
                         {% endif %}
                         <span>{{ follower.username }}</span>
                         <form method="post" action="{% url 'reviews:blocked_user' follower.id %}">
@@ -104,9 +104,9 @@
                 <div class="card">
                     <div class="card-front">
                         {% if user.profile.image %}
-                        <img src="{{ user.profile.image.url }}" alt="{{ user.username }}">
+                        <img src="{{ user.profile.image.url }}" alt="photo {{ user.username }}">
                         {% else %}
-                        <img src="{% static 'pictures/default_pictures/default.png' %}" alt="{{ user.username }}">
+                        <img src="{% static 'pictures/default_pictures/default.png' %}" alt="photo {{ user.username }}">
                         {% endif %}
                         <span>{{ user.username }}</span>
                         <form method="post" action="{% url 'reviews:unblocked_user' user.id %}">

@@ -13,7 +13,7 @@
             <div class="post-container">
                 {% if post.content_type == 'ticket' %}
                         <div class="post-header">
-                            <h5>Vous avez publié un ticket.</h5>
+                            <h2>Vous avez publié un ticket.</h2>
                             <small> {{ post.time_created|date:"d/m/Y à H:i" }}</small>
                         </div>
 
@@ -24,7 +24,7 @@
                                 <img src="https://picsum.photos/seed/{{ post.id }}/600/400" alt="Couverture {{ post.title }}">
                             {% endif %}
                             <div>
-                                <h4>{{ post.title}}</h4>
+                                <h3>{{ post.title}}</h3>
                                 <p>{{ post.description }}</p>
                                 <div class="lien">
                                     <a href="{% url 'reviews:ticket_modify' post.id %}">Modifier</a>
@@ -36,17 +36,17 @@
 
                 {% if post.content_type == 'review' %}
                     <div class="post-header">
-                        <h5>Vous avez publié une critique.</h5>
+                        <h2>Vous avez publié une critique.</h2>
                         <small> {{ post.time_created|date:"d/m/Y à H:i" }}</small>
                     </div>
                     <div class="post-content">
-                        <h5>{{ post.headline }}
+                        <h3>{{ post.headline }}
                             <span>
                                 {% for i in "12345" %}
                                     {% if forloop.counter <= post.rating %}★{% else %}☆{% endif %}
                                 {% endfor %}
                             </span>
-                        </h5>
+                        </h3>
                         {% if post.body %}
                             <p>{{ post.body }}</p>
                         {% endif %}

@@ -21,17 +21,18 @@
             {% if post.content_type == 'ticket' %}
                     <div class="post-header">
                         {% if post.user.profile_picture %}
-                            <img src="{{ post.user.profile_picture }}" alt="image profil {{ post.user.username}}">
+                            <img src="{{ post.user.profile_picture }}" alt="photo {{ post.user.username}}">
                         {% else %}
-                            <img src="{% static 'pictures/default_pictures/default.png' %}" alt="{{ followed_user.username }}">
+                            <img src="{% static 'pictures/default_pictures/default.png' %}" alt="photo {{ followed_user.username }}">
                         {% endif %}
-                        <h5>
+                        <h2>
                             {% if post.user == request.user %}
                                 Vous avez demandé une critique
                             {% else %}
                                 {{ post.user.username }} a demandé une critique
                             {% endif %}
-                        </h5>
+                        </h2>
+                        <time>
                         <small> {{ post.time_created|date:"d/m/Y à H:i" }}</small>
                     </div>
 
@@ -42,9 +43,9 @@
                             <img src="https://picsum.photos/seed/{{ post.id }}/600/400" alt="Couverture {{ post.title }}">
                         {% endif %}
                         <div>
-                            <h4>{{ post.title}}</h4>
+                            <h3>{{ post.title}}</h3>
                             <p>{{ post.description }}</p>
-                            {% if  post.id not in reviewed_ticket_ids%}
+                            {% if  post.id not in reviewed_ticket_ids %}
                                 <a href="{% url 'reviews:review_create_for_ticket' post.id %}">Créer une critique</a>
                             {% elif  post.user in blocked_me%}
                                 <a>bloqué</a>
@@ -57,27 +58,27 @@
             {% if post.content_type == 'review' %}
                 <div class="post-header">
                         {% if post.user.profile_picture %}
-                            <img src="{{ post.user.profile_picture }}" alt="image profil {{ post.user.username}}">
+                            <img src="{{ post.user.profile_picture }}" alt="photo {{ post.user.username}}">
                         {% else %}
-                            <img src="{% static 'pictures/default_pictures/default.png' %}" alt="{{ followed_user.username }}">
+                            <img src="{% static 'pictures/default_pictures/default.png' %}" alt="photo {{ followed_user.username }}">
                         {% endif %}
-                        <h5>
+                        <h2>
                             {% if post.user == request.user %}
                                 Vous avez publié une critique
                             {% else %}
                                 {{ post.user.username }} a publié une critique
                             {% endif %}
-                        </h5>
+                        </h2>
                         <small> {{ post.time_created|date:"d/m/Y à H:i" }}</small>
                     </div>
                     <div class="post-content">
-                        <h5>{{ post.headline }}
+                        <h3>{{ post.headline }}
                             <span>
                                 {% for i in "12345" %}
                                     {% if forloop.counter <= post.rating %}★{% else %}☆{% endif %}
                                 {% endfor %}
                             </span>
-                        </h5>
+                        </h3>
                         {% if post.body %}
                             <p>{{ post.body }}</p>
                         {% endif %}

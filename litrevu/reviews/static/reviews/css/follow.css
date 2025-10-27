@@ -216,13 +216,6 @@ section h2 {
 }
 
 /* Section Abonnées */
-.following .item-grid .card {
-    transform: none;
-}
-
-.following .item-grid .card:hover {
-    transform: translateY(-5px);
-}
 
 .following .card-front {
     position: static;
@@ -250,14 +243,6 @@ section h2 {
     grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
     max-height: 150px;
     overflow: visible;
-}
-
-.blocked .item-grid .card {
-    transform: none;
-}
-
-.blocked .item-grid .card:hover {
-    transform: translateY(-5px);
 }
 
 .blocked .card-front {

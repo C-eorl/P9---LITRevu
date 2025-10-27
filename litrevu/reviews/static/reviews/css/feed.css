@@ -74,7 +74,7 @@
     border: 2px solid rgba(99, 102, 241, 0.5);
 }
 
-.post-header h5 {
+.post-header h2 {
     margin: 0;
     font-size: 1rem;
     font-weight: 600;
@@ -101,7 +101,7 @@
 
 .post-content.ticket img {
     width: 100%;
-    aspect-ratio: 3/4;
+    aspect-ratio: 1/1;
     object-fit: cover;
     border-radius: 8px;
     border: 1px solid rgba(255, 255, 255, 0.125);
@@ -112,18 +112,13 @@
 }
 
 .post-content.ticket > div {
+    height: 100%;
     display: flex;
     flex-direction: column;
     gap: 0.8rem;
 }
 
-.post-content h4 {
-    font-size: 1.3rem;
-    margin: 0;
-    color: #f1f5f9;
-}
-
-.post-content h5 {
+.post-content h3 {
     font-size: 1.1rem;
     margin-bottom: 0.8rem;
     color: #f1f5f9;
@@ -132,7 +127,7 @@
     align-items: center;
 }
 
-.post-content h5 span {
+.post-content h3 span {
     color: #fbbf24;
     font-size: 1rem;
     letter-spacing: 0.1em;
@@ -164,11 +159,6 @@
     transform: translateY(-2px);
     box-shadow: 0 8px 20px rgba(99, 102, 241, 0.3);
     color: white;
-}
-
-.post-content a[href*="blocked"] {
-    background: #ef4444;
-    cursor: not-allowed;
 }
 
 /* Content Related */
