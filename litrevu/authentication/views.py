@@ -12,6 +12,7 @@ from .models import User
 
 
 def redirection(request):
+    """ function view to redirect to login page """
     if request.user.is_authenticated:
         return redirect('reviews:feed')
     return redirect("authentication:login")
@@ -19,6 +20,7 @@ def redirection(request):
 
 @login_not_required
 class CustomLoginView(LoginView):
+    """ Custom Login View """
     template_name = "authentication/login.html"
 
     def form_valid(self, form):
@@ -29,6 +31,7 @@ class CustomLoginView(LoginView):
 
 @method_decorator(login_not_required, name='dispatch')
 class SignupView(CreateView):
+    """ Custom Signup View """
     model = User
     form_class = SignupForm
     template_name = 'authentication/signup.html'

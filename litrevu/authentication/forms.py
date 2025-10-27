@@ -4,7 +4,7 @@ from .models import User
 
 
 class SignupForm(UserCreationForm):
-    """Formulaire d'inscription personnalisé"""
+    """Custom form for creating new users"""
 
     class Meta:
         model = User

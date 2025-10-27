@@ -3,7 +3,7 @@ from .models import Review, Ticket
 
 
 class TicketForm(forms.ModelForm):
-    """Formulaire de base pour les tickets"""
+    """Form for Ticket Model"""
 
     class Meta:
         model = Ticket
@@ -30,7 +30,7 @@ class TicketForm(forms.ModelForm):
 
 
 class ReviewForm(forms.ModelForm):
-    """Formulaire de base pour les critiques"""
+    """Form for Review Model"""
 
     class Meta:
         model = Review
@@ -58,7 +58,7 @@ class ReviewForm(forms.ModelForm):
 
 
 class ReviewWithTicketForm(ReviewForm):
-    """Formulaire pour créer une critique avec un nouveau ticket"""
+    """Form for Review & Ticket Model"""
 
     ticket_title = forms.CharField(
         max_length=128,
@@ -90,9 +90,8 @@ class ReviewWithTicketForm(ReviewForm):
         pass
 
     def save(self, commit=True, user=None):
-        """Crée le ticket et la review en une seule transaction"""
+        """ Save Ticket & Review  """
 
-        # Créer le ticket
         ticket = Ticket.objects.create(
             title=self.cleaned_data['ticket_title'],
             description=self.cleaned_data.get('ticket_description', ''),
@@ -100,7 +99,6 @@ class ReviewWithTicketForm(ReviewForm):
             user=user
         )
 
-        # Créer la review
         review = super().save(commit=False)
         review.ticket = ticket
         review.user = user

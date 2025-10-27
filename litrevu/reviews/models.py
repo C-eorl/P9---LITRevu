@@ -4,6 +4,7 @@ from django.db import models
 
 
 class Ticket(models.Model):
+    """ Ticket Model """
     title = models.CharField(max_length=128)
     description = models.TextField(max_length=2048)
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
@@ -15,6 +16,7 @@ class Ticket(models.Model):
 
 
 class Review(models.Model):
+    """ Review Model """
     ticket = models.ForeignKey(Ticket, on_delete=models.CASCADE)
     rating = models.PositiveSmallIntegerField(validators=[MinValueValidator(0), MaxValueValidator(5)])
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
@@ -27,6 +29,7 @@ class Review(models.Model):
 
 
 class UserFollow(models.Model):
+    """ UserFollow Model """
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='following')
     following_user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='followers')
 
@@ -38,6 +41,7 @@ class UserFollow(models.Model):
 
 
 class UserBlocked(models.Model):
+    """ UserBlocked Model """
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='blocking')
     blocked_user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='blocked_by')
 

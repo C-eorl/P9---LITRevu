@@ -19,8 +19,8 @@ User = get_user_model()
 
 class UserTestCustom(UserPassesTestMixin):
     """
-    UserTestCustom applique test_func() pour vérifier si l'utilisateur connecté est l'auteur du ticket &
-    handle_no_permission() pour la redirection.
+    UserTestCustom inherits test_func() to check if the logged-in user is the ticket author &
+    handle_no_permission() for redirection.
     """
 
     def test_func(self):
@@ -33,22 +33,22 @@ class UserTestCustom(UserPassesTestMixin):
 
 
 class FeedView(TemplateView):
-    """ View pour le template feed.html """
+    """ View for template feed.html """
     template_name = 'reviews/feed.html'
 
     def get_context_data(self, **kwargs):
+        """ Return context data for feed.html. """
         context = super().get_context_data(**kwargs)
-        # Récupère les tickets / critiques des utilisateurs auxquels je suis abonnées.
 
         # utilisateur que je suis
-        followers_users = UserFollow.objects.filter(user=self.request.user) \
+        following_users = UserFollow.objects.filter(user=self.request.user) \
             .values_list('following_user', flat=True)
-        # Récupère la liste des utilisateurs qui ont bloqué l'utilisateur connecté
+        # Retrieves the list of users who have blocked the logged-in user.
         blocked_me = UserBlocked.objects.filter(blocked_user=self.request.user).values_list('user', flat=True)
-        #inclus l'utilisateur connecté
-        users_to_include = list(followers_users) + [self.request.user.id]
+        # including the logged-in user
+        users_to_include = list(following_users) + [self.request.user.id]
 
-        # Tickets gestion
+        # Tickets management
         tickets =(
             Ticket.objects
             .filter(user__in=users_to_include)
@@ -56,8 +56,8 @@ class FeedView(TemplateView):
             .annotate(content_type=Value("ticket", CharField()))
         )
 
-        # Reviews gestion
-        # Reviews publié par User et mes abonnements + les reviews sur les tickets User & abonnements
+        # Reviews management
+        # Reviews published by User and my subscriptions + reviews on User tickets & subscriptions
         reviews_from_users = Review.objects.filter(user__in=users_to_include)
         reviews_on_our_tickets = Review.objects.filter(ticket__user__in=users_to_include)
 
@@ -71,7 +71,7 @@ class FeedView(TemplateView):
             reverse=True
         )
 
-        # Récupère la liste des ID de ticket déjà critiqué
+        # Retrieves the list of ticket IDs that have already been criticized.
         reviewed_ticket_ids = Review.objects.values_list('ticket_id', flat=True)
 
         context['blocked_me'] = blocked_me
@@ -81,10 +81,14 @@ class FeedView(TemplateView):
 
 
 class PostView(TemplateView):
-    """ View pour le template posts.html """
+    """ View for le template posts.html """
     template_name = 'reviews/posts.html'
 
     def get_context_data(self, **kwargs):
+        """
+        Return context data for posts.html
+        Tickets & reviews from logged-in user.
+        """
         context = super().get_context_data(**kwargs)
 
         tickets = Ticket.objects.filter(user=self.request.user)
@@ -98,7 +102,6 @@ class PostView(TemplateView):
             reverse=True
         )
         context['posts'] = posts
-
         return context
 
 
@@ -106,13 +109,14 @@ class PostView(TemplateView):
 #                         Ticket                                   #
 # ================================================================ #
 class TicketCreateView(CreateView):
-    """ View pour créer un ticket """
+    """ View for create un ticket """
     template_name = 'reviews/ticket_form.html'
     success_url = reverse_lazy('reviews:feed')
     model = Ticket
     form_class = TicketForm
 
     def form_valid(self, form):
+        """ Validate form data + message """
         form.instance.user = self.request.user
         response = super().form_valid(form)
         messages.success(self.request, 'Ticket créé avec succès!')
@@ -120,24 +124,26 @@ class TicketCreateView(CreateView):
 
 
 class TicketUpdateView(UserTestCustom, UpdateView):
-    """ View pour modifier un ticket """
+    """ View for update ticket """
     template_name = 'reviews/ticket_form.html'
     success_url = reverse_lazy('reviews:feed')
     model = Ticket
     form_class = TicketForm
 
     def form_valid(self, form):
+        """ Validate form data + message """
         messages.success(self.request, 'Ticket modifié avec succès!')
         return super().form_valid(form)
 
 
 class TicketDeleteView(UserTestCustom, DeleteView):
-    """ View pour supprimer un ticket """
+    """ View for delete ticket """
     model = Ticket
     template_name = 'reviews/ticket_delete.html'
     success_url = reverse_lazy('reviews:posts')
 
     def delete(self, request, *args, **kwargs):
+        """ Delete ticket + message """
         messages.success(request, 'Ticket supprimé avec succès!')
         return super().delete(request, *args, **kwargs)
 
@@ -146,23 +152,23 @@ class TicketDeleteView(UserTestCustom, DeleteView):
 #                         Critique                                 #
 # ================================================================ #
 class ReviewCreateView(CreateView):
-    """Vue pour créer une critique (en réponse à un ticket ou libre)"""
+    """ View to create a review (in response to a ticket or freely) """
 
     template_name = 'reviews/review_form.html'
     success_url = reverse_lazy('reviews:feed')
     model = Review
 
     def get_form_class(self):
-        """Retourne le bon formulaire selon le contexte"""
+        """ Returns the correct form depending on the context """
         if self.kwargs.get('ticket_id'):
-            # Réponse à un ticket existant
+            # Reply to an existing ticket
             return ReviewForm
         else:
-            # Critique libre (avec création de ticket)
+            # Free critique (with ticket creation)
             return ReviewWithTicketForm
 
     def get_ticket(self):
-        """ Récupère le ticket ou None"""
+        """ Return the ticket or None"""
         tickets_id = self.kwargs.get('ticket_id')
         if tickets_id:
             return get_object_or_404(Ticket, pk=tickets_id)
@@ -170,32 +176,32 @@ class ReviewCreateView(CreateView):
             return None
 
     def get_context_data(self, **kwargs):
+        """ Return context data for review.html """
         context = super().get_context_data(**kwargs)
 
         ticket = self.get_ticket()
         if ticket:
             context['ticket'] = ticket
-
         return context
 
     def form_valid(self, form):
-        """Traite le formulaire selon le type de critique"""
+        """ Process the form according to the type of review """
         ticket = self.get_ticket()
 
         if ticket:
-            # Réponse à un ticket existant
+            # Reply to an existing ticket + message
             form.instance.ticket = ticket
             form.instance.user = self.request.user
             messages.success(self.request, 'Critique créée avec succès!')
             return super().form_valid(form)
         else:
-            # Critique libre avec création de ticket
+            # Free critique with ticket creation + message
             form.save(user=self.request.user)
             messages.success(self.request, 'Critique créée avec succès!')
             return redirect(self.success_url)
 
 class ReviewUpdateView(UserTestCustom, UpdateView):
-    """Vue pour modifier une critique existante"""
+    """View to update review """
 
     template_name = 'reviews/review_form.html'
     success_url = reverse_lazy('reviews:posts')
@@ -203,22 +209,25 @@ class ReviewUpdateView(UserTestCustom, UpdateView):
     form_class = ReviewForm
 
     def get_context_data(self, **kwargs):
+        """ Return context data (object ticket) for review.html """
         context = super().get_context_data(**kwargs)
         context['ticket'] = self.object.ticket
         return context
 
     def form_valid(self, form):
+        """ Validate form data + message"""
         messages.success(self.request, 'Critique modifiée avec succès!')
         return super().form_valid(form)
 
 
 class ReviewDeleteView(UserTestCustom, DeleteView):
-    """ View pour supprimer une critique """
+    """ View to delete review """
     model = Review
     template_name = 'reviews/review_delete.html'
     success_url = reverse_lazy('reviews:posts')
 
     def delete(self, request, *args, **kwargs):
+        """ Delete ticket + message """
         messages.success(request, 'Critique supprimée avec succès!')
         return super().delete(request, *args, **kwargs)
 
@@ -227,11 +236,11 @@ class ReviewDeleteView(UserTestCustom, DeleteView):
 #                         Abonnements                              #
 # ================================================================ #
 class FollowView(TemplateView):
-    """ View pour le template follow.html """
+    """ View for template follow.html """
     template_name = 'reviews/follow.html'
 
     def get_context_data(self, **kwargs):
-        """ Récupère le context """
+        """ Return context data for follow.html """
         context = super().get_context_data(**kwargs)
         context['followed_users'] = User.objects.filter(followers__user=self.request.user)
         context['followers'] = User.objects.filter(following__following_user=self.request.user)
@@ -240,7 +249,7 @@ class FollowView(TemplateView):
 
 
 def unfollow_user(request, user_id):
-    """ View pour se désabonner d'un utilisateur """
+    """ function view to unfollow user + message """
     user_to_unfollow = User.objects.get(pk=user_id)
     UserFollow.objects.filter(user=request.user, following_user=user_to_unfollow).delete()
     messages.success(request, f"Vous n'êtes plus abonné(e) à {user_to_unfollow}")
@@ -249,7 +258,10 @@ def unfollow_user(request, user_id):
 
 @require_POST
 def follow_user(request):
-    """ View pour s'abonner d'un utilisateur """
+    """
+    function view to follow user + message
+    return Json
+    """
     username = request.POST.get("username")
     if not username:
         return JsonResponse({"success": False, "error": "Nom d'utilisateur manquant."})
@@ -262,8 +274,8 @@ def follow_user(request):
 @require_GET
 def search_user(request):
     """
-    View pour rechercher un utilisateur.
-    Filtre par rapport à input utilisateur, exclus les utilisateurs deja abonné, soit meme et ceux bloqués.
+    View to search for a user.
+    Filter based on user input, excluding users who are already subscribed, yourself, and those who are blocked.
     """
 
     query = request.GET.get("q", "")
@@ -288,7 +300,7 @@ def search_user(request):
 
 @require_POST
 def blocked_user(request, user_id):
-    """ Bloque un utilisateur """
+    """ function view to block user + message """
     user_to_blocked = User.objects.get(pk=user_id)
     UserBlocked.objects.get_or_create(user=request.user, blocked_user=user_to_blocked)
     UserFollow.objects.filter(user=user_to_blocked, following_user=request.user).delete()
@@ -299,7 +311,7 @@ def blocked_user(request, user_id):
 
 @require_POST
 def unblocked_user(request, user_id):
-    """ Débloquer un utilisateur """
+    """ function view to unblock user + message """
     unblocked_user = User.objects.get(pk=user_id)
     UserBlocked.objects.filter(user=request.user, blocked_user=unblocked_user).delete()
     messages.success(request, f"Vous avez débloqué {unblocked_user.username}")

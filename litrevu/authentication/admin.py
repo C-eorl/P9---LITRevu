@@ -7,6 +7,7 @@ from .models import User
 
 @admin.register(User)
 class UserCustomAdmin(UserAdmin):
+    """ Class User for the admin interface """
     list_display = ("username", "email", "is_staff", "is_active", "profile_image_preview")
     list_filter = ("is_staff", "is_active")
 
