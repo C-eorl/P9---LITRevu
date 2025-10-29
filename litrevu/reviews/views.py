@@ -42,7 +42,7 @@ class FeedView(TemplateView):
         """ Return context data for feed.html. """
         context = super().get_context_data(**kwargs)
 
-        # utilisateur que je suis
+        # following user
         following_users = UserFollow.objects.filter(user=self.request.user) \
             .values_list('following_user', flat=True)
         # Retrieves the list of users who have blocked the logged-in user.
