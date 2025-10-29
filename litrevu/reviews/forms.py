@@ -10,16 +10,13 @@ class TicketForm(forms.ModelForm):
         fields = ['title', 'description', 'image']
         widgets = {
             'title': forms.TextInput(attrs={
-                'class': 'form-control',
                 'placeholder': 'Title'
             }),
             'description': forms.Textarea(attrs={
-                'class': 'form-control',
                 'rows': 3,
                 'placeholder': 'Description',
             }),
             'image': forms.FileInput(attrs={
-                'class': 'form-control',
                 'placeholder': 'Image'
             })
         }
@@ -37,7 +34,6 @@ class ReviewForm(forms.ModelForm):
         fields = ['headline', 'rating', 'body']
         widgets = {
             'headline': forms.TextInput(attrs={
-                'class': 'form-control',
                 'placeholder': 'Titre de votre critique'
             }),
             'rating': forms.Select(
@@ -45,7 +41,6 @@ class ReviewForm(forms.ModelForm):
                 attrs={'class': 'form-control'}
             ),
             'body': forms.Textarea(attrs={
-                'class': 'form-control',
                 'rows': 4,
                 'placeholder': 'Votre critique'
             })
@@ -64,7 +59,6 @@ class ReviewWithTicketForm(ReviewForm):
         max_length=128,
         required=True,
         widget=forms.TextInput(attrs={
-            'class': 'form-control',
             'placeholder': 'Titre du livre/article'
         }),
         label='Titre'
@@ -72,7 +66,6 @@ class ReviewWithTicketForm(ReviewForm):
     ticket_description = forms.CharField(
         required=False,
         widget=forms.Textarea(attrs={
-            'class': 'form-control',
             'rows': 3,
             'placeholder': 'Description (optionnel)'
         }),
