@@ -25,7 +25,8 @@ class CustomLoginView(LoginView):
 
     def form_valid(self, form):
         response = super().form_valid(form)
-        messages.success(self.request, f"Bienvenue {self.request.user.username}")
+        messages.success(self.request,
+                         f"Bienvenue {self.request.user.username}")
         return response
 
 

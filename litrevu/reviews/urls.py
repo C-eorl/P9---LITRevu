@@ -31,11 +31,16 @@ urlpatterns = [
     path("search_user/", search_user, name="search_user"),
     # url for views ticket
     path("tickets/create/", TicketCreateView.as_view(), name="ticket_create"),
-    path("tickets/<int:pk>/modify/", TicketUpdateView.as_view(), name="ticket_modify"),
-    path("tickets/<int:pk>/delete/", TicketDeleteView.as_view(), name="ticket_delete"),
+    path("tickets/<int:pk>/modify/", TicketUpdateView.as_view(),
+         name="ticket_modify"),
+    path("tickets/<int:pk>/delete/", TicketDeleteView.as_view(),
+         name="ticket_delete"),
     # url for views review
     path("review/create/", ReviewCreateView.as_view(), name="review_create"),
-    path("review/create/<int:ticket_id>/", ReviewCreateView.as_view(), name="review_create_for_ticket"),
-    path("review/<int:pk>/modify/", ReviewUpdateView.as_view(), name="review_modify"),
-    path("review/<int:pk>/delete/", ReviewDeleteView.as_view(), name="review_delete"),
+    path("review/create/<int:ticket_id>/", ReviewCreateView.as_view(),
+         name="review_create_for_ticket"),
+    path("review/<int:pk>/modify/", ReviewUpdateView.as_view(),
+         name="review_modify"),
+    path("review/<int:pk>/delete/", ReviewDeleteView.as_view(),
+         name="review_delete"),
 ]

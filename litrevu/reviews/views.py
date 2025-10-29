@@ -9,7 +9,8 @@ from django.http import JsonResponse
 from django.shortcuts import redirect, get_object_or_404
 from django.urls import reverse_lazy
 from django.views.decorators.http import require_GET, require_POST
-from django.views.generic import TemplateView, CreateView, UpdateView, DeleteView
+from django.views.generic import TemplateView, CreateView, UpdateView, \
+    DeleteView
 
 from .forms import ReviewForm, TicketForm, ReviewWithTicketForm
 from .models import UserFollow, Ticket, Review, UserBlocked
@@ -28,7 +29,8 @@ class UserTestCustom(UserPassesTestMixin):
         return element.user == self.request.user
 
     def handle_no_permission(self):
-        messages.error(self.request, "Vous n'avez pas la permission de modifier ce ticket.")
+        messages.error(self.request,
+                       "Vous n'avez pas la permission de modifier ce ticket.")
         return redirect("reviews:feed")
 
 
@@ -44,12 +46,13 @@ class FeedView(TemplateView):
         following_users = UserFollow.objects.filter(user=self.request.user) \
             .values_list('following_user', flat=True)
         # Retrieves the list of users who have blocked the logged-in user.
-        blocked_me = UserBlocked.objects.filter(blocked_user=self.request.user).values_list('user', flat=True)
+        blocked_me = UserBlocked.objects.filter(
+            blocked_user=self.request.user).values_list('user', flat=True)
         # including the logged-in user
         users_to_include = list(following_users) + [self.request.user.id]
 
         # Tickets management
-        tickets =(
+        tickets = (
             Ticket.objects
             .filter(user__in=users_to_include)
             .exclude(user__in=blocked_me)
@@ -59,11 +62,13 @@ class FeedView(TemplateView):
         # Reviews management
         # Reviews published by User and my subscriptions + reviews on User tickets & subscriptions
         reviews_from_users = Review.objects.filter(user__in=users_to_include)
-        reviews_on_our_tickets = Review.objects.filter(ticket__user__in=users_to_include)
+        reviews_on_our_tickets = Review.objects.filter(
+            ticket__user__in=users_to_include)
 
-        reviews = (reviews_from_users | reviews_on_our_tickets).annotate(content_type=Value("review", CharField()))\
-                                                    .exclude(user__in=blocked_me)\
-                                                    .distinct()
+        reviews = (reviews_from_users | reviews_on_our_tickets).annotate(
+            content_type=Value("review", CharField())) \
+            .exclude(user__in=blocked_me) \
+            .distinct()
 
         posts = sorted(
             chain(tickets, reviews),
@@ -200,6 +205,7 @@ class ReviewCreateView(CreateView):
             messages.success(self.request, 'Critique créée avec succès!')
             return redirect(self.success_url)
 
+
 class ReviewUpdateView(UserTestCustom, UpdateView):
     """View to update review """
 
@@ -242,17 +248,22 @@ class FollowView(TemplateView):
     def get_context_data(self, **kwargs):
         """ Return context data for follow.html """
         context = super().get_context_data(**kwargs)
-        context['followed_users'] = User.objects.filter(followers__user=self.request.user)
-        context['followers'] = User.objects.filter(following__following_user=self.request.user)
-        context['blocked_users'] = User.objects.filter(blocked_by__user=self.request.user)
+        context['followed_users'] = User.objects.filter(
+            followers__user=self.request.user)
+        context['followers'] = User.objects.filter(
+            following__following_user=self.request.user)
+        context['blocked_users'] = User.objects.filter(
+            blocked_by__user=self.request.user)
         return context
 
 
 def unfollow_user(request, user_id):
     """ function view to unfollow user + message """
     user_to_unfollow = User.objects.get(pk=user_id)
-    UserFollow.objects.filter(user=request.user, following_user=user_to_unfollow).delete()
-    messages.success(request, f"Vous n'êtes plus abonné(e) à {user_to_unfollow}")
+    UserFollow.objects.filter(user=request.user,
+                              following_user=user_to_unfollow).delete()
+    messages.success(request,
+                     f"Vous n'êtes plus abonné(e) à {user_to_unfollow}")
     return redirect('reviews:follow')
 
 
@@ -264,10 +275,12 @@ def follow_user(request):
     """
     username = request.POST.get("username")
     if not username:
-        return JsonResponse({"success": False, "error": "Nom d'utilisateur manquant."})
+        return JsonResponse(
+            {"success": False, "error": "Nom d'utilisateur manquant."})
 
     user_to_follow = User.objects.get(username=username)
-    UserFollow.objects.get_or_create(user=request.user, following_user=user_to_follow)
+    UserFollow.objects.get_or_create(user=request.user,
+                                     following_user=user_to_follow)
     return JsonResponse({"success": True})
 
 
@@ -275,13 +288,15 @@ def follow_user(request):
 def search_user(request):
     """
     View to search for a user.
-    Filter based on user input, excluding users who are already subscribed, yourself, and those who are blocked.
+    Filter based on user input, excluding users who are already subscribed,
+    yourself, and those who are blocked.
     """
 
     query = request.GET.get("q", "")
     followed_ids = UserFollow.objects.filter(user=request.user) \
         .values_list('following_user_id', flat=True)
-    blocked_user = UserBlocked.objects.filter(user=request.user).values_list('blocked_user_id', flat=True)
+    blocked_user = UserBlocked.objects.filter(user=request.user).values_list(
+        'blocked_user_id', flat=True)
 
     users = User.objects.filter(username__icontains=query) \
         .exclude(pk__in=followed_ids) \
@@ -302,10 +317,13 @@ def search_user(request):
 def blocked_user(request, user_id):
     """ function view to block user + message """
     user_to_blocked = User.objects.get(pk=user_id)
-    UserBlocked.objects.get_or_create(user=request.user, blocked_user=user_to_blocked)
-    UserFollow.objects.filter(user=user_to_blocked, following_user=request.user).delete()
+    UserBlocked.objects.get_or_create(user=request.user,
+                                      blocked_user=user_to_blocked)
+    UserFollow.objects.filter(user=user_to_blocked,
+                              following_user=request.user).delete()
 
-    messages.success(request, f"l'utilisateur {user_to_blocked.username} a été bloqué(e)")
+    messages.success(request,
+                     f"l'utilisateur {user_to_blocked.username} a été bloqué(e)")
     return redirect('reviews:follow')
 
 
@@ -313,6 +331,8 @@ def blocked_user(request, user_id):
 def unblocked_user(request, user_id):
     """ function view to unblock user + message """
     unblocked_user = User.objects.get(pk=user_id)
-    UserBlocked.objects.filter(user=request.user, blocked_user=unblocked_user).delete()
-    messages.success(request, f"Vous avez débloqué {unblocked_user.username}")
+    UserBlocked.objects.filter(user=request.user,
+                               blocked_user=unblocked_user).delete()
+    messages.success(request,
+                     f"Vous avez débloqué {unblocked_user.username}")
     return redirect('reviews:follow')
