@@ -23,7 +23,7 @@ html {
 
 body {
     font-family: 'Satoshi', sans-serif;
-    background: linear-gradient(137deg,rgb(51, 52, 126) 0%, rgb(119, 35, 77) 100%);
+    background: linear-gradient(137deg,rgb(51, 52, 126) 0%, rgb(75, 22, 49) 100%);
     color: var(--text-primary);
     background-attachment: fixed;
     min-height: 100vh;
