@@ -303,10 +303,11 @@ def search_user(request):
         .exclude(pk=request.user.pk) \
         .exclude(pk__in=blocked_user)[:10]
 
+    dir_default_img = "/static/pictures/default_pictures/default.png"
     data = [
         {
             "username": user.username,
-            "image": user.profile_picture.url if user.profile_picture else "/static/pictures/default_pictures/default.png",
+            "image": user.profile_picture.url if user.profile_picture else dir_default_img,
         }
         for user in users
     ]
