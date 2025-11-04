@@ -67,12 +67,12 @@ python3 -m venv env
 
 **Sur Windows :**
 ```bash
-env\Scripts\activate
+venv\Scripts\activate
 ```
 
 **Sur macOS/Linux :**
 ```bash
-source env/bin/activate
+source venv/bin/activate
 ```
 
 ### 4. Installer les dépendances
@@ -115,7 +115,11 @@ Interface admin Django : **http://127.0.0.1:8000/admin/**
 
 ### Accèder à l'application
 
-Inscrivez-vous pour accèder au site
+Vous pouvez utiliser le compte mis à votre disposition :
+
+**- identifiant** : **test**
+
+**- mot de passe** : **usertest**
 
 
 ---
