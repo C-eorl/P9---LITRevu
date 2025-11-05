@@ -1,5 +1,5 @@
 asgiref==3.10.0
-Django==5.2.7
+Django==5.2.8
 mccabe==0.7.0
 pillow==11.3.0
 pycodestyle==2.14.0
