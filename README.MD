@@ -55,12 +55,12 @@ cd P9---LITRevu
 
 **Sur Windows :**
 ```bash
-python -m venv env
+python -m venv venv
 ```
 
 **Sur macOS/Linux :**
 ```bash
-python3 -m venv env
+python3 -m venv venv
 ```
 
 ### 3. Activer l'environnement virtuel
