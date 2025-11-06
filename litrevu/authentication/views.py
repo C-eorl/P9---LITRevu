@@ -23,15 +23,6 @@ class CustomLoginView(LoginView):
     """ Custom Login View """
     template_name = "authentication/login.html"
 
-    def dispatch(self, request, *args, **kwargs):
-        """
-        Redirects an already logged-in user to the feed page.
-        """
-        if request.user.is_authenticated:
-            messages.info(request, "Vous êtes déjà connecté !")
-            return redirect('reviews:feed')
-        return super().dispatch(request, *args, **kwargs)
-
     def form_valid(self, form):
         response = super().form_valid(form)
         messages.success(self.request,
@@ -39,22 +30,13 @@ class CustomLoginView(LoginView):
         return response
 
 
-@login_not_required
+@method_decorator(login_not_required, name='dispatch')
 class SignupView(CreateView):
     """ Custom Signup View """
     model = User
     form_class = SignupForm
     template_name = 'authentication/signup.html'
     success_url = reverse_lazy('reviews:feed')
-
-    def dispatch(self, request, *args, **kwargs):
-        """
-        Redirects an already logged-in user to the feed page.
-        """
-        if request.user.is_authenticated:
-            messages.info(request, "Vous êtes déjà connecté !")
-            return redirect('reviews:feed')
-        return super().dispatch(request, *args, **kwargs)
 
     def form_valid(self, form):
         response = super().form_valid(form)
