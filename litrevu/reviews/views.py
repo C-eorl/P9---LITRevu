@@ -274,10 +274,6 @@ def follow_user(request):
     return Json
     """
     username = request.POST.get("username")
-    if not username:
-        return JsonResponse(
-            {"success": False, "error": "Nom d'utilisateur manquant."})
-
     user_to_follow = User.objects.get(username=username)
     UserFollow.objects.get_or_create(user=request.user,
                                      following_user=user_to_follow)
