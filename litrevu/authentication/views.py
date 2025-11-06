@@ -20,9 +20,10 @@ def redirection(request):
 
 
 class RedirectAuthenticatedUserMixin:
-    """Redirige les utilisateurs déjà connectés"""
+    """Redirects users who are already logged in"""
     redirect_url = '/reviews/'
-    def dispatch(self, request,  *args, **kwargs):
+
+    def dispatch(self, request, *args, **kwargs):
         if request.user.is_authenticated:
             messages.add_message(request, messages.INFO, self.message_redirection)
             return redirect(self.redirect_url)
