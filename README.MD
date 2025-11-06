@@ -81,17 +81,7 @@ source venv/bin/activate
 pip install -r requirements.txt
 ```
 
-### 5. Appliquer les migrations
-Avant tout, se déplacer dans le repertoire litrevu.
-```bash
-cd litrevu
-```
-Puis appliquer les migrations
-```bash
-python manage.py migrate
-```
-
-### 6. (Optionnel) Créer un superutilisateur
+### 5. (Optionnel) Créer un superutilisateur
 
 ```bash
 python manage.py createsuperuser
