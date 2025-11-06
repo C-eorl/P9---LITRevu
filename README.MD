@@ -95,6 +95,7 @@ python manage.py createsuperuser
 ### Démarrer le serveur de développement
 
 ```bash
+cd litrevu
 python manage.py runserver
 ```
 

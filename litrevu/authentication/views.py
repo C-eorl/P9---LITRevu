@@ -22,6 +22,7 @@ def redirection(request):
 class CustomLoginView(LoginView):
     """ Custom Login View """
     template_name = "authentication/login.html"
+    redirect_authenticated_user = True
 
     def form_valid(self, form):
         response = super().form_valid(form)
@@ -30,12 +31,14 @@ class CustomLoginView(LoginView):
         return response
 
 
-@method_decorator(login_not_required, name='dispatch')
+@login_not_required
 class SignupView(CreateView):
     """ Custom Signup View """
+    redirect_authenticated_user = True
     model = User
     form_class = SignupForm
     template_name = 'authentication/signup.html'
+
     success_url = reverse_lazy('reviews:feed')
 
     def form_valid(self, form):
