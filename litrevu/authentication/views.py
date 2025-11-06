@@ -5,6 +5,7 @@ from django.contrib.auth.views import LoginView
 from django.shortcuts import redirect
 from django.urls import reverse_lazy
 from django.utils.decorators import method_decorator
+
 from django.views.generic import CreateView
 
 from .forms import SignupForm
@@ -18,11 +19,23 @@ def redirection(request):
     return redirect("authentication:login")
 
 
-@login_not_required
-class CustomLoginView(LoginView):
+class RedirectAuthenticatedUserMixin:
+    """Redirige les utilisateurs déjà connectés"""
+    redirect_url = '/reviews/'
+    def dispatch(self, request,  *args, **kwargs):
+        if request.user.is_authenticated:
+            messages.add_message(request, messages.INFO, self.message_redirection)
+            return redirect(self.redirect_url)
+        return super().dispatch(request, *args, **kwargs)
+
+
+@method_decorator(login_not_required, name='dispatch')
+class CustomLoginView(RedirectAuthenticatedUserMixin, LoginView):
     """ Custom Login View """
     template_name = "authentication/login.html"
     redirect_authenticated_user = True
+
+    message_redirection = "Vous êtes déjà connecté(e)."
 
     def form_valid(self, form):
         response = super().form_valid(form)
@@ -31,14 +44,13 @@ class CustomLoginView(LoginView):
         return response
 
 
-@login_not_required
-class SignupView(CreateView):
+@method_decorator(login_not_required, name='dispatch')
+class SignupView(RedirectAuthenticatedUserMixin, CreateView):
     """ Custom Signup View """
-    redirect_authenticated_user = True
     model = User
     form_class = SignupForm
     template_name = 'authentication/signup.html'
-
+    message_redirection = "Vous ne pouvez pas créer un nouveau utilisateur."
     success_url = reverse_lazy('reviews:feed')
 
     def form_valid(self, form):
