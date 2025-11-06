@@ -131,7 +131,7 @@ class TicketCreateView(CreateView):
 class TicketUpdateView(UserTestCustom, UpdateView):
     """ View for update ticket """
     template_name = 'reviews/ticket_form.html'
-    success_url = reverse_lazy('reviews:feed')
+    success_url = reverse_lazy('reviews:posts')
     model = Ticket
     form_class = TicketForm
 
