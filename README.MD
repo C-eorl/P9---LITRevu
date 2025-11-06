@@ -3,7 +3,8 @@
 ## Description
 
 
-LITRevu est une application web développée avec Django permettant à une communauté d'utilisateurs de consulter ou de solliciter des critiques de livres et d'articles. Ce projet a été réalisé dans le cadre du parcours **Développeur d'Applications Python** d'OpenClassrooms (Projet 9).
+LITRevu est une application web développée avec Django permettant à une communauté d'utilisateurs 
+de consulter ou de solliciter des critiques de livres et d'articles.
 
 ---
 
