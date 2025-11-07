@@ -38,7 +38,6 @@ class ReviewForm(forms.ModelForm):
             }),
             'rating': forms.Select(
                 choices=[(i, '★' * i + '☆' * (5 - i)) for i in range(6)],
-                attrs={'class': 'form-control'}
             ),
             'body': forms.Textarea(attrs={
                 'rows': 4,
@@ -73,9 +72,6 @@ class ReviewWithTicketForm(ReviewForm):
     )
     ticket_image = forms.ImageField(
         required=False,
-        widget=forms.FileInput(attrs={
-            'class': 'form-control'
-        }),
         label='Image'
     )
 

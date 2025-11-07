@@ -13,15 +13,12 @@ class SignupForm(UserCreationForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.fields['username'].widget.attrs.update({
-            'class': 'form-control',
             'placeholder': 'Nom d\'utilisateur'
         })
         self.fields['password1'].widget.attrs.update({
-            'class': 'form-control',
             'placeholder': 'Mot de passe'
         })
         self.fields['password2'].widget.attrs.update({
-            'class': 'form-control',
             'placeholder': 'Confirmer le mot de passe'
         })
 
@@ -35,10 +32,8 @@ class LoginForm(AuthenticationForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.fields['username'].widget.attrs.update({
-            'class': 'form-control',
             'placeholder': 'Nom d\'utilisateur'
         })
         self.fields['password'].widget.attrs.update({
-            'class': 'form-control',
             'placeholder': 'Mot de passe'
         })
