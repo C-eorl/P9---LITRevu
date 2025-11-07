@@ -8,7 +8,7 @@ from django.utils.decorators import method_decorator
 
 from django.views.generic import CreateView
 
-from .forms import SignupForm
+from .forms import SignupForm, LoginForm
 from .models import User
 
 
@@ -35,7 +35,7 @@ class CustomLoginView(RedirectAuthenticatedUserMixin, LoginView):
     """ Custom Login View """
     template_name = "authentication/login.html"
     redirect_authenticated_user = True
-
+    form_class = LoginForm
     message_redirection = "Vous êtes déjà connecté(e)."
 
     def form_valid(self, form):
