@@ -13,7 +13,7 @@ from .models import User
 
 
 def redirection(request):
-    """ function view to redirect to login page """
+    """ function view to redirect to if connected => feed else login """
     if request.user.is_authenticated:
         return redirect('reviews:feed')
     return redirect("authentication:login")
@@ -24,6 +24,7 @@ class RedirectAuthenticatedUserMixin:
     redirect_url = '/reviews/'
 
     def dispatch(self, request, *args, **kwargs):
+        """Verify user is logged in and redirect"""
         if request.user.is_authenticated:
             messages.add_message(request, messages.INFO, self.message_redirection)
             return redirect(self.redirect_url)
